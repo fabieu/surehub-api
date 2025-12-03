@@ -9,16 +9,16 @@ env:
 
 jobs:
   github-pages:
-    environment:
-      name: Documentation
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     container:
-      image: python:3.12-slim
+      image: python:3.14-slim
     permissions:
       contents: read
       pages: write
       id-token: write
+    environment:
+      name: Documentation
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v6
