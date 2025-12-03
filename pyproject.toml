@@ -1,24 +1,33 @@
-[tool.poetry]
+[project]
 name = "surehub-api"
 version = "5.0.6"
-license = "Apache-2.0"
 description = "SureHub API is a simple, yet powerful RESTful API for products from Sure Petcare"
-authors = ["Fabian Eulitz <dev@sustineo.de>"]
-repository = "https://github.com/fabieu/sureflap-api"
+license = "Apache-2.0"
+readme = "README.md"
+authors = [
+    { name = "Fabian Eulitz", email = "dev@sustineo.de" },
+]
 keywords = ["SureHub", "Sure Petcare", "REST", "API"]
+requires-python = ">=3.12"
+dependencies = [
+    "uvicorn~=0.38",
+    "dynaconf~=3.2",
+    "fastapi~=0.123",
+    "requests~=2.32",
+    "cachetools~=6.2",
+]
 
-[tool.poetry.dependencies]
-python = "~=3.10"
-cachetools = "~=6.2"
-fastapi = "~=0.123"
-uvicorn = "~=0.38"
-requests = "~=2.32"
-dynaconf = "~=3.2"
+[project.urls]
+repository = "https://github.com/fabieu/surehub-api"
+documentation = "https://fabieu.github.io/surehub-api/"
 
-[tool.poetry.group.dev.dependencies]
-pytest = "~=9.0"
-vermin = "~=1.8"
-autopep8 = "~=2.3"
+[dependency-groups]
+dev = [
+    "pytest~=9.0",
+    "vermin~=1.8",
+    "autopep8~=2.3",
+    "httpx~=0.28",
+]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

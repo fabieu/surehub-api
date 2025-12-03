@@ -1,20 +1,20 @@
 <div align="center">
-  <img width="256" heigth="256" src="https://raw.githubusercontent.com/fabieu/sureflap-api/main/docs/assets/logo.png" alt="logo">
+  <img width="256" heigth="256" src="https://raw.githubusercontent.com/fabieu/surehub-api/main/docs/assets/logo.png" alt="logo">
 </div>
 
-[![Docker Image Version (latest by date)](https://img.shields.io/docker/v/fabieu/sureflap-api?sort=semver&style=flat-square)](https://hub.docker.com/repository/docker/fabieu/sureflap-api)
-[![Docker Image Size (tag)](https://img.shields.io/docker/image-size/fabieu/sureflap-api/latest?style=flat-square)](https://hub.docker.com/repository/docker/fabieu/sureflap-api)
-[![GitHub pipeline status](https://img.shields.io/github/actions/workflow/status/fabieu/sureflap-api/build.yml?style=flat-square)](https://github.com/fabieu/sureflap-api/actions)
-[![GitHub issues](https://img.shields.io/github/issues-raw/fabieu/sureflap-api?style=flat-square)](https://github.com/fabieu/sureflap-api/issues)
-[![GitHub merge requests](https://img.shields.io/github/issues-pr/fabieu/sureflap-api?style=flat-square)](https://github.com/fabieu/sureflap-api/pulls)
-[![GitHub](https://img.shields.io/github/license/fabieu/sureflap-api?style=flat-square)](https://github.com/fabieu/sureflap-api/blob/main/LICENSE)
+[![Docker Image Version (latest by date)](https://img.shields.io/docker/v/fabieu/sureflap-api?sort=semver&style=flat-square)](https://hub.docker.com/repository/docker/fabieu/surehub-api)
+[![Docker Image Size (tag)](https://img.shields.io/docker/image-size/fabieu/sureflap-api/latest?style=flat-square)](https://hub.docker.com/repository/docker/fabieu/surehub-api)
+[![GitHub pipeline status](https://img.shields.io/github/actions/workflow/status/fabieu/surehub-api/build.yml?style=flat-square)](https://github.com/fabieu/surehub-api/actions)
+[![GitHub issues](https://img.shields.io/github/issues-raw/fabieu/surehub-api?style=flat-square)](https://github.com/fabieu/surehub-api/issues)
+[![GitHub merge requests](https://img.shields.io/github/issues-pr/fabieu/surehub-api?style=flat-square)](https://github.com/fabieu/surehub-api/pulls)
+[![GitHub](https://img.shields.io/github/license/fabieu/surehub-api?style=flat-square)](https://github.com/fabieu/surehub-api/blob/main/LICENSE)
 
 # SureHub API
 
 SureHub API is a simple, yet powerful RESTful API for products from [Sure Petcare](https://www.surepetcare.com).
 
 <div align="center">
-  <a href="https://fabieu.github.io/sureflap-api/" target="_blank" style="font-weight: bold;">
+  <a href="https://fabieu.github.io/surehub-api/" target="_blank" style="font-weight: bold;">
     OpenAPI documentation
   </a>
 </div>
@@ -24,7 +24,7 @@ SureHub API is a simple, yet powerful RESTful API for products from [Sure Petcar
 ## Docker (recommended)
 
 ```bash
-docker run -d -p 8080:3001 -e SUREHUB_EMAIL='{YOUR_SUREHUB_EMAIL}' -e SUREHUB_PASSWORD='{YOUR_SUREHUB_PASSWORD}' fabieu/sureflap-api:latest
+docker run -d -p 8080:3001 -e SUREHUB_EMAIL='{YOUR_SUREHUB_EMAIL}' -e SUREHUB_PASSWORD='{YOUR_SUREHUB_PASSWORD}' fabieu/surehub-api:latest
 ```
 
 > For all available options take a look at the [Configuration](#configuration) section.
@@ -34,7 +34,7 @@ docker run -d -p 8080:3001 -e SUREHUB_EMAIL='{YOUR_SUREHUB_EMAIL}' -e SUREHUB_PA
 Clone this repository to your system and move into the project subfolder:
 
 ```bash
-git clone https://github.com/fabieu/sureflap-api.git
+git clone https://github.com/fabieu/surehub-api.git
 ```
 
 This project utilizes **Poetry**, a tool for dependency management and packaging in Python. It allows you to declare the libraries your project depends on and it will manage (install/update) them for you (https://python-poetry.org/).
@@ -107,7 +107,7 @@ Enables CORS (Cross-Origin Resource Sharing) for the specified domain names or i
 
 For details about all API endpoints and the corresponding request and response models take a look at the automatically generated OpenAPI documentation:
 
-- **https://fabieu.github.io/sureflap-api/**
+- **https://fabieu.github.io/surehub-api/**
 
 Here you will find everything you need to know about the available endpoints and how to call them.
 
@@ -125,7 +125,7 @@ Releases are based on Semantic Versioning, and use the format of `MAJOR.MINOR.PA
 
 # Special Thanks
 
-Thanks to [alextoft](https://github.com/alextoft) and [hdurdle](https://github.com/hdurdle) for their GitHub projects and shared resources about the SureFlap API.  
+Thanks to [alextoft](https://github.com/alextoft) and [hdurdle](https://github.com/hdurdle) for their GitHub projects and shared resources about the SureHub API.  
 You can look at the projects following the links below:
 
 - https://github.com/alextoft/sureflap
