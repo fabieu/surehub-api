@@ -1,18 +1,19 @@
-FROM python:3.13.1-alpine3.19
+FROM python:3.14.1-alpine3.21
 
-ARG POETRY_VERSION=2.1.1
+ARG POETRY_VERSION=2.2.1
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PATH="/root/.local/bin:$PATH"
 
+# System deps (build + runtime)
 RUN apk add --no-cache --virtual .build-deps \
         curl \
         gcc \
         libffi-dev \
-        musl-dev && \
-    pip install --upgrade pip poetry==$POETRY_VERSION && \
-    apk del .build-deps
+        musl-dev \
+    && python -m pip install --no-cache-dir "poetry==${POETRY_VERSION}" \
+    && apk del .build-deps
 
 WORKDIR /usr/src/app
 
