@@ -12,7 +12,7 @@ jobs:
     name: Set version info
     runs-on: ubuntu-latest
     container:
-      image: python:3.12-alpine
+      image: python:3.14-alpine
     timeout-minutes: 5
     permissions:
       contents: read

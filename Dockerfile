@@ -1,4 +1,4 @@
-FROM python:3.14.1-alpine3.21
+FROM python:3.14.1-alpine
 
 ARG POETRY_VERSION=2.2.1
 
