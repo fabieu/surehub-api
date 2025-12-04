@@ -7,8 +7,8 @@ from fastapi import HTTPException
 from fastapi.encoders import jsonable_encoder
 
 from surehub_api.config import settings
-from surehub_api.models import surehub
-from surehub_api.modules import auth
+from surehub_api.entities import surehub
+from surehub_api.services import auth
 
 PET_PAYLOAD = {
     'with[]': ['photo', 'position', 'status', 'conditions', 'breed', 'food_type', 'species']
