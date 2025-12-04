@@ -1,13 +1,10 @@
-# Built-in modules
 import json
 from uuid import uuid1
 
-# PyPi modules
 import requests
 from cachetools import TTLCache
 from fastapi import HTTPException
 
-# Local modules
 from surehub_api.config import settings
 
 cache = TTLCache(maxsize=128, ttl=86400)

@@ -1,9 +1,5 @@
-# Built-in modules
-
-# PyPi modules
 from fastapi.testclient import TestClient
 
-# Local modules
 from surehub_api.main import app
 
 client = TestClient(app)
