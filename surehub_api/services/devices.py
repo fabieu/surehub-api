@@ -3,11 +3,12 @@ from typing import List
 
 import requests
 from fastapi import HTTPException
+
 from surehub_api.config import settings
-from surehub_api.models import surehub
-from surehub_api.models.custom import LockMode
-from surehub_api.models.surehub import SpecialProfile
-from surehub_api.modules import auth
+from surehub_api.entities import surehub
+from surehub_api.entities.custom import LockMode
+from surehub_api.entities.surehub import SpecialProfile
+from surehub_api.services import auth
 
 
 def get_devices() -> List[surehub.Device]:

@@ -5,7 +5,7 @@ import requests
 from fastapi import HTTPException
 
 from surehub_api.config import settings
-from surehub_api.modules import auth
+from surehub_api.services import auth
 
 
 def get_timeline_of_household(household_id: int) -> list:
