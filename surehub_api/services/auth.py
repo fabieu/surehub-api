@@ -1,56 +1,43 @@
-import json
-from uuid import uuid1
-
 import requests
 from cachetools import TTLCache
 from fastapi import HTTPException
 
 from surehub_api.config import settings
 
+DEFAULT_HEADERS = {
+    "Host": "app-api.production.surehub.io",
+    "Accept": "application/json, */*",
+    "Accept-Encoding": "gzip, deflate, br, zstd",
+    "Accept-Language": "en-US,en-GB;q=0.9",
+    "Content-Type": "application/json",
+    "Origin": "https://surehub.io",
+    "Referer": "https://surehub.io",
+}
+
 cache = TTLCache(maxsize=128, ttl=86400)
 
 
-def default_headers() -> dict[str, str]:
-    return {
-        "Host": "app.api.surehub.io",
-        "Connection": "keep-alive",
-        "Accept": "application/json, text/plain, */*",
-        "Accept-Encoding": "gzip, deflate",
-        "Accept-Language": "en-US,en-GB;q=0.9",
-        "Content-Type": "application/json",
-        "Origin": "https://surepetcare.io",
-        "Referer": "https://surepetcare.io",
-        "X-Requested-With": "com.sureflap.surepetcare",
-        "X-Device-Id": str(uuid1()),
-    }
-
-
 def auth_headers() -> dict[str, str]:
-    return default_headers() | {
-        "Authorization": f"Bearer {get_token()}",
+    return DEFAULT_HEADERS | {
+        "Authorization": f"Bearer {_get_token()}",
     }
 
 
-def get_token() -> str:
+def _get_token() -> str:
     token = cache.get("token")
 
-    if token:
-        return token
-    else:
-        uri = f"{settings.endpoint}/api/auth/login"
-
+    if not token:
         payload = {
             "email_address": settings.email,
             "password": settings.password,
-            "device_id": str(uuid1()),
+            "device_id": "web",
         }
-
-        response = requests.post(uri, json=payload, headers=default_headers())
+        response = requests.post(f"{settings.endpoint}/api/auth/login", json=payload, headers=DEFAULT_HEADERS)
 
         if response.ok:
-            data = json.loads(response.text)['data']
-            cache["token"] = data['token']
-
-            return cache["token"]
+            token = response.json()["data"]["token"]
+            cache["token"] = token
         else:
             raise HTTPException(status_code=response.status_code, detail=response.text.replace("\"", "'"))
+
+    return token
