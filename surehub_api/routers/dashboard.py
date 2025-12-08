@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from surehub_api.entities import surehub
+from surehub_api.entities import official
 from surehub_api.entities.openapi import Tags
 from surehub_api.services import dashboard
 
@@ -12,5 +12,5 @@ router = APIRouter(
 
 @router.get("/",
             response_model_exclude_none=True)
-async def get_dashboard() -> surehub.MeStart:
+async def get_dashboard() -> official.MeStart:
     return dashboard.get_dashboard()

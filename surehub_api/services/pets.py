@@ -7,7 +7,7 @@ from fastapi import HTTPException
 from fastapi.encoders import jsonable_encoder
 
 from surehub_api.config import settings
-from surehub_api.entities import surehub
+from surehub_api.entities import official
 from surehub_api.services import auth
 
 PET_PAYLOAD = {
@@ -15,7 +15,7 @@ PET_PAYLOAD = {
 }
 
 
-def get_pets() -> List[surehub.Pet]:
+def get_pets() -> List[official.Pet]:
     uri = f"{settings.endpoint}/api/pet"
 
     response = requests.get(uri, headers=auth.auth_headers(), params=PET_PAYLOAD)
@@ -27,7 +27,7 @@ def get_pets() -> List[surehub.Pet]:
         raise HTTPException(status_code=response.status_code, detail=response.text.replace("\"", "'"))
 
 
-def get_pet(pet_id: int) -> surehub.Pet:
+def get_pet(pet_id: int) -> official.Pet:
     uri = f"{settings.endpoint}/api/pet/{pet_id}"
 
     response = requests.get(uri, headers=auth.auth_headers(), params=PET_PAYLOAD)
@@ -39,7 +39,7 @@ def get_pet(pet_id: int) -> surehub.Pet:
         raise HTTPException(status_code=response.status_code, detail=response.text.replace("\"", "'"))
 
 
-def get_pet_position(pet_id: int) -> surehub.PetPosition:
+def get_pet_position(pet_id: int) -> official.PetPosition:
     pet = get_pet(pet_id)
     pet_position = pet.get('position')
 
@@ -49,7 +49,7 @@ def get_pet_position(pet_id: int) -> surehub.PetPosition:
     return pet_position
 
 
-def get_pet_positions() -> List[surehub.PetPosition]:
+def get_pet_positions() -> List[official.PetPosition]:
     pet_positions = []
 
     for pet in get_pets():
@@ -63,7 +63,7 @@ def get_pet_positions() -> List[surehub.PetPosition]:
     return pet_positions
 
 
-def set_pet_position(pet_id: int, pet_position: surehub.CreatePetPosition) -> surehub.PetPosition:
+def set_pet_position(pet_id: int, pet_position: official.CreatePetPosition) -> official.PetPosition:
     uri = f"{settings.endpoint}/api/pet/{pet_id}/position"
 
     pet_position_dict = jsonable_encoder(pet_position)

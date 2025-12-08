@@ -5,7 +5,7 @@ import requests
 from fastapi import HTTPException
 
 from surehub_api.config import settings
-from surehub_api.entities import surehub
+from surehub_api.entities import official
 from surehub_api.services import auth
 
 
@@ -21,7 +21,7 @@ def get_households() -> list:
         raise HTTPException(status_code=response.status_code, detail=response.text.replace("\"", "'"))
 
 
-def get_household_by_id(household_id: int) -> surehub.Household:
+def get_household_by_id(household_id: int) -> official.Household:
     uri = f"{settings.endpoint}/api/household/{household_id}"
 
     payload = {'with[]': ['pets', 'users']}
@@ -35,7 +35,7 @@ def get_household_by_id(household_id: int) -> surehub.Household:
         raise HTTPException(status_code=response.status_code, detail=response.text.replace("\"", "'"))
 
 
-def get_users_of_household(household_id: int) -> List[surehub.HouseholdUser]:
+def get_users_of_household(household_id: int) -> List[official.HouseholdUser]:
     uri = f"{settings.endpoint}/api/household/{household_id}/user"
 
     response = requests.get(uri, headers=auth.auth_headers())
@@ -47,7 +47,7 @@ def get_users_of_household(household_id: int) -> List[surehub.HouseholdUser]:
         raise HTTPException(status_code=response.status_code, detail=response.text.replace("\"", "'"))
 
 
-def get_user_of_household(household_id: int, user_id: int) -> surehub.HouseholdUser:
+def get_user_of_household(household_id: int, user_id: int) -> official.HouseholdUser:
     uri = f"{settings.endpoint}/api/household/{household_id}/user/{user_id}"
 
     response = requests.get(uri, headers=auth.auth_headers())
@@ -59,7 +59,7 @@ def get_user_of_household(household_id: int, user_id: int) -> surehub.HouseholdU
         raise HTTPException(status_code=response.status_code, detail=response.text.replace("\"", "'"))
 
 
-def get_pets_of_household(household_id: int) -> List[surehub.Pet]:
+def get_pets_of_household(household_id: int) -> List[official.Pet]:
     uri = f"{settings.endpoint}/api/household/{household_id}/pet"
 
     response = requests.get(uri, headers=auth.auth_headers())
@@ -71,7 +71,7 @@ def get_pets_of_household(household_id: int) -> List[surehub.Pet]:
         raise HTTPException(status_code=response.status_code, detail=response.text.replace("\"", "'"))
 
 
-def get_pet_of_household(household_id: int, pet_id: int) -> surehub.Pet:
+def get_pet_of_household(household_id: int, pet_id: int) -> official.Pet:
     uri = f"{settings.endpoint}/api/household/{household_id}/pet/{pet_id}"
 
     response = requests.get(uri, headers=auth.auth_headers())
@@ -95,7 +95,7 @@ def get_devices_of_household(household_id: int) -> list:
         raise HTTPException(status_code=response.status_code, detail=response.text.replace("\"", "'"))
 
 
-def get_device_of_household(household_id: int, device_id: int) -> surehub.Device:
+def get_device_of_household(household_id: int, device_id: int) -> official.Device:
     uri = f"{settings.endpoint}/api/household/{household_id}/device/{device_id}"
 
     response = requests.get(uri, headers=auth.auth_headers())
