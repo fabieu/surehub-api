@@ -1,4 +1,4 @@
-from typing import List, Annotated
+from typing import List, Annotated, Any
 
 from fastapi import APIRouter, Query
 
@@ -23,6 +23,11 @@ async def get_devices() -> List[official.Device]:
 async def get_device_by_id(device_id: int) -> official.Device:
     return devices.get_device_by_id(device_id)
 
+
+@router.get("/{device_id}/state",
+            response_model_exclude_none=True)
+async def get_device_state_by_id(device_id: int) -> Any:
+    return devices.get_device_state_by_id(device_id)
 
 @router.patch("/{device_id}/control",
               response_model_exclude_none=True)

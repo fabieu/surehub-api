@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Any
 
 import requests
 
@@ -18,9 +18,14 @@ def get_devices() -> List[official.Device]:
 def get_device_by_id(device_id: int) -> official.Device:
     uri = f"{settings.endpoint}/api/device/{device_id}"
 
-    payload = {'with[]': ['children', 'status', 'control']}
-
     response = requests.get(uri, headers=auth.auth_headers(), params=payload)
+    return http_utils.extract_response_data(response)
+
+
+def get_device_state_by_id(device_id) -> Any:
+    uri = f"{settings.endpoint}/api/device/{device_id}/control"
+
+    response = requests.get(uri, headers=auth.auth_headers())
     return http_utils.extract_response_data(response)
 
 

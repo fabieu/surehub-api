@@ -10,22 +10,18 @@ from surehub_api.entities import official
 from surehub_api.services import auth
 from surehub_api.utils import http_utils
 
-PET_PAYLOAD = {
-    'with[]': ['photo', 'position', 'status', 'conditions', 'breed', 'food_type', 'species']
-}
-
 
 def get_pets() -> List[official.Pet]:
     uri = f"{settings.endpoint}/api/pet"
 
-    response = requests.get(uri, headers=auth.auth_headers(), params=PET_PAYLOAD)
+    response = requests.get(uri, headers=auth.auth_headers())
     return http_utils.extract_response_data(response)
 
 
 def get_pet(pet_id: int) -> official.Pet:
     uri = f"{settings.endpoint}/api/pet/{pet_id}"
 
-    response = requests.get(uri, headers=auth.auth_headers(), params=PET_PAYLOAD)
+    response = requests.get(uri, headers=auth.auth_headers())
     return http_utils.extract_response_data(response)
 
 

@@ -18,9 +18,7 @@ def get_households() -> list:
 def get_household_by_id(household_id: int) -> official.Household:
     uri = f"{settings.endpoint}/api/household/{household_id}"
 
-    payload = {'with[]': ['pets', 'users']}
-
-    response = requests.get(uri, headers=auth.auth_headers(), params=payload)
+    response = requests.get(uri, headers=auth.auth_headers())
     return http_utils.extract_response_data(response)
 
 

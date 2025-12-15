@@ -2,13 +2,10 @@ from typing import Any
 
 from fastapi import HTTPException
 
-STATUS_CODE_ON_INVALID_RESPONSE = 500
-
 
 def extract_response_data(
         response,
         key: str = "data",
-        status_code_on_invalid: int = STATUS_CODE_ON_INVALID_RESPONSE,
 ) -> Any:
     """
     Validates an HTTP response and extracts a payload.
@@ -28,13 +25,13 @@ def extract_response_data(
         payload = response.json()
     except ValueError:
         raise HTTPException(
-            status_code=status_code_on_invalid,
+            status_code=500,
             detail="Response is not valid JSON",
         )
 
     if key not in payload:
         raise HTTPException(
-            status_code=status_code_on_invalid,
+            status_code=500,
             detail=f"Invalid response format: missing '{key}'",
         )
 
