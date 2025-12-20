@@ -18,7 +18,7 @@ def get_devices() -> List[official.Device]:
 def get_device_by_id(device_id: int) -> official.Device:
     uri = f"{settings.endpoint}/api/device/{device_id}"
 
-    response = requests.get(uri, headers=auth.auth_headers(), params=payload)
+    response = requests.get(uri, headers=auth.auth_headers())
     return http_utils.extract_response_data(response)
 
 
