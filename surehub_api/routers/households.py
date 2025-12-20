@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import List
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Query
 
 from surehub_api.entities import official
 from surehub_api.entities.openapi import Tags
@@ -53,8 +53,8 @@ async def get_pet_of_household(household_id: int, pet_id: int) -> official.Pet:
             response_model_exclude_none=True)
 async def get_pet_report(household_id: int,
                          pet_id: int,
-                         from_datetime: datetime,
-                         to_datetime: datetime
+                         from_datetime: datetime = Query(..., alias="from"),
+                         to_datetime: datetime = Query(..., alias="to")
                          ) -> official.PetReport:
     return reports.get_pet_report(household_id, pet_id, from_datetime, to_datetime)
 
