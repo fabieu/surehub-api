@@ -32,7 +32,7 @@ app = FastAPI(
         },
         {
             "name": Tags.PET,
-            "description": "Endpoints related to pets, including positions, pet-specific settings and metadata."
+            "description": "Endpoints related to pets, including location, pet-specific settings and metadata."
         },
     ],
     swagger_ui_parameters={
