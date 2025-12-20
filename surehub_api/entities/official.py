@@ -350,7 +350,7 @@ class ConsumptionAlert(BaseModel):
     created_at: datetime
 
 
-class ConsumptionHabitOutcomeEnum(Enum):
+class ConsumptionHabitOutcomeEnum(int, Enum):
     OK = 0
     BELOW_LIMIT = 1
     ABOVE_LIMIT = 2
