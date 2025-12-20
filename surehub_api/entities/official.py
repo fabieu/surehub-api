@@ -262,10 +262,6 @@ class ReportWeightFrame(BaseModel):
     multi: Optional[bool] = None
 
 
-class FeedingReport(BaseModel):
-    datapoints: Optional[List[FeedingReportDataPoint]] = None
-
-
 class FeedingReportDataPoint(BaseModel):
     from_: Optional[datetime] = Field(default=None, alias="from")
     to: Optional[datetime] = None
@@ -288,8 +284,8 @@ class FeedingReportDataPoint(BaseModel):
     deleted_at: Optional[datetime] = None
 
 
-class DrinkingReport(BaseModel):
-    datapoints: Optional[List[DrinkingReportDataPoint]] = None
+class FeedingReport(BaseModel):
+    datapoints: Optional[List[FeedingReportDataPoint]] = None
 
 
 class DrinkingReportDataPoint(BaseModel):
@@ -314,8 +310,8 @@ class DrinkingReportDataPoint(BaseModel):
     deleted_at: Optional[datetime] = None
 
 
-class MovementReport(BaseModel):
-    datapoints: Optional[List[MovementReportDataPoint]] = None
+class DrinkingReport(BaseModel):
+    datapoints: Optional[List[DrinkingReportDataPoint]] = None
 
 
 class MovementReportDataPoint(BaseModel):
@@ -336,6 +332,10 @@ class MovementReportDataPoint(BaseModel):
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
     deleted_at: Optional[datetime] = None
+
+
+class MovementReport(BaseModel):
+    datapoints: Optional[List[MovementReportDataPoint]] = None
 
 
 class ConsumptionHabit(BaseModel):
