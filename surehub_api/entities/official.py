@@ -1,8 +1,8 @@
-from datetime import datetime, time
+from datetime import datetime, time, date
 from enum import Enum
 from typing import Optional, List
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class DeviceType(int, Enum):
@@ -245,3 +245,121 @@ class MeStart(BaseModel):
     photos: Optional[List[Photo]] = None
     tags: Optional[List[Tag]] = None
     user: Optional[HouseholdUser] = None
+
+
+class PetReport(BaseModel):
+    movement: MovementReport
+    feeding: FeedingReport
+    drinking: DrinkingReport
+
+    consumption_habit: Optional[List[ConsumptionHabit]] = None
+    consumption_alert: Optional[List[ConsumptionAlert]] = None
+
+
+class FeedingReport(BaseModel):
+    datapoints: Optional[List[FeedingReportDataPoint]] = None
+
+
+class FeedingReportDataPoint(BaseModel):
+    from_: Optional[datetime] = Field(default=None, alias="from")
+    to: Optional[datetime] = None
+    duration: Optional[int] = None
+
+    context: Optional[int] = None
+    bowl_count: Optional[int] = None
+    actual_weight: Optional[float] = None
+    weights: Optional[List[ReportWeightFrame]] = None
+
+    device_id: Optional[int] = None
+    tag_id: Optional[int] = None
+
+    user_id: Optional[int] = None
+    entry_user_id: Optional[int] = None
+    exit_user_id: Optional[int] = None
+
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
+    deleted_at: Optional[datetime] = None
+
+
+class DrinkingReport(BaseModel):
+    datapoints: Optional[List[DrinkingReportDataPoint]] = None
+
+
+class DrinkingReportDataPoint(BaseModel):
+    from_: Optional[datetime] = Field(default=None, alias="from")
+    to: Optional[datetime] = None
+    duration: Optional[int] = None
+
+    context: Optional[int] = None
+    bowl_count: Optional[int] = None
+    weights: Optional[List[ReportWeightFrame]] = None
+    actual_weight: Optional[float] = None
+
+    device_id: Optional[int] = None
+    tag_id: Optional[int] = None
+
+    user_id: Optional[int] = None
+    entry_user_id: Optional[int] = None
+    exit_user_id: Optional[int] = None
+
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
+    deleted_at: Optional[datetime] = None
+
+
+class MovementReport(BaseModel):
+    datapoints: Optional[List[MovementReportDataPoint]] = None
+
+
+class MovementReportDataPoint(BaseModel):
+    from_: Optional[datetime] = Field(default=None, alias="from")
+    to: Optional[datetime] = None
+    duration: Optional[int] = None
+
+    active: Optional[bool] = None
+    device_id: Optional[int] = None
+    entry_device_id: Optional[int] = None
+    exit_device_id: Optional[int] = None
+    tag_id: Optional[int] = None
+
+    user_id: Optional[int] = None
+    entry_user_id: Optional[int] = None
+    exit_user_id: Optional[int] = None
+
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
+    deleted_at: Optional[datetime] = None
+
+
+class ConsumptionHabit(BaseModel):
+    outcome: ConsumptionHabitOutcomeEnum
+    calendar_day: date
+    amount: int
+    lower_limit: Optional[int] = None
+    upper_limit: Optional[int] = None
+    created_at: datetime
+
+
+class ConsumptionAlert(BaseModel):
+    pet_id: int
+    tag_id: int
+    pet_weight: int
+    amount: int
+    time_noticed_utc: datetime
+    created_at: datetime
+
+
+class ConsumptionHabitOutcomeEnum(Enum):
+    OK = 0
+    BELOW_LIMIT = 1
+    ABOVE_LIMIT = 2
+
+
+class ReportWeightFrame(BaseModel):
+    index: Optional[int] = None
+    weight: float
+    change: float
+    food_type_id: Optional[int] = None
+    target_weight: Optional[int] = None
+    multi: Optional[bool] = None
