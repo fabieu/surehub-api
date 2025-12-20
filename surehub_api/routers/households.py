@@ -1,10 +1,11 @@
+from datetime import datetime
 from typing import List
 
 from fastapi import APIRouter
 
 from surehub_api.entities import official
 from surehub_api.entities.openapi import Tags
-from surehub_api.services import households
+from surehub_api.services import households, reports
 
 router = APIRouter(
     prefix="/households",
@@ -46,6 +47,16 @@ async def get_pets_of_household(household_id: int) -> List[official.Pet]:
             response_model_exclude_none=True)
 async def get_pet_of_household(household_id: int, pet_id: int) -> official.Pet:
     return households.get_pet_of_household(household_id, pet_id)
+
+
+@router.get("/{household_id}/pets/{pet_id}/report",
+            response_model_exclude_none=True)
+async def get_pet_report(household_id: int,
+                         pet_id: int,
+                         from_datetime: datetime,
+                         to_datetime: datetime
+                         ) -> official.PetReport:
+    return reports.get_pet_report(household_id, pet_id, from_datetime, to_datetime)
 
 
 @router.get("/{household_id}/devices",

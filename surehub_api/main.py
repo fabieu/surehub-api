@@ -6,7 +6,7 @@ from starlette.responses import RedirectResponse
 from surehub_api import __version__
 from surehub_api.config import settings
 from surehub_api.entities.openapi import Tags
-from surehub_api.routers import devices, households, dashboard, pets, reports
+from surehub_api.routers import devices, households, dashboard, pets
 
 # FastAPI configuration
 app = FastAPI(
@@ -34,10 +34,6 @@ app = FastAPI(
             "name": Tags.PET,
             "description": "Endpoints related to pets, including positions, pet-specific settings and metadata."
         },
-        {
-            "name": Tags.REPORT,
-            "description": "Endpoints for generating analytical and historical reports, including feeding, drinking, movement, and consumption insights."
-        },
     ],
     swagger_ui_parameters={
         "syntaxHighlight": {
@@ -49,7 +45,6 @@ app.include_router(devices.router)
 app.include_router(households.router)
 app.include_router(dashboard.router)
 app.include_router(pets.router)
-app.include_router(reports.router)
 
 
 # Redirect default url to docs

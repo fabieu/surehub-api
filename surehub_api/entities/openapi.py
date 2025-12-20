@@ -6,4 +6,3 @@ class Tags(Enum):
     HOUSEHOLD = "Household"
     DEVICE = "Device"
     PET = "Pet"
-    REPORT = "Report"
