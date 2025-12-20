@@ -247,13 +247,19 @@ class MeStart(BaseModel):
     user: Optional[HouseholdUser] = None
 
 
-class PetReport(BaseModel):
-    movement: MovementReport
-    feeding: FeedingReport
-    drinking: DrinkingReport
+class ConsumptionHabitOutcomeEnum(int, Enum):
+    OK = 0
+    BELOW_LIMIT = 1
+    ABOVE_LIMIT = 2
 
-    consumption_habit: Optional[List[ConsumptionHabit]] = None
-    consumption_alert: Optional[List[ConsumptionAlert]] = None
+
+class ReportWeightFrame(BaseModel):
+    index: Optional[int] = None
+    weight: float
+    change: float
+    food_type_id: Optional[int] = None
+    target_weight: Optional[int] = None
+    multi: Optional[bool] = None
 
 
 class FeedingReport(BaseModel):
@@ -350,16 +356,10 @@ class ConsumptionAlert(BaseModel):
     created_at: datetime
 
 
-class ConsumptionHabitOutcomeEnum(int, Enum):
-    OK = 0
-    BELOW_LIMIT = 1
-    ABOVE_LIMIT = 2
+class PetReport(BaseModel):
+    movement: MovementReport
+    feeding: FeedingReport
+    drinking: DrinkingReport
 
-
-class ReportWeightFrame(BaseModel):
-    index: Optional[int] = None
-    weight: float
-    change: float
-    food_type_id: Optional[int] = None
-    target_weight: Optional[int] = None
-    multi: Optional[bool] = None
+    consumption_habit: Optional[List[ConsumptionHabit]] = None
+    consumption_alert: Optional[List[ConsumptionAlert]] = None
