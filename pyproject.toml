@@ -9,7 +9,7 @@ authors = [
 keywords = ["SureHub", "Sure Petcare", "REST", "API"]
 requires-python = ">=3.10"
 dependencies = [
-    "uvicorn~=0.38",
+    "uvicorn~=0.40",
     "dynaconf~=3.2",
     "fastapi~=0.124",
     "requests~=2.32",
