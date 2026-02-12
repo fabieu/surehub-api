@@ -8,15 +8,15 @@ from surehub_api.services import auth
 from surehub_api.utils import http_utils
 
 # Currently only dual scan cat flap and pet door support indoor only mode
-DEVICE_TYPES_SUPPORTING_INDOOR_MODE = [
+DEVICE_TYPES_SUPPORTING_INDOOR_ONLY_MODE = [
     official.DeviceType.DUALSCAN_PET_DOOR_CONNECT,
     official.DeviceType.DUALSCAN_CAT_FLAP_CONNECT
 ]
 
 
 def get_devices(
-        household_ids: List[int] = None,
-        product_ids: List[official.DeviceType] = None
+        household_ids: List[int] | None = None,
+        product_ids: List[official.DeviceType] | None = None
 ) -> List[official.Device]:
     uri = f"{settings.endpoint}/api/device"
 

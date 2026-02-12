@@ -38,6 +38,7 @@ async def get_pet_status(pet_id: int) -> dto.PetStatusResponse:
 
 
 @router.patch("/{pet_id}/status",
+              status_code=204,
               response_model_exclude_none=True,
               description="""
               `position`: INSIDE = 1, OUTSIDE = 2
@@ -46,7 +47,7 @@ async def get_pet_status(pet_id: int) -> dto.PetStatusResponse:
 async def update_pet_status(
         pet_id: int,
         payload: dto.UpdatePetStatusRequest,
-        household_ids: Annotated[List[int], Query(
+        household_ids: Annotated[List[int] | None, Query(
             alias="householdIds",
             description="Limit status update to specific household ids")
         ] = None

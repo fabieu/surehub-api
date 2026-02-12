@@ -38,13 +38,13 @@ def get_pet_status(pet_id: int) -> dto.PetStatusResponse:
 def update_pet_status(
         pet_id: int,
         payload: dto.UpdatePetStatusRequest,
-        household_ids: List[int] = None
+        household_ids: List[int] | None = None
 ) -> None:
     if payload.position:
         _update_pet_position(pet_id, payload.position)
 
     if payload.indoor_only is not None:
-        _update_indoor_mode(pet_id, payload.indoor_only, household_ids)
+        _update_indoor_only_mode(pet_id, payload.indoor_only, household_ids)
 
 
 def _update_pet_position(pet_id: int, position: official.PetPositionWhere) -> None:
@@ -59,7 +59,7 @@ def _update_pet_position(pet_id: int, position: official.PetPositionWhere) -> No
     http_utils.raise_for_status(response)
 
 
-def _update_indoor_mode(pet_id: int, indoor_only: bool, household_ids: List[int] = None) -> None:
+def _update_indoor_only_mode(pet_id: int, indoor_only: bool, household_ids: List[int] | None = None) -> None:
     pet = official.Pet.model_validate(get_pet(pet_id))
 
     if not pet.tag_id:
@@ -70,8 +70,14 @@ def _update_indoor_mode(pet_id: int, indoor_only: bool, household_ids: List[int]
 
     supported_devices = [official.Device.model_validate(device) for device in devices.get_devices(
         household_ids=household_ids,
-        product_ids=devices.DEVICE_TYPES_SUPPORTING_INDOOR_MODE
+        product_ids=devices.DEVICE_TYPES_SUPPORTING_INDOOR_ONLY_MODE
     )]
+
+    if not supported_devices:
+        raise HTTPException(
+            status_code=422,
+            detail=f"Failed to update indoor mode for pet id {pet_id}, because no devices supporting indoor-only mode were found",
+        )
 
     request_action = official_v2.DeviceTagAction.ACTION_0
     profile = official_v2.DeviceTagProfile.ENABLED if indoor_only else official_v2.DeviceTagProfile.DISABLED
