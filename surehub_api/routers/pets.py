@@ -33,7 +33,7 @@ async def get_pet_status(pet_id: int) -> dto.PetStatusResponse:
 @router.patch("/{pet_id}/status",
               response_model_exclude_none=True,
               description="""
-              `household_id`: Limit update to specific household ids
+              `household_ids`: Limit update to specific household IDs (list)
               <p/> 
               `position`: INSIDE = 1, OUTSIDE = 2
               """
