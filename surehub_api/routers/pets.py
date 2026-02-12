@@ -18,6 +18,13 @@ async def get_all_pets() -> List[official.Pet]:
     return pets.get_pets()
 
 
+@router.get("/position",
+            response_model_exclude_none=True,
+            deprecated=True)
+async def get_all_pets_positions() -> List[official.PetPosition]:
+    return pets.get_pet_positions()
+
+
 @router.get("/{pet_id}",
             response_model_exclude_none=True)
 def get_pet(pet_id: int) -> official.Pet:
@@ -34,19 +41,12 @@ async def get_pet_status(pet_id: int) -> dto.PetStatusResponse:
               response_model_exclude_none=True,
               description="""
               `household_ids`: Limit update to specific household IDs (list)
-              <p/> 
+              <br/>
               `position`: INSIDE = 1, OUTSIDE = 2
               """
               )
 async def update_pet_status(pet_id: int, payload: dto.UpdatePetStatusRequest) -> dto.PetStatusResponse:
     return pets.update_pet_status(pet_id, payload)
-
-
-@router.get("/position",
-            response_model_exclude_none=True,
-            deprecated=True)
-async def get_all_pets_positions() -> List[official.PetPosition]:
-    return pets.get_pet_positions()
 
 
 @router.get("/{pet_id}/position",

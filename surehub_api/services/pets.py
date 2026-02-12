@@ -61,7 +61,7 @@ def _update_pet_position(pet_id: int, position: official.PetPositionWhere):
     http_utils.raise_for_status(response)
 
 
-def _update_indoor_mode(pet_id: int, indoor_only: bool, household_ids: list[int] = None):
+def _update_indoor_mode(pet_id: int, indoor_only: bool, household_ids: List[int] = None):
     pet = official.Pet.model_validate(get_pet(pet_id))
 
     if not pet.tag or not pet.tag.supported_product_ids:
@@ -80,8 +80,7 @@ def _update_indoor_mode(pet_id: int, indoor_only: bool, household_ids: list[int]
             profile=official_v2.DeviceTagProfile.ENABLED if indoor_only else official_v2.DeviceTagProfile.DISABLED,
         )
 
-        response = requests.put(uri, headers=auth.auth_headers(), json=[payload.model_dump(mode='json')])
-        http_utils.raise_for_status(response)
+        requests.put(uri, headers=auth.auth_headers(), json=[payload.model_dump(mode='json')])
 
 
 def get_pet_position(pet_id: int) -> official.PetPosition:
