@@ -27,8 +27,7 @@ def extract_response_data(response: Response, key: str = "data") -> Any:
     :raise HTTPException: If status code indicates client or server error
     """
 
-    if not response.ok:
-        raise HTTPException(status_code=response.status_code, detail=_extract_error_detail(response))
+    raise_for_status(response)
 
     try:
         payload = response.json()
