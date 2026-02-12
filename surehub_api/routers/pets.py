@@ -27,7 +27,7 @@ async def get_all_pets_positions() -> List[official.PetPosition]:
 
 @router.get("/{pet_id}",
             response_model_exclude_none=True)
-def get_pet(pet_id: int) -> official.Pet:
+async def get_pet(pet_id: int) -> official.Pet:
     return pets.get_pet(pet_id)
 
 
@@ -50,7 +50,7 @@ async def update_pet_status(
             alias="householdIds",
             description="Limit status update to specific household ids")
         ] = None
-) -> dto.PetStatusResponse:
+) -> None:
     return pets.update_pet_status(pet_id, payload, household_ids)
 
 

@@ -9,7 +9,6 @@ class PetStatusResponse(BaseModel):
     position: Optional[official.PetPosition] = None
     feeding: Optional[official.PetConsumptionStatus] = None
     drinking: Optional[official.PetConsumptionStatus] = None
-    indoor_only: Optional[bool] = None
 
 
 class UpdatePetStatusRequest(BaseModel):

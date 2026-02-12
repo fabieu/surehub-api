@@ -14,8 +14,14 @@ router = APIRouter(
 
 @router.get("/",
             response_model_exclude_none=True)
-async def get_devices(household_ids: Annotated[List[int], Query(alias="householdIds")] = None) -> List[official.Device]:
-    return devices.get_devices(household_ids=household_ids)
+async def get_devices(
+        household_ids: Annotated[List[int], Query(alias="householdIds")] = None,
+        product_ids: Annotated[List[official.DeviceType], Query(alias="productIds")] = None
+) -> List[official.Device]:
+    return devices.get_devices(
+        household_ids=household_ids,
+        product_ids=product_ids
+    )
 
 
 @router.get("/{device_id}",
@@ -43,19 +49,19 @@ async def set_device_lock_mode(device_id: int, lock_mode: Annotated[custom.LockM
 
 @router.get("/{device_id}/tags",
             response_model_exclude_none=True)
-def get_tags_of_device(device_id: int) -> List[official.Tag]:
+async def get_tags_of_device(device_id: int) -> List[official.Tag]:
     return devices.get_tags_of_device(device_id)
 
 
 @router.get("/{device_id}/tags/{tag_id}",
             response_model_exclude_none=True)
-def get_tag_of_device(device_id: int, tag_id: int) -> official.Tag:
+async def get_tag_of_device(device_id: int, tag_id: int) -> official.Tag:
     return devices.get_tag_of_device(device_id, tag_id)
 
 
 @router.put("/{device_id}/tags/{tag_id}",
             response_model_exclude_none=True)
-def assign_tag_to_device(device_id: int, tag_id: int) -> official.Tag:
+async def assign_tag_to_device(device_id: int, tag_id: int) -> official.Tag:
     return devices.assign_tag_to_device(device_id, tag_id)
 
 

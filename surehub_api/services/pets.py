@@ -28,14 +28,10 @@ def get_pet(pet_id: int) -> official.Pet:
 def get_pet_status(pet_id: int) -> dto.PetStatusResponse:
     pet = official.Pet.model_validate(get_pet(pet_id))
 
-    # TODO: Fetch information about indoor mode
-    indoor_only = None
-
     return dto.PetStatusResponse(
         position=pet.position,
         feeding=pet.status.feeding if pet.status else None,
         drinking=pet.status.drinking if pet.status else None,
-        indoor_only=indoor_only
     )
 
 
@@ -43,17 +39,15 @@ def update_pet_status(
         pet_id: int,
         payload: dto.UpdatePetStatusRequest,
         household_ids: List[int] = None
-) -> dto.PetStatusResponse:
+) -> None:
     if payload.position:
         _update_pet_position(pet_id, payload.position)
 
     if payload.indoor_only is not None:
         _update_indoor_mode(pet_id, payload.indoor_only, household_ids)
 
-    return get_pet_status(pet_id)
 
-
-def _update_pet_position(pet_id: int, position: official.PetPositionWhere):
+def _update_pet_position(pet_id: int, position: official.PetPositionWhere) -> None:
     uri = f"{settings.endpoint}/api/pet/{pet_id}/position"
 
     payload = official.CreatePetPosition(
@@ -65,26 +59,34 @@ def _update_pet_position(pet_id: int, position: official.PetPositionWhere):
     http_utils.raise_for_status(response)
 
 
-def _update_indoor_mode(pet_id: int, indoor_only: bool, household_ids: List[int] = None):
+def _update_indoor_mode(pet_id: int, indoor_only: bool, household_ids: List[int] = None) -> None:
     pet = official.Pet.model_validate(get_pet(pet_id))
 
-    if not pet.tag or not pet.tag.supported_product_ids:
-        return
+    if not pet.tag_id:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Failed to update indoor mode, because pet with id {pet_id} has no associated tag"
+        )
 
-    all_devices = [official.Device.model_validate(device) for device in
-                   devices.get_devices(household_ids=household_ids)]
-    supported_devices = [device for device in all_devices if device.product_id in pet.tag.supported_product_ids]
+    supported_devices = [official.Device.model_validate(device) for device in devices.get_devices(
+        household_ids=household_ids,
+        product_ids=devices.DEVICE_TYPES_SUPPORTING_INDOOR_MODE
+    )]
+
+    request_action = official_v2.DeviceTagAction.ACTION_0
+    profile = official_v2.DeviceTagProfile.ENABLED if indoor_only else official_v2.DeviceTagProfile.DISABLED
 
     for device in supported_devices:
         uri = f"{settings.endpoint}/api/v2/device/{device.id}/tag/async"
 
         payload = official_v2.UpdateDeviceTag(
-            tag_id=pet.tag.id,
-            request_action=official_v2.DeviceTagAction.ACTION_0,
-            profile=official_v2.DeviceTagProfile.ENABLED if indoor_only else official_v2.DeviceTagProfile.DISABLED,
+            tag_id=pet.tag_id,
+            request_action=request_action,
+            profile=profile,
         )
 
-        requests.put(uri, headers=auth.auth_headers(), json=[payload.model_dump(mode='json')])
+        response = requests.put(uri, headers=auth.auth_headers(), json=[payload.model_dump(mode='json')])
+        http_utils.raise_for_status(response)
 
 
 def get_pet_position(pet_id: int) -> official.PetPosition:
