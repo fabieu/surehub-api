@@ -29,12 +29,12 @@ def get_pet_status(pet_id: int) -> dto.PetStatusResponse:
     pet = official.Pet.model_validate(get_pet(pet_id))
 
     # TODO: Fetch information about indoor mode
-    indoor_only = False
+    indoor_only = None
 
     return dto.PetStatusResponse(
         position=pet.position,
-        feeding=pet.status.feeding,
-        drinking=pet.status.drinking,
+        feeding=pet.status.feeding if pet.status else None,
+        drinking=pet.status.drinking if pet.status else None,
         indoor_only=indoor_only
     )
 
@@ -43,7 +43,7 @@ def update_pet_status(pet_id: int, payload: dto.UpdatePetStatusRequest) -> dto.P
     if payload.position:
         _update_pet_position(pet_id, payload.position)
 
-    if payload.indoor_only:
+    if payload.indoor_only is not None:
         _update_indoor_mode(pet_id, payload.indoor_only, payload.household_ids)
 
     return get_pet_status(pet_id)
@@ -86,7 +86,7 @@ def _update_indoor_mode(pet_id: int, indoor_only: bool, household_ids: list[int]
 
 def get_pet_position(pet_id: int) -> official.PetPosition:
     pet = get_pet(pet_id)
-    pet_position = pet.position
+    pet_position = pet.get('position')
 
     if not pet_position:
         raise HTTPException(status_code=500, detail=f"Invalid position '{pet_position}' for pet_id {pet_id}")
@@ -98,7 +98,7 @@ def get_pet_positions() -> List[official.PetPosition]:
     pet_positions = []
 
     for pet in get_pets():
-        pet_position = pet.position
+        pet_position = pet.get('position')
 
         if not pet_position:
             raise HTTPException(status_code=500, detail=f"Invalid position '{pet_position}' for pet_id {pet.get('id')}")
