@@ -1,6 +1,6 @@
-from typing import List
+from typing import List, Annotated
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Query
 
 from surehub_api.entities import official, dto
 from surehub_api.entities.openapi import Tags
@@ -40,13 +40,18 @@ async def get_pet_status(pet_id: int) -> dto.PetStatusResponse:
 @router.patch("/{pet_id}/status",
               response_model_exclude_none=True,
               description="""
-              `household_ids`: Limit update to specific household IDs (list)
-              <br/>
               `position`: INSIDE = 1, OUTSIDE = 2
               """
               )
-async def update_pet_status(pet_id: int, payload: dto.UpdatePetStatusRequest) -> dto.PetStatusResponse:
-    return pets.update_pet_status(pet_id, payload)
+async def update_pet_status(
+        pet_id: int,
+        payload: dto.UpdatePetStatusRequest,
+        household_ids: Annotated[List[int], Query(
+            alias="householdIds",
+            description="Limit status update to specific household ids")
+        ] = None
+) -> dto.PetStatusResponse:
+    return pets.update_pet_status(pet_id, payload, household_ids)
 
 
 @router.get("/{pet_id}/position",

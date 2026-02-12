@@ -39,12 +39,16 @@ def get_pet_status(pet_id: int) -> dto.PetStatusResponse:
     )
 
 
-def update_pet_status(pet_id: int, payload: dto.UpdatePetStatusRequest) -> dto.PetStatusResponse:
+def update_pet_status(
+        pet_id: int,
+        payload: dto.UpdatePetStatusRequest,
+        household_ids: List[int] = None
+) -> dto.PetStatusResponse:
     if payload.position:
         _update_pet_position(pet_id, payload.position)
 
     if payload.indoor_only is not None:
-        _update_indoor_mode(pet_id, payload.indoor_only, payload.household_ids)
+        _update_indoor_mode(pet_id, payload.indoor_only, household_ids)
 
     return get_pet_status(pet_id)
 

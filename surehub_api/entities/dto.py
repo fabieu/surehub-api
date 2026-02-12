@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -13,6 +13,5 @@ class PetStatusResponse(BaseModel):
 
 
 class UpdatePetStatusRequest(BaseModel):
-    household_ids: Optional[List[int]] = None
     position: Optional[official.PetPositionWhere] = None
     indoor_only: Optional[bool] = None
