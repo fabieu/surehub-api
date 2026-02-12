@@ -14,8 +14,8 @@ router = APIRouter(
 
 @router.get("/",
             response_model_exclude_none=True)
-async def get_devices() -> List[official.Device]:
-    return devices.get_devices()
+async def get_devices(household_ids: Annotated[List[int], Query(alias="householdId")] = None) -> List[official.Device]:
+    return devices.get_devices(household_ids=household_ids)
 
 
 @router.get("/{device_id}",
@@ -28,6 +28,7 @@ async def get_device_by_id(device_id: int) -> official.Device:
             response_model_exclude_none=True)
 async def get_device_state_by_id(device_id: int) -> Any:
     return devices.get_device_state_by_id(device_id)
+
 
 @router.patch("/{device_id}/control",
               response_model_exclude_none=True)

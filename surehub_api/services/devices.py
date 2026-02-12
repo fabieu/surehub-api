@@ -8,10 +8,14 @@ from surehub_api.services import auth
 from surehub_api.utils import http_utils
 
 
-def get_devices() -> List[official.Device]:
+def get_devices(household_ids: list[int] = None) -> List[official.Device]:
     uri = f"{settings.endpoint}/api/device"
 
-    response = requests.get(uri, headers=auth.auth_headers())
+    params = {}
+    if household_ids:
+        params["HouseholdId"] = household_ids
+
+    response = requests.get(uri, headers=auth.auth_headers(), params=params)
     return http_utils.extract_response_data(response)
 
 

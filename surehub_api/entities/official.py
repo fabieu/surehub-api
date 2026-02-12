@@ -1,11 +1,11 @@
 from datetime import datetime, time, date
-from enum import Enum
+from enum import IntEnum
 from typing import Optional, List
 
 from pydantic import BaseModel, Field
 
 
-class DeviceType(int, Enum):
+class DeviceType(IntEnum):
     UNKNOWN_DEVICE_0 = 0
     HUB = 1
     REPEATER = 2
@@ -22,7 +22,7 @@ class DeviceType(int, Enum):
 
 
 # TODO: Add descriptive names to numeric special profiles
-class SpecialProfile(int, Enum):
+class SpecialProfile(IntEnum):
     SPECIAL_PROFILE_0 = 0
     SPECIAL_PROFILE_1 = 1
     SPECIAL_PROFILE_2 = 2
@@ -92,7 +92,7 @@ class Photo(BaseModel):
     updated_at: Optional[datetime] = None
 
 
-class PetPositionWhere(int, Enum):
+class PetPositionWhere(IntEnum):
     INSIDE = 1
     OUTSIDE = 2
 
@@ -134,12 +134,12 @@ class PetCondition(BaseModel):
     updated_at: Optional[datetime] = None
 
 
-class PetGender(int, Enum):
+class PetGender(IntEnum):
     FEMALE = 0
     MALE = 1
 
 
-class Spayed(int, Enum):
+class Spayed(IntEnum):
     UNKNOWN = 0
     YES = 1
     NO = 2
@@ -183,7 +183,7 @@ class HouseholdInviteUser(BaseModel):
     acceptor: Optional[PublicUser] = None
 
 
-class HouseholdInviteStatus(int, Enum):
+class HouseholdInviteStatus(IntEnum):
     PENDING = 0
     ACCEPTED = 1
     EXPIRED = 2
@@ -247,7 +247,7 @@ class MeStart(BaseModel):
     user: Optional[HouseholdUser] = None
 
 
-class ConsumptionHabitOutcomeEnum(int, Enum):
+class ConsumptionHabitOutcomeEnum(IntEnum):
     OK = 0
     BELOW_LIMIT = 1
     ABOVE_LIMIT = 2
