@@ -33,6 +33,16 @@ class SpecialProfile(IntEnum):
     SPECIAL_PROFILE_6 = 6
 
 
+class AuthLogin(BaseModel):
+    client_uid: str
+    email_address: str
+    password: str
+
+
+class AuthToken(BaseModel):
+    token: str
+
+
 class DeviceTag(BaseModel):
     id: int
     device_id: int

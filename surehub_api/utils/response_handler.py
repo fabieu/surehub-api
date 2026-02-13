@@ -20,7 +20,7 @@ def raise_for_status(response: Response) -> None:
         raise HTTPException(status_code=response.status_code, detail=_extract_error_detail(response))
 
 
-def extract_response_data(response: Response, key: str = "data", model: Any | None = None) -> Any:
+def parse(response: Response, key: str = "data", model: Any | None = None) -> Any:
     """
     Validates an HTTP response and raises HTTPException on errors.
 
@@ -29,7 +29,8 @@ def extract_response_data(response: Response, key: str = "data", model: Any | No
     - Extracts error details from response body when available
 
     :param response: requests.Response object
-    :param key: root level key to extract payload
+    :param key: root level key to extract payload (default: "data")
+    :param model: Pydantic model class to validate the extracted payload against (optional)
     :raise HTTPException: If status code indicates client or server error
     """
 

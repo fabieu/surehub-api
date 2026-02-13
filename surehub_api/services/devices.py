@@ -5,7 +5,7 @@ import requests
 from surehub_api.config import settings
 from surehub_api.entities import official, custom
 from surehub_api.services import auth
-from surehub_api.utils import http_utils
+from surehub_api.utils import response_handler
 
 DEVICE_TYPES_SUPPORTING_INDOOR_ONLY_MODE = [
     official.DeviceType.DUALSCAN_PET_DOOR_CONNECT,
@@ -25,21 +25,21 @@ def get_devices(
         params["HouseholdId"] = household_ids
 
     response = requests.get(uri, headers=auth.auth_headers(), params=params)
-    return http_utils.extract_response_data(response, model=List[official.Device])
+    return response_handler.parse(response, model=List[official.Device])
 
 
 def get_device_by_id(device_id: int) -> official.Device:
     uri = f"{settings.endpoint}/api/device/{device_id}"
 
     response = requests.get(uri, headers=auth.auth_headers())
-    return http_utils.extract_response_data(response, model=official.Device)
+    return response_handler.parse(response, model=official.Device)
 
 
 def get_device_state_by_id(device_id) -> official.DeviceControl:
     uri = f"{settings.endpoint}/api/device/{device_id}/control"
 
     response = requests.get(uri, headers=auth.auth_headers())
-    return http_utils.extract_response_data(response, model=official.DeviceControl)
+    return response_handler.parse(response, model=official.DeviceControl)
 
 
 def set_lock_mode(device_id: int, lock_mode: custom.LockMode) -> official.DeviceControl:
@@ -50,14 +50,14 @@ def set_lock_mode(device_id: int, lock_mode: custom.LockMode) -> official.Device
     }
 
     response = requests.put(uri, headers=auth.auth_headers(), json=data)
-    return http_utils.extract_response_data(response, model=official.DeviceControl)
+    return response_handler.parse(response, model=official.DeviceControl)
 
 
 def get_tags_of_device(device_id: int) -> List[official.DeviceTag]:
     uri = f"{settings.endpoint}/api/device/{device_id}/tag"
 
     response = requests.get(uri, headers=auth.auth_headers())
-    return http_utils.extract_response_data(response, model=List[official.Tag])
+    return response_handler.parse(response, model=List[official.Tag])
 
 def update_device_state(device_id: int, device_state: official.DeviceControl) -> official.DeviceControl:
     uri = f"{settings.endpoint}/api/device/{device_id}/control"
@@ -70,7 +70,7 @@ def get_tag_of_device(device_id: int, tag_id: int) -> official.DeviceTag:
     uri = f"{settings.endpoint}/api/device/{device_id}/tag/{tag_id}"
 
     response = requests.get(uri, headers=auth.auth_headers())
-    return http_utils.extract_response_data(response, model=official.Tag)
+    return response_handler.parse(response, model=official.Tag)
 
 
 def assign_tag_to_device(device_id: int, tag_id: int) -> official.DeviceTag:
@@ -81,11 +81,11 @@ def assign_tag_to_device(device_id: int, tag_id: int) -> official.DeviceTag:
     }
 
     response = requests.put(uri, headers=auth.auth_headers(), json=data)
-    return http_utils.extract_response_data(response, model=official.Tag)
+    return response_handler.parse(response, model=official.Tag)
 
 
 def remove_tag_from_device(device_id: int, tag_id: int) -> official.DeviceTag:
     uri = f"{settings.endpoint}/api/device/{device_id}/tag/{tag_id}"
 
     response = requests.delete(uri, headers=auth.auth_headers())
-    return http_utils.extract_response_data(response, model=official.Tag)
+    return response_handler.parse(response, model=official.Tag)

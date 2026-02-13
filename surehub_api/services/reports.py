@@ -5,7 +5,7 @@ import requests
 from surehub_api.config import settings
 from surehub_api.entities import official
 from surehub_api.services import auth
-from surehub_api.utils import http_utils
+from surehub_api.utils import response_handler
 
 
 def get_pet_report(household_id: int, pet_id: int, from_datetime: datetime,
@@ -18,4 +18,4 @@ def get_pet_report(household_id: int, pet_id: int, from_datetime: datetime,
     }
 
     response = requests.get(uri, headers=auth.auth_headers(), params=params)
-    return http_utils.extract_response_data(response, model=official.PetReport)
+    return response_handler.parse(response, model=official.PetReport)

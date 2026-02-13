@@ -4,7 +4,7 @@ import pytest
 from fastapi import HTTPException
 
 from surehub_api.entities import official
-from surehub_api.utils import http_utils
+from surehub_api.utils import response_handler
 
 
 class FakeResponse:
@@ -22,7 +22,7 @@ class FakeResponse:
 def test_extract_response_data_validates_pydantic_model():
     response = FakeResponse(200, {"data": {"id": 1, "version": 1}})
 
-    result = http_utils.extract_response_data(response, model=official.Pet)
+    result = response_handler.parse(response, model=official.Pet)
 
     assert isinstance(result, official.Pet)
     assert result.id == 1
@@ -33,11 +33,11 @@ def test_raise_for_status_logs_with_expected_levels(caplog):
     error_response = FakeResponse(404, {"error": "missing"}, text="missing")
 
     with caplog.at_level("INFO"):
-        http_utils.raise_for_status(ok_response)
+        response_handler.raise_for_status(ok_response)
 
     with pytest.raises(HTTPException):
         with caplog.at_level("ERROR"):
-            http_utils.raise_for_status(error_response)
+            response_handler.raise_for_status(error_response)
 
     assert "returned 200" in caplog.text
     assert "returned 404" in caplog.text

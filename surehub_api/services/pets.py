@@ -8,21 +8,21 @@ from fastapi.encoders import jsonable_encoder
 from surehub_api.config import settings
 from surehub_api.entities import official, dto, official_v2
 from surehub_api.services import auth, devices
-from surehub_api.utils import http_utils
+from surehub_api.utils import response_handler
 
 
 def get_pets() -> List[official.Pet]:
     uri = f"{settings.endpoint}/api/pet"
 
     response = requests.get(uri, headers=auth.auth_headers())
-    return http_utils.extract_response_data(response, model=List[official.Pet])
+    return response_handler.parse(response, model=List[official.Pet])
 
 
 def get_pet(pet_id: int) -> official.Pet:
     uri = f"{settings.endpoint}/api/pet/{pet_id}"
 
     response = requests.get(uri, headers=auth.auth_headers())
-    return http_utils.extract_response_data(response, model=official.Pet)
+    return response_handler.parse(response, model=official.Pet)
 
 
 def get_pet_state(pet_id: int) -> dto.PetStateResponse:
@@ -56,7 +56,7 @@ def _update_pet_position(pet_id: int, position: official.PetPositionWhere) -> No
     )
 
     response = requests.post(uri, headers=auth.auth_headers(), json=payload.model_dump(mode='json'))
-    http_utils.raise_for_status(response)
+    response_handler.raise_for_status(response)
 
 
 def _update_indoor_only_mode(pet_id: int, indoor_only: bool, household_ids: List[int] | None = None) -> None:
@@ -90,7 +90,7 @@ def _update_indoor_only_mode(pet_id: int, indoor_only: bool, household_ids: List
         )
 
         response = requests.put(uri, headers=auth.auth_headers(), json=[payload.model_dump(mode='json')])
-        http_utils.raise_for_status(response)
+        response_handler.raise_for_status(response)
 
 
 def get_pet_position(pet_id: int) -> official.PetPosition:
@@ -126,4 +126,4 @@ def set_pet_position(pet_id: int, pet_position: official.CreatePetPosition) -> o
         pet_position_dict['since'] = datetime.now(timezone.utc).isoformat()
 
     response = requests.post(uri, headers=auth.auth_headers(), json=pet_position_dict)
-    return http_utils.extract_response_data(response, model=official.PetPosition)
+    return response_handler.parse(response, model=official.PetPosition)
