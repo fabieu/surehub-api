@@ -14,10 +14,10 @@ class DeviceType(IntEnum):
     PROGRAMMER = 5
     DUALSCAN_CAT_FLAP_CONNECT = 6
     MICROCHIP_FEEDER = 7
-    FELAQUA_CONNECT = 8 # Poseidon
+    FELAQUA_CONNECT = 8  # Poseidon
     CAT_FLAP_CONNECT = 9
     DUALSCAN_PET_DOOR_CONNECT = 10
-    DOG_BOWL_CONNECT = 32 # Cerberus
+    DOG_BOWL_CONNECT = 32  # Cerberus
     UNKNOWN_DEVICE_255 = 255
 
 
@@ -30,6 +30,16 @@ class SpecialProfile(IntEnum):
     SPECIAL_PROFILE_4 = 4
     SPECIAL_PROFILE_5 = 5
     SPECIAL_PROFILE_6 = 6
+
+
+class AuthLogin(BaseModel):
+    client_uid: str
+    email_address: str
+    password: str
+
+
+class AuthToken(BaseModel):
+    token: str
 
 
 class Tag(BaseModel):

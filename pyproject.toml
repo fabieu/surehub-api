@@ -9,11 +9,11 @@ authors = [
 keywords = ["SureHub", "Sure Petcare", "REST", "API"]
 requires-python = ">=3.10"
 dependencies = [
-    "uvicorn~=0.38",
-    "dynaconf~=3.2",
-    "fastapi~=0.124",
-    "requests~=2.32",
-    "cachetools~=6.2",
+    "uvicorn>=0.38,<1.0",
+    "dynaconf>=3.2,<4.0",
+    "fastapi>=0.124,<1.0",
+    "requests>=2.32,<3.0",
+    "cachetools>=7.0,<8.0",
 ]
 
 [project.urls]
@@ -22,10 +22,10 @@ documentation = "https://fabieu.github.io/surehub-api/"
 
 [dependency-groups]
 dev = [
-    "pytest~=9.0",
-    "vermin~=1.8",
-    "autopep8~=2.3",
-    "httpx~=0.28",
+    "pytest>=9.0,<10.0",
+    "vermin>=1.8,<2.0",
+    "autopep8>=2.3,<3.0",
+    "httpx>=0.28,<1.0",
 ]
 
 [build-system]

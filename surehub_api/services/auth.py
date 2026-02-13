@@ -1,8 +1,11 @@
+import uuid
+
 import requests
 from cachetools import TTLCache
 
 from surehub_api.config import settings
-from surehub_api.utils import http_utils
+from surehub_api.entities import official
+from surehub_api.utils import response_handler
 
 DEFAULT_HEADERS = {
     "Host": "app-api.production.surehub.io",
@@ -27,14 +30,20 @@ def _get_token() -> str:
     token = cache.get("token")
 
     if not token:
-        payload = {
-            "email_address": settings.email,
-            "password": settings.password,
-            "device_id": "web",
-        }
-        response = requests.post(f"{settings.endpoint}/api/auth/login", json=payload, headers=DEFAULT_HEADERS)
-        http_utils.raise_for_status(response)
-        token = response.json()["data"]["token"]
+        auth_login = official.AuthLogin(
+            client_uid=str(uuid.uuid4()),
+            email_address=settings.email,
+            password=settings.password,
+        )
+
+        response = requests.post(
+            f"{settings.endpoint}/api/auth/login",
+            json=auth_login.model_dump(mode='json'),
+            headers=DEFAULT_HEADERS
+        )
+        auth_token = response_handler.parse(response, model=official.AuthToken)
+
+        token = auth_token.token
         cache["token"] = token
 
     return token

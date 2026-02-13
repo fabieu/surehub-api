@@ -5,7 +5,7 @@ from fastapi import HTTPException
 
 from surehub_api.config import settings
 from surehub_api.services import auth
-from surehub_api.utils import http_utils
+from surehub_api.utils import response_handler
 
 
 def get_timeline_of_household(household_id: int) -> list:
@@ -15,7 +15,7 @@ def get_timeline_of_household(household_id: int) -> list:
     fetch_size = 100
 
     response = requests.get(uri, headers=auth.auth_headers())
-    meta = http_utils.extract_response_data(response, key='meta')
+    meta = response_handler.parse(response, key='meta')
     count = meta.get('count')
     page_size = meta.get('page_size')
 
@@ -27,6 +27,6 @@ def get_timeline_of_household(household_id: int) -> list:
     for i in range(1, request_count + 1):
         payload = {'page_size': fetch_size, 'page': i}
         response2 = requests.get(uri, headers=auth.auth_headers(), params=payload)
-        result += http_utils.extract_response_data(response2)
+        result += response_handler.parse(response2)
 
     return result
