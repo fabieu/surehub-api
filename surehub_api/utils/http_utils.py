@@ -1,7 +1,11 @@
+from logging import getLogger
 from typing import Any
 
 from fastapi import HTTPException
+from pydantic import TypeAdapter, ValidationError
 from requests import Response
+
+logger = getLogger(__name__)
 
 
 def raise_for_status(response: Response) -> None:
@@ -10,11 +14,13 @@ def raise_for_status(response: Response) -> None:
     :param response: requests.Response object
     :raise HTTPException: If status code indicates client or server error
     """
+    _log_request(response)
+
     if not response.ok:
         raise HTTPException(status_code=response.status_code, detail=_extract_error_detail(response))
 
 
-def extract_response_data(response: Response, key: str = "data") -> Any:
+def extract_response_data(response: Response, key: str = "data", model: Any | None = None) -> Any:
     """
     Validates an HTTP response and raises HTTPException on errors.
 
@@ -37,7 +43,15 @@ def extract_response_data(response: Response, key: str = "data") -> Any:
     if key not in payload:
         raise HTTPException(status_code=500, detail=f"Invalid response format: missing '{key}'")
 
-    return payload[key]
+    data = payload[key]
+
+    if model is None:
+        return data
+
+    try:
+        return TypeAdapter(model).validate_python(data)
+    except ValidationError:
+        raise HTTPException(status_code=500, detail=f"Invalid response format: unexpected '{key}' payload")
 
 
 def _extract_error_detail(response) -> str | dict:
@@ -45,3 +59,14 @@ def _extract_error_detail(response) -> str | dict:
         return response.json()
     except ValueError:
         return response.text.replace('"', "'")
+
+
+def _log_request(response: Response) -> None:
+    method = response.request.method
+    url = response.request.url
+    status_code = response.status_code
+
+    if 200 <= status_code < 300:
+        logger.info("External API request %s %s returned %s", method, url, status_code)
+    elif 400 <= status_code < 600:
+        logger.error("External API request %s %s returned %s", method, url, status_code)

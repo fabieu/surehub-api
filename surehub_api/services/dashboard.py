@@ -10,4 +10,4 @@ def get_dashboard() -> official.MeStart:
     uri = f"{settings.endpoint}/api/me/start"
 
     response = requests.get(uri, headers=auth.auth_headers())
-    return http_utils.extract_response_data(response)
+    return http_utils.extract_response_data(response, model=official.MeStart)
