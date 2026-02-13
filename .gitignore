@@ -173,3 +173,6 @@ fabric.properties
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
+# Python cache artifacts
+__pycache__/
+*.py[cod]
