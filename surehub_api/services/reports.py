@@ -18,4 +18,4 @@ def get_pet_report(household_id: int, pet_id: int, from_datetime: datetime,
     }
 
     response = requests.get(uri, headers=auth.auth_headers(), params=params)
-    return http_utils.extract_response_data(response)
+    return http_utils.extract_response_data(response, model=official.PetReport)

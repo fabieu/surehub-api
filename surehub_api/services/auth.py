@@ -1,8 +1,8 @@
 import requests
 from cachetools import TTLCache
-from fastapi import HTTPException
 
 from surehub_api.config import settings
+from surehub_api.utils import http_utils
 
 DEFAULT_HEADERS = {
     "Host": "app-api.production.surehub.io",
@@ -33,11 +33,8 @@ def _get_token() -> str:
             "device_id": "web",
         }
         response = requests.post(f"{settings.endpoint}/api/auth/login", json=payload, headers=DEFAULT_HEADERS)
-
-        if response.ok:
-            token = response.json()["data"]["token"]
-            cache["token"] = token
-        else:
-            raise HTTPException(status_code=response.status_code, detail=response.text.replace("\"", "'"))
+        http_utils.raise_for_status(response)
+        token = response.json()["data"]["token"]
+        cache["token"] = token
 
     return token
