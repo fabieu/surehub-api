@@ -58,21 +58,21 @@ def set_lock_mode(device_id: int, lock_mode: custom.LockMode) -> official.Device
 
 
 def get_tags_of_device(device_id: int) -> List[official.Tag]:
-    uri = f"{settings.ENDPOINT}/api/device/{device_id}/tag"
+    uri = f"{settings.endpoint}/api/device/{device_id}/tag"
 
     response = requests.get(uri, headers=auth.auth_headers())
     return http_utils.extract_response_data(response, model=List[official.Tag])
 
 
 def get_tag_of_device(device_id: int, tag_id: int) -> official.Tag:
-    uri = f"{settings.ENDPOINT}/api/device/{device_id}/tag/{tag_id}"
+    uri = f"{settings.endpoint}/api/device/{device_id}/tag/{tag_id}"
 
     response = requests.get(uri, headers=auth.auth_headers())
     return http_utils.extract_response_data(response, model=official.Tag)
 
 
 def assign_tag_to_device(device_id: int, tag_id: int) -> official.Tag:
-    uri = f"{settings.ENDPOINT}/api/device/{device_id}/tag/{tag_id}"
+    uri = f"{settings.endpoint}/api/device/{device_id}/tag/{tag_id}"
 
     data = {
         "profile": official.SpecialProfile.SPECIAL_PROFILE_0  # It is currently not known what this is for
@@ -83,7 +83,7 @@ def assign_tag_to_device(device_id: int, tag_id: int) -> official.Tag:
 
 
 def remove_tag_from_device(device_id: int, tag_id: int) -> official.Tag:
-    uri = f"{settings.ENDPOINT}/api/device/{device_id}/tag/{tag_id}"
+    uri = f"{settings.endpoint}/api/device/{device_id}/tag/{tag_id}"
 
     response = requests.delete(uri, headers=auth.auth_headers())
     return http_utils.extract_response_data(response, model=official.Tag)
