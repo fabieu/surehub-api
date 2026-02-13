@@ -1,6 +1,7 @@
 import math
 
 import requests
+from fastapi import HTTPException
 
 from surehub_api.config import settings
 from surehub_api.services import auth
@@ -15,8 +16,11 @@ def get_timeline_of_household(household_id: int) -> list:
 
     response = requests.get(uri, headers=auth.auth_headers())
     meta = http_utils.extract_response_data(response, key='meta')
-    count = meta['count']
-    page_size = meta['page_size']
+    count = meta.get('count')
+    page_size = meta.get('page_size')
+
+    if count is None or page_size in (None, 0):
+        raise HTTPException(status_code=500, detail="Invalid response format: missing timeline meta fields")
 
     request_count = math.ceil(count / page_size)
 

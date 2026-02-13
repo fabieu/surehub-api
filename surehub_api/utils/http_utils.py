@@ -50,8 +50,8 @@ def extract_response_data(response: Response, key: str = "data", model: Any | No
 
     try:
         return TypeAdapter(model).validate_python(data)
-    except ValidationError:
-        raise HTTPException(status_code=500, detail=f"Invalid response format: unexpected '{key}' payload")
+    except ValidationError as ex:
+        raise HTTPException(status_code=500, detail=f"Invalid response format: {ex.errors()}")
 
 
 def _extract_error_detail(response) -> str | dict:
