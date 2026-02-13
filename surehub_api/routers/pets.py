@@ -47,8 +47,7 @@ async def get_pet_status(pet_id: int) -> dto.PetStatusResponse:
 async def update_pet_status(
         pet_id: int,
         payload: dto.UpdatePetStatusRequest,
-        household_ids: Annotated[List[int] | None, Query(
-            alias="householdIds",
+        household_ids: Annotated[List[int], Query(
             description="Limit status update to specific household ids")
         ] = None
 ) -> None:

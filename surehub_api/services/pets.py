@@ -40,7 +40,7 @@ def update_pet_status(
         payload: dto.UpdatePetStatusRequest,
         household_ids: List[int] | None = None
 ) -> None:
-    if payload.position:
+    if payload.position is not None:
         _update_pet_position(pet_id, payload.position)
 
     if payload.indoor_only is not None:
