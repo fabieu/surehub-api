@@ -25,19 +25,19 @@ def get_pet(pet_id: int) -> official.Pet:
     return http_utils.extract_response_data(response)
 
 
-def get_pet_status(pet_id: int) -> dto.PetStatusResponse:
+def get_pet_state(pet_id: int) -> dto.PetStateResponse:
     pet = official.Pet.model_validate(get_pet(pet_id))
 
-    return dto.PetStatusResponse(
+    return dto.PetStateResponse(
         position=pet.position,
         feeding=pet.status.feeding if pet.status else None,
         drinking=pet.status.drinking if pet.status else None,
     )
 
 
-def update_pet_status(
+def update_pet_state(
         pet_id: int,
-        payload: dto.UpdatePetStatusRequest,
+        payload: dto.UpdatePetStateRequest,
         household_ids: List[int] | None = None
 ) -> None:
     if payload.position is not None:

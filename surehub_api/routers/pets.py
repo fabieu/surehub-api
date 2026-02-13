@@ -31,27 +31,27 @@ async def get_pet(pet_id: int) -> official.Pet:
     return pets.get_pet(pet_id)
 
 
-@router.get("/{pet_id}/status",
+@router.get("/{pet_id}/state",
             response_model_exclude_none=True)
-async def get_pet_status(pet_id: int) -> dto.PetStatusResponse:
-    return pets.get_pet_status(pet_id)
+async def get_pet_state(pet_id: int) -> dto.PetStateResponse:
+    return pets.get_pet_state(pet_id)
 
 
-@router.patch("/{pet_id}/status",
+@router.patch("/{pet_id}/state",
               status_code=204,
               response_model_exclude_none=True,
               description="""
               `position`: INSIDE = 1, OUTSIDE = 2
               """
               )
-async def update_pet_status(
+async def update_pet_state(
         pet_id: int,
-        payload: dto.UpdatePetStatusRequest,
+        payload: dto.UpdatePetStateRequest,
         household_ids: Annotated[List[int], Query(
-            description="Limit status update to specific household ids")
+            description="Limit state updates to specific household ids")
         ] = None
 ) -> None:
-    return pets.update_pet_status(pet_id, payload, household_ids)
+    return pets.update_pet_state(pet_id, payload, household_ids)
 
 
 @router.get("/{pet_id}/position",
