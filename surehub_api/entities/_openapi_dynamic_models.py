@@ -34,9 +34,10 @@ def _enum_member_name(value: Any) -> str:
     return member
 
 
-def _schema_to_type(schema: dict[str, Any]) -> type[Any] | Any:
+def _schema_to_type(schema: dict[str, Any], module_globals: dict[str, Any]) -> type[Any] | Any:
     if "$ref" in schema:
-        return Any
+        reference_name = schema["$ref"].rsplit("/", maxsplit=1)[-1]
+        return module_globals.get(reference_name, Any)
 
     schema_type = schema.get("type")
     if schema_type == "integer":
@@ -55,7 +56,7 @@ def _schema_to_type(schema: dict[str, Any]) -> type[Any] | Any:
             return time
         return str
     if schema_type == "array":
-        item_type = _schema_to_type(schema.get("items", {}))
+        item_type = _schema_to_type(schema.get("items", {}), module_globals)
         return list[item_type]
     if schema_type == "object":
         return dict[str, Any]
@@ -86,15 +87,18 @@ def populate_missing_openapi_models(module_globals: dict[str, Any], spec_path: P
             continue
 
         properties = schema.get("properties", {})
+        required_fields = set(schema.get("required", []))
         field_definitions: dict[str, tuple[Any, Any]] = {}
 
         for property_name, property_schema in properties.items():
             field_name = _sanitize_identifier(property_name)
-            annotation = Optional[_schema_to_type(property_schema)]
-            default = None
+            is_required = property_name in required_fields and not property_schema.get("nullable")
+            resolved_type = _schema_to_type(property_schema, module_globals)
+            annotation = resolved_type if is_required else Optional[resolved_type]
+            default: Any = ... if is_required else None
 
             if field_name != property_name:
-                default = Field(default=None, alias=property_name)
+                default = Field(default=default, alias=property_name)
 
             if field_name in field_definitions:
                 field_name = f"{field_name}_field"
