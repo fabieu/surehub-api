@@ -32,12 +32,6 @@ class AuthChangePassword(BaseModel):
 
 class AuthLogin(BaseModel):
     client_uid: str
-    email_address: str
-    password: str
-
-
-class AuthLoginSchema(BaseModel):
-    client_uid: str
     device_id: Optional[str] = None
     email_address: str
     password: str
@@ -222,13 +216,8 @@ class CreatePet(BaseModel):
 
 
 class CreatePetPosition(BaseModel):
-    where: PetPositionWhere
+    where: Optional[PetPositionWhere] = None
     since: Optional[datetime] = None
-
-
-class CreatePetPositionSchema(BaseModel):
-    where: Optional[int] = None
-    since: datetime
 
 
 class CreateUserSettings(BaseModel):
@@ -264,6 +253,8 @@ class Device(BaseModel):
     last_activity_at: Optional[datetime] = None
     last_new_event_at: Optional[datetime] = None
     control: Optional[DeviceControl] = None
+    status: Optional[DeviceStatus] = None
+    tags: Optional[List[DeviceTag]] = None
 
 
 class DeviceControl(BaseModel):
@@ -272,6 +263,12 @@ class DeviceControl(BaseModel):
     locking: Optional[int] = None
     led_mode: Optional[int] = None
     pairing_mode: Optional[int] = None
+
+
+class DeviceControlSchema(BaseModel):
+    data: Optional[Any] = None
+    pending: Optional[List[Any]] = None
+    results: Optional[List[Any]] = None
 
 
 class DeviceControlPending(BaseModel):
@@ -288,12 +285,6 @@ class DeviceControlResult(BaseModel):
     status_id: Optional[Any] = None
     requested_at: Optional[datetime] = None
     committed_at: Optional[datetime] = None
-
-
-class DeviceControlSchema(BaseModel):
-    data: Optional[Any] = None
-    pending: Optional[List[Any]] = None
-    results: Optional[List[Any]] = None
 
 
 class DeviceControlStateChange(BaseModel):
@@ -351,27 +342,6 @@ class DeviceReadiness(BaseModel):
 
 class DeviceReadinessDataResponse(BaseModel):
     data: Optional[Any] = None
-
-
-class DeviceSchema(BaseModel):
-    id: Optional[int] = None
-    parent_device_id: Optional[int] = None
-    product_id: Optional[int] = None
-    household_id: Optional[int] = None
-    index: Optional[int] = None
-    name: Optional[str] = None
-    serial_number: Optional[str] = None
-    mac_address: Optional[str] = None
-    version: Optional[int] = None
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
-    deleted_at: Optional[datetime] = None
-    pairing_at: Optional[datetime] = None
-    last_activity_at: Optional[datetime] = None
-    last_new_event_at: Optional[datetime] = None
-    control: Optional[Any] = None
-    status: Optional[Any] = None
-    tags: Optional[List[Any]] = None
 
 
 class DeviceStatus(BaseModel):
@@ -571,21 +541,6 @@ class HouseholdInvitePaginatedDataResult(BaseModel):
     meta: Optional[Any] = None
 
 
-class HouseholdInviteSchema(BaseModel):
-    id: Optional[int] = None
-    code: Optional[str] = None
-    email_address: Optional[str] = None
-    owner: Optional[bool] = None
-    write: Optional[bool] = None
-    status: Optional[Any] = None
-    user: Optional[Any] = None
-    version: Optional[int] = None
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
-    deleted_at: Optional[datetime] = None
-    used_at: Optional[datetime] = None
-
-
 class HouseholdInviteStatus(IntEnum):
     PENDING = 0
     ACCEPTED = 1
@@ -597,29 +552,9 @@ class HouseholdInviteUser(BaseModel):
     acceptor: Optional[PublicUser] = None
 
 
-class HouseholdInviteUserSchema(BaseModel):
-    creator: Optional[Any] = None
-    acceptor: Optional[Any] = None
-
-
 class HouseholdPaginatedDataResult(BaseModel):
     data: Optional[List[Any]] = None
     meta: Optional[Any] = None
-
-
-class HouseholdSchema(BaseModel):
-    id: Optional[int] = None
-    name: Optional[str] = None
-    share_code: Optional[str] = None
-    created_user_id: Optional[int] = None
-    timezone_id: Optional[int] = None
-    version: Optional[int] = None
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
-    deleted_at: Optional[datetime] = None
-    invites: Optional[List[Any]] = None
-    users: Optional[List[Any]] = None
-    timezone: Optional[Any] = None
 
 
 class HouseholdUser(BaseModel):
@@ -639,16 +574,6 @@ class HouseholdUserDataResponse(BaseModel):
 class HouseholdUserPaginatedDataResult(BaseModel):
     data: Optional[List[Any]] = None
     meta: Optional[Any] = None
-
-
-class HouseholdUserSchema(BaseModel):
-    id: Optional[int] = None
-    owner: Optional[bool] = None
-    write: Optional[bool] = None
-    user: Optional[Any] = None
-    version: Optional[int] = None
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
 
 
 class Info(BaseModel):
@@ -710,20 +635,11 @@ class MeStart(BaseModel):
     photos: Optional[List[Photo]] = None
     tags: Optional[List[Tag]] = None
     user: Optional[HouseholdUser] = None
+    segments: Optional[List[str]] = None
 
 
 class MeStartDataResponse(BaseModel):
     data: Optional[Any] = None
-
-
-class MeStartSchema(BaseModel):
-    devices: Optional[List[Any]] = None
-    households: Optional[List[Any]] = None
-    pets: Optional[List[Any]] = None
-    photos: Optional[List[Any]] = None
-    tags: Optional[List[Any]] = None
-    user: Optional[Any] = None
-    segments: Optional[List[str]] = None
 
 
 class Movement(BaseModel):
@@ -827,13 +743,6 @@ class PetConditionPaginatedDataResult(BaseModel):
     meta: Optional[Any] = None
 
 
-class PetConditionSchema(BaseModel):
-    id: Optional[int] = None
-    version: Optional[int] = None
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
-
-
 class PetConsumption(BaseModel):
     total_consumption: Optional[float] = None
     date: Optional[datetime] = None
@@ -841,14 +750,6 @@ class PetConsumption(BaseModel):
 
 class PetConsumptionStatus(BaseModel):
     id: int
-    tag_id: Optional[int] = None
-    device_id: Optional[int] = None
-    change: Optional[List[float]] = None
-    at: Optional[datetime] = None
-
-
-class PetConsumptionStatusSchema(BaseModel):
-    id: Optional[int] = None
     tag_id: Optional[int] = None
     device_id: Optional[int] = None
     change: Optional[List[float]] = None
@@ -940,16 +841,6 @@ class PetPositionPaginatedDataResult(BaseModel):
     meta: Optional[Any] = None
 
 
-class PetPositionSchema(BaseModel):
-    id: Optional[int] = None
-    pet_id: Optional[int] = None
-    tag_id: Optional[int] = None
-    device_id: Optional[int] = None
-    user_id: Optional[int] = None
-    where: Optional[int] = None
-    since: Optional[datetime] = None
-
-
 class PetPositionWhere(IntEnum):
     INSIDE = 1
     OUTSIDE = 2
@@ -962,32 +853,6 @@ class PetReport(BaseModel):
 
     consumption_habit: Optional[List[ConsumptionHabit]] = None
     consumption_alert: Optional[List[ConsumptionAlert]] = None
-
-
-class PetSchema(BaseModel):
-    id: Optional[int] = None
-    name: Optional[str] = None
-    gender: Optional[Any] = None
-    date_of_birth: Optional[datetime] = None
-    weight: Optional[str] = None
-    comments: Optional[str] = None
-    breed_id: Optional[int] = None
-    breed_id2: Optional[int] = None
-    food_type_id: Optional[int] = None
-    household_id: Optional[int] = None
-    photo_id: Optional[int] = None
-    species_id: Optional[int] = None
-    spayed: Optional[Any] = None
-    tag_id: Optional[int] = None
-    version: Optional[int] = None
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
-    deleted_at: Optional[datetime] = None
-    photo: Optional[Any] = None
-    conditions: Optional[List[Any]] = None
-    tag: Optional[Any] = None
-    status: Optional[Any] = None
-    position: Optional[Any] = None
 
 
 class PetStatus(BaseModel):
@@ -1004,13 +869,6 @@ class PetStatusDataResponse(BaseModel):
 class PetStatusPaginatedDataResult(BaseModel):
     data: Optional[List[Any]] = None
     meta: Optional[Any] = None
-
-
-class PetStatusSchema(BaseModel):
-    pet_id: Optional[int] = None
-    activity: Optional[Any] = None
-    feeding: Optional[Any] = None
-    drinking: Optional[Any] = None
 
 
 class Photo(BaseModel):
@@ -1031,17 +889,6 @@ class PhotoDataResponse(BaseModel):
 class PhotoPaginatedDataResult(BaseModel):
     data: Optional[List[Any]] = None
     meta: Optional[Any] = None
-
-
-class PhotoSchema(BaseModel):
-    id: Optional[int] = None
-    title: Optional[str] = None
-    location: Optional[str] = None
-    hash: Optional[str] = None
-    uploading_user_id: Optional[int] = None
-    version: Optional[int] = None
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
 
 
 class ProblemDetails(BaseModel):
@@ -1085,13 +932,6 @@ class PublicUser(BaseModel):
 
 class PublicUserDataResponse(BaseModel):
     data: Optional[Any] = None
-
-
-class PublicUserSchema(BaseModel):
-    id: Optional[int] = None
-    name: Optional[str] = None
-    photo_id: Optional[int] = None
-    photo: Optional[Any] = None
 
 
 class ReportHousehold(BaseModel):
@@ -1319,17 +1159,6 @@ class TagPaginatedDataResult(BaseModel):
     meta: Optional[Any] = None
 
 
-class TagSchema(BaseModel):
-    id: Optional[int] = None
-    tag: Optional[str] = None
-    supported_product_ids: Optional[List[Any]] = None
-    incompatible_product_ids: Optional[List[Any]] = None
-    version: Optional[int] = None
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
-    deleted_at: Optional[datetime] = None
-
-
 class Timeline(BaseModel):
     id: Optional[int] = None
     type: Optional[int] = None
@@ -1471,15 +1300,6 @@ class TimezoneDataResponse(BaseModel):
 class TimezonePaginatedDataResult(BaseModel):
     data: Optional[List[Any]] = None
     meta: Optional[Any] = None
-
-
-class TimezoneSchema(BaseModel):
-    id: Optional[int] = None
-    name: Optional[str] = None
-    timezone: Optional[str] = None
-    utc_offset: Optional[int] = None
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
 
 
 class UpdateDevice(BaseModel):

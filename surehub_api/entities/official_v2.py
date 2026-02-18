@@ -7,9 +7,6 @@ from typing import Any, Optional, List
 from pydantic import BaseModel, Field
 
 
-# TODO: Add descriptive names to device tag actions
-
-
 class ChangeProfileActionEnum(IntEnum):
     VALUE_0 = 0
     VALUE_1 = 1
@@ -277,6 +274,7 @@ class DeviceTag(BaseModel):
     updated_at: Optional[datetime] = None
 
 
+# TODO: Add descriptive names to device tag actions
 class DeviceTagAction(IntEnum):
     ACTION_0 = 0
     ACTION_1 = 1
