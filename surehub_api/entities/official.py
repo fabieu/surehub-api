@@ -375,7 +375,7 @@ class PetReport(BaseModel):
     consumption_alert: Optional[List[ConsumptionAlert]] = None
 
 
-class AnimoPetResource(BaseModel):
+class AnimoPet(BaseModel):
     id: Optional[int] = None
     name: Optional[str] = None
     gender: Optional[Any] = None
@@ -392,25 +392,18 @@ class AnimoPetResourcePaginatedDataResult(BaseModel):
     meta: Optional[Any] = None
 
 
-class AuthChangePasswordResource(BaseModel):
+class AuthChangePassword(BaseModel):
     user_id: Optional[int] = None
     password: str
     new_password: Optional[str] = None
 
 
-class AuthLoginResource(BaseModel):
-    client_uid: str
-    device_id: Optional[str] = None
-    email_address: str
-    password: str
-
-
-class AuthLogoutResource(BaseModel):
+class AuthLogout(BaseModel):
     client_uid: Optional[str] = None
     device_id: Optional[str] = None
 
 
-class AuthRegisterResource(BaseModel):
+class AuthRegister(BaseModel):
     email_address: str
     first_name: str
     last_name: str
@@ -424,11 +417,11 @@ class AuthRegisterResource(BaseModel):
     device_id: str
 
 
-class AuthResetPasswordRequestResource(BaseModel):
+class AuthResetPasswordRequest(BaseModel):
     email_address: str
 
 
-class AuthResetPasswordResource(BaseModel):
+class AuthResetPassword(BaseModel):
     email_address: str
     password: str
     token: str
@@ -436,7 +429,7 @@ class AuthResetPasswordResource(BaseModel):
     device_id: Optional[str] = None
 
 
-class BreedQueryResource(BaseModel):
+class BreedQuery(BaseModel):
     page: Optional[int] = None
     items_per_page: Optional[int] = None
     page_size: Optional[int] = None
@@ -444,7 +437,7 @@ class BreedQueryResource(BaseModel):
     lang: Optional[str] = None
 
 
-class BreedResource(BaseModel):
+class Breed(BaseModel):
     id: Optional[int] = None
     species_id: Optional[int] = None
     name: Optional[str] = None
@@ -462,14 +455,14 @@ class BreedResourcePaginatedDataResult(BaseModel):
     meta: Optional[Any] = None
 
 
-class ConditionQueryResource(BaseModel):
+class ConditionQuery(BaseModel):
     page: Optional[int] = None
     items_per_page: Optional[int] = None
     page_size: Optional[int] = None
     lang: Optional[str] = None
 
 
-class ConditionResource(BaseModel):
+class Condition(BaseModel):
     id: Optional[int] = None
     name: Optional[str] = None
     version: Optional[int] = None
@@ -486,15 +479,6 @@ class ConditionResourcePaginatedDataResult(BaseModel):
     meta: Optional[Any] = None
 
 
-class ConsumptionAlertResource(BaseModel):
-    pet_id: Optional[int] = None
-    tag_id: Optional[int] = None
-    pet_weight: Optional[int] = None
-    amount: Optional[int] = None
-    time_noticed_utc: Optional[datetime] = None
-    created_at: Optional[datetime] = None
-
-
 class ConsumptionHabitModelStateEnum(IntEnum):
     VALUE_0 = 0
     VALUE_1 = 1
@@ -502,22 +486,13 @@ class ConsumptionHabitModelStateEnum(IntEnum):
     VALUE_3 = 3
 
 
-class ConsumptionHabitModelStateResource(BaseModel):
+class ConsumptionHabitModelState(BaseModel):
     pet_id: Optional[int] = None
     tag_id: Optional[int] = None
     state: Optional[Any] = None
 
 
-class ConsumptionHabitResource(BaseModel):
-    outcome: Optional[Any] = None
-    calendar_day: Optional[date] = None
-    amount: Optional[int] = None
-    lower_limit: Optional[int] = None
-    upper_limit: Optional[int] = None
-    created_at: Optional[datetime] = None
-
-
-class CountryQueryResource(BaseModel):
+class CountryQuery(BaseModel):
     page: Optional[int] = None
     items_per_page: Optional[int] = None
     page_size: Optional[int] = None
@@ -525,7 +500,7 @@ class CountryQueryResource(BaseModel):
     lang: Optional[str] = None
 
 
-class CountryResource(BaseModel):
+class Country(BaseModel):
     id: Optional[int] = None
     name: Optional[str] = None
     native_name: Optional[str] = None
@@ -545,24 +520,19 @@ class CountryResourcePaginatedDataResult(BaseModel):
     meta: Optional[Any] = None
 
 
-class CreateHouseholdInviteResource(BaseModel):
+class CreateHouseholdInvite(BaseModel):
     code: Optional[str] = None
     email_address: str
     owner: bool
     write: bool
 
 
-class CreateHouseholdResource(BaseModel):
+class CreateHousehold(BaseModel):
     name: str
     timezone_id: int
 
 
-class CreatePetPositionResource(BaseModel):
-    where: Optional[int] = None
-    since: datetime
-
-
-class CreatePetResource(BaseModel):
+class CreatePet(BaseModel):
     name: str
     gender: Optional[Any] = None
     date_of_birth: Optional[datetime] = None
@@ -578,30 +548,24 @@ class CreatePetResource(BaseModel):
     household_id: int
 
 
-class CreateUserSettingsResource(BaseModel):
+class CreateUserSettings(BaseModel):
     key: str
     value: str
 
 
-class DeleteAccountResource(BaseModel):
+class DeleteAccount(BaseModel):
     password: str
     households: Optional[List[int]] = None
 
 
-class DeviceControlPendingResource(BaseModel):
+class DeviceControlPending(BaseModel):
     state: Optional[Any] = None
     request_id: Optional[str] = None
     requested_at: Optional[datetime] = None
     requested_by: Optional[str] = None
 
 
-class DeviceControlResource(BaseModel):
-    data: Optional[Any] = None
-    pending: Optional[List[Any]] = None
-    results: Optional[List[Any]] = None
-
-
-class DeviceControlResultResource(BaseModel):
+class DeviceControlResult(BaseModel):
     request_id: Optional[str] = None
     response_id: Optional[str] = None
     status: Optional[Any] = None
@@ -610,7 +574,7 @@ class DeviceControlResultResource(BaseModel):
     committed_at: Optional[datetime] = None
 
 
-class DeviceControlStateChangeResource(BaseModel):
+class DeviceControlStateChange(BaseModel):
     request_id: Optional[str] = None
     response_id: Optional[str] = None
     status: Optional[Any] = None
@@ -632,7 +596,7 @@ class DeviceControlStateChangeResourceListDataResponse(BaseModel):
     data: Optional[List[Any]] = None
 
 
-class DeviceNeedsUpdateResource(BaseModel):
+class DeviceNeedsUpdate(BaseModel):
     needs_manual_update: Optional[bool] = None
 
 
@@ -640,11 +604,11 @@ class DeviceNeedsUpdateResourceDataResponse(BaseModel):
     data: Optional[Any] = None
 
 
-class DevicePairByCodeResource(BaseModel):
+class DevicePairByCode(BaseModel):
     pairing_code: str
 
 
-class DeviceReadinessResource(BaseModel):
+class DeviceReadiness(BaseModel):
     device_ready: Optional[bool] = None
     profiles_available: Optional[int] = None
     profiles_updated_at: Optional[datetime] = None
@@ -652,27 +616,6 @@ class DeviceReadinessResource(BaseModel):
 
 class DeviceReadinessResourceDataResponse(BaseModel):
     data: Optional[Any] = None
-
-
-class DeviceResource(BaseModel):
-    id: Optional[int] = None
-    parent_device_id: Optional[int] = None
-    product_id: Optional[int] = None
-    household_id: Optional[int] = None
-    index: Optional[int] = None
-    name: Optional[str] = None
-    serial_number: Optional[str] = None
-    mac_address: Optional[str] = None
-    version: Optional[int] = None
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
-    deleted_at: Optional[datetime] = None
-    pairing_at: Optional[datetime] = None
-    last_activity_at: Optional[datetime] = None
-    last_new_event_at: Optional[datetime] = None
-    control: Optional[Any] = None
-    status: Optional[Any] = None
-    tags: Optional[List[Any]] = None
 
 
 class DeviceResourceDataResponse(BaseModel):
@@ -688,13 +631,13 @@ class DeviceResourcePaginatedDataResult(BaseModel):
     meta: Optional[Any] = None
 
 
-class DeviceTagDataResource(BaseModel):
+class DeviceTagData(BaseModel):
     data: Optional[Any] = None
     pending: Optional[List[Any]] = None
     results: Optional[List[Any]] = None
 
 
-class DeviceTagResource(BaseModel):
+class DeviceTag(BaseModel):
     id: Optional[int] = None
     device_id: Optional[int] = None
     index: Optional[int] = None
@@ -736,19 +679,19 @@ class DoorStatusEnum(IntEnum):
     VALUE_13 = 13
 
 
-class ErrorResource(BaseModel):
+class Error(BaseModel):
     success: Optional[bool] = None
     error: Optional[dict] = None
 
 
-class FoodTypeQueryResource(BaseModel):
+class FoodTypeQuery(BaseModel):
     page: Optional[int] = None
     items_per_page: Optional[int] = None
     page_size: Optional[int] = None
     lang: Optional[str] = None
 
 
-class FoodTypeResource(BaseModel):
+class FoodType(BaseModel):
     id: Optional[int] = None
     name: Optional[str] = None
     version: Optional[int] = None
@@ -765,21 +708,6 @@ class FoodTypeResourcePaginatedDataResult(BaseModel):
     meta: Optional[Any] = None
 
 
-class HouseholdInviteResource(BaseModel):
-    id: Optional[int] = None
-    code: Optional[str] = None
-    email_address: Optional[str] = None
-    owner: Optional[bool] = None
-    write: Optional[bool] = None
-    status: Optional[Any] = None
-    user: Optional[Any] = None
-    version: Optional[int] = None
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
-    deleted_at: Optional[datetime] = None
-    used_at: Optional[datetime] = None
-
-
 class HouseholdInviteResourceDataResponse(BaseModel):
     data: Optional[Any] = None
 
@@ -787,26 +715,6 @@ class HouseholdInviteResourceDataResponse(BaseModel):
 class HouseholdInviteResourcePaginatedDataResult(BaseModel):
     data: Optional[List[Any]] = None
     meta: Optional[Any] = None
-
-
-class HouseholdInviteUserResource(BaseModel):
-    creator: Optional[Any] = None
-    acceptor: Optional[Any] = None
-
-
-class HouseholdResource(BaseModel):
-    id: Optional[int] = None
-    name: Optional[str] = None
-    share_code: Optional[str] = None
-    created_user_id: Optional[int] = None
-    timezone_id: Optional[int] = None
-    version: Optional[int] = None
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
-    deleted_at: Optional[datetime] = None
-    invites: Optional[List[Any]] = None
-    users: Optional[List[Any]] = None
-    timezone: Optional[Any] = None
 
 
 class HouseholdResourceDataResponse(BaseModel):
@@ -818,16 +726,6 @@ class HouseholdResourcePaginatedDataResult(BaseModel):
     meta: Optional[Any] = None
 
 
-class HouseholdUserResource(BaseModel):
-    id: Optional[int] = None
-    owner: Optional[bool] = None
-    write: Optional[bool] = None
-    user: Optional[Any] = None
-    version: Optional[int] = None
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
-
-
 class HouseholdUserResourceDataResponse(BaseModel):
     data: Optional[Any] = None
 
@@ -837,7 +735,7 @@ class HouseholdUserResourcePaginatedDataResult(BaseModel):
     meta: Optional[Any] = None
 
 
-class InfoResource(BaseModel):
+class Info(BaseModel):
     language: Optional[str] = None
     country: Optional[str] = None
 
@@ -846,7 +744,7 @@ class InfoResourceDataResponse(BaseModel):
     data: Optional[Any] = None
 
 
-class InviteResource(BaseModel):
+class Invite(BaseModel):
     id: Optional[int] = None
     code: Optional[str] = None
     email_address: Optional[str] = None
@@ -870,7 +768,7 @@ class InviteResourcePaginatedDataResult(BaseModel):
     meta: Optional[Any] = None
 
 
-class LanguageResource(BaseModel):
+class Language(BaseModel):
     id: Optional[int] = None
     name: Optional[str] = None
     native_name: Optional[str] = None
@@ -889,21 +787,11 @@ class LanguageResourcePaginatedDataResult(BaseModel):
     meta: Optional[Any] = None
 
 
-class MeStartResource(BaseModel):
-    devices: Optional[List[Any]] = None
-    households: Optional[List[Any]] = None
-    pets: Optional[List[Any]] = None
-    photos: Optional[List[Any]] = None
-    tags: Optional[List[Any]] = None
-    user: Optional[Any] = None
-    segments: Optional[List[str]] = None
-
-
 class MeStartResourceDataResponse(BaseModel):
     data: Optional[Any] = None
 
 
-class MovementResource(BaseModel):
+class Movement(BaseModel):
     id: Optional[int] = None
     device_id: Optional[int] = None
     tag_id: Optional[int] = None
@@ -915,7 +803,7 @@ class MovementResource(BaseModel):
     updated_at: Optional[datetime] = None
 
 
-class NotificationResource(BaseModel):
+class Notification(BaseModel):
     id: Optional[int] = None
     type: Optional[Any] = None
     text: Optional[str] = None
@@ -938,13 +826,6 @@ class PaginatedMetaDataResult(BaseModel):
     total_pages: Optional[int] = None
 
 
-class PetConditionResource(BaseModel):
-    id: Optional[int] = None
-    version: Optional[int] = None
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
-
-
 class PetConditionResourceDataResponse(BaseModel):
     data: Optional[Any] = None
 
@@ -959,26 +840,7 @@ class PetConsumption(BaseModel):
     date: Optional[datetime] = None
 
 
-class PetConsumptionResource(BaseModel):
-    date: Optional[datetime] = None
-    last_consumption: Optional[datetime] = None
-    substance_type: Optional[Any] = None
-    total_consumption: Optional[float] = None
-    number_of_visits: Optional[int] = None
-    consumption_time: Optional[int] = None
-    activity: Optional[List[Any]] = None
-    device_ids: Optional[List[int]] = None
-
-
-class PetConsumptionStatusResource(BaseModel):
-    id: Optional[int] = None
-    tag_id: Optional[int] = None
-    device_id: Optional[int] = None
-    change: Optional[List[float]] = None
-    at: Optional[datetime] = None
-
-
-class PetDashboardQueryResource(BaseModel):
+class PetDashboardQuery(BaseModel):
     page: Optional[int] = None
     items_per_page: Optional[int] = None
     page_size: Optional[int] = None
@@ -987,7 +849,7 @@ class PetDashboardQueryResource(BaseModel):
     days_history: Optional[int] = None
 
 
-class PetDashboardResource(BaseModel):
+class PetDashboard(BaseModel):
     pet_id: Optional[int] = None
     movement: Optional[Any] = None
     drinking: Optional[Any] = None
@@ -1006,7 +868,7 @@ class PetGenderEnum(IntEnum):
     VALUE_1 = 1
 
 
-class PetInsightQueryResource(BaseModel):
+class PetInsightQuery(BaseModel):
     page: Optional[int] = None
     items_per_page: Optional[int] = None
     page_size: Optional[int] = None
@@ -1014,7 +876,7 @@ class PetInsightQueryResource(BaseModel):
     to: Optional[datetime] = None
 
 
-class PetInsightResource(BaseModel):
+class PetInsight(BaseModel):
     pet_id: Optional[int] = None
     drinking_habit: Optional[Any] = None
     drinking_alert: Optional[Any] = None
@@ -1030,29 +892,6 @@ class PetMovement(BaseModel):
     time_outside: Optional[str] = None
 
 
-class PetMovementResource(BaseModel):
-    date: Optional[datetime] = None
-    where: Optional[Any] = None
-    time_outside: Optional[str] = None
-    since: Optional[datetime] = None
-    last_entry: Optional[datetime] = None
-    trips_outside: Optional[int] = None
-    entries: Optional[int] = None
-    time_outside_in_seconds: Optional[int] = None
-    activity: Optional[List[Any]] = None
-    device_ids: Optional[List[int]] = None
-
-
-class PetPositionResource(BaseModel):
-    id: Optional[int] = None
-    pet_id: Optional[int] = None
-    tag_id: Optional[int] = None
-    device_id: Optional[int] = None
-    user_id: Optional[int] = None
-    where: Optional[int] = None
-    since: Optional[datetime] = None
-
-
 class PetPositionResourceDataResponse(BaseModel):
     data: Optional[Any] = None
 
@@ -1060,32 +899,6 @@ class PetPositionResourceDataResponse(BaseModel):
 class PetPositionResourcePaginatedDataResult(BaseModel):
     data: Optional[List[Any]] = None
     meta: Optional[Any] = None
-
-
-class PetResource(BaseModel):
-    id: Optional[int] = None
-    name: Optional[str] = None
-    gender: Optional[Any] = None
-    date_of_birth: Optional[datetime] = None
-    weight: Optional[str] = None
-    comments: Optional[str] = None
-    breed_id: Optional[int] = None
-    breed_id2: Optional[int] = None
-    food_type_id: Optional[int] = None
-    household_id: Optional[int] = None
-    photo_id: Optional[int] = None
-    species_id: Optional[int] = None
-    spayed: Optional[Any] = None
-    tag_id: Optional[int] = None
-    version: Optional[int] = None
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
-    deleted_at: Optional[datetime] = None
-    photo: Optional[Any] = None
-    conditions: Optional[List[Any]] = None
-    tag: Optional[Any] = None
-    status: Optional[Any] = None
-    position: Optional[Any] = None
 
 
 class PetResourceDataResponse(BaseModel):
@@ -1097,13 +910,6 @@ class PetResourcePaginatedDataResult(BaseModel):
     meta: Optional[Any] = None
 
 
-class PetStatusResource(BaseModel):
-    pet_id: Optional[int] = None
-    activity: Optional[Any] = None
-    feeding: Optional[Any] = None
-    drinking: Optional[Any] = None
-
-
 class PetStatusResourceDataResponse(BaseModel):
     data: Optional[Any] = None
 
@@ -1111,17 +917,6 @@ class PetStatusResourceDataResponse(BaseModel):
 class PetStatusResourcePaginatedDataResult(BaseModel):
     data: Optional[List[Any]] = None
     meta: Optional[Any] = None
-
-
-class PhotoResource(BaseModel):
-    id: Optional[int] = None
-    title: Optional[str] = None
-    location: Optional[str] = None
-    hash: Optional[str] = None
-    uploading_user_id: Optional[int] = None
-    version: Optional[int] = None
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
 
 
 class PhotoResourceDataResponse(BaseModel):
@@ -1141,14 +936,14 @@ class ProblemDetails(BaseModel):
     instance: Optional[str] = None
 
 
-class ProductQueryResource(BaseModel):
+class ProductQuery(BaseModel):
     page: Optional[int] = None
     items_per_page: Optional[int] = None
     page_size: Optional[int] = None
     lang: Optional[str] = None
 
 
-class ProductResource(BaseModel):
+class Product(BaseModel):
     id: Optional[int] = None
     name: Optional[str] = None
     version: Optional[int] = None
@@ -1165,13 +960,6 @@ class ProductResourcePaginatedDataResult(BaseModel):
     meta: Optional[Any] = None
 
 
-class PublicUserResource(BaseModel):
-    id: Optional[int] = None
-    name: Optional[str] = None
-    photo_id: Optional[int] = None
-    photo: Optional[Any] = None
-
-
 class PublicUserResourceDataResponse(BaseModel):
     data: Optional[Any] = None
 
@@ -1180,7 +968,7 @@ class ReportHouseholdDrinkingDataPoint(BaseModel):
     datapoints: Optional[List[Any]] = None
 
 
-class ReportHouseholdDrinkingResource(BaseModel):
+class ReportHouseholdDrinking(BaseModel):
     from_: Optional[datetime] = Field(default=None, alias='from')
     to: Optional[datetime] = None
     duration: Optional[int] = None
@@ -1202,7 +990,7 @@ class ReportHouseholdFeedingDataPoint(BaseModel):
     datapoints: Optional[List[Any]] = None
 
 
-class ReportHouseholdFeedingResource(BaseModel):
+class ReportHouseholdFeeding(BaseModel):
     from_: Optional[datetime] = Field(default=None, alias='from')
     to: Optional[datetime] = None
     duration: Optional[int] = None
@@ -1224,7 +1012,7 @@ class ReportHouseholdMovementDataPoint(BaseModel):
     datapoints: Optional[List[Any]] = None
 
 
-class ReportHouseholdMovementResource(BaseModel):
+class ReportHouseholdMovement(BaseModel):
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
     deleted_at: Optional[datetime] = None
@@ -1243,12 +1031,12 @@ class ReportHouseholdMovementResource(BaseModel):
     entry_movement_id: Optional[int] = None
 
 
-class ReportHouseholdQueryResource(BaseModel):
+class ReportHouseholdQuery(BaseModel):
     from_: Optional[datetime] = Field(default=None, alias='from')
     to: Optional[datetime] = None
 
 
-class ReportHouseholdResource(BaseModel):
+class ReportHousehold(BaseModel):
     pet_id: Optional[int] = None
     device_id: Optional[int] = None
     movement: Optional[Any] = None
@@ -1291,14 +1079,14 @@ class SpecialProfiles(IntEnum):
     VALUE_6 = 6
 
 
-class SpeciesQueryResource(BaseModel):
+class SpeciesQuery(BaseModel):
     page: Optional[int] = None
     items_per_page: Optional[int] = None
     page_size: Optional[int] = None
     lang: Optional[str] = None
 
 
-class SpeciesResource(BaseModel):
+class Species(BaseModel):
     id: Optional[int] = None
     name: Optional[str] = None
     version: Optional[int] = None
@@ -1315,11 +1103,11 @@ class SpeciesResourcePaginatedDataResult(BaseModel):
     meta: Optional[Any] = None
 
 
-class StartQueryResource(BaseModel):
+class StartQuery(BaseModel):
     lang: Optional[str] = None
 
 
-class StartResource(BaseModel):
+class Start(BaseModel):
     breed: Optional[List[Any]] = None
     condition: Optional[List[Any]] = None
     country: Optional[List[Any]] = None
@@ -1338,7 +1126,7 @@ class SubstanceTypesEnum(IntEnum):
     VALUE_2 = 2
 
 
-class TagDeviceResource(BaseModel):
+class TagDevice(BaseModel):
     id: Optional[int] = None
     index: Optional[int] = None
     profile: Optional[int] = None
@@ -1354,17 +1142,6 @@ class TagDeviceResourceDataResponse(BaseModel):
 class TagDeviceResourcePaginatedDataResult(BaseModel):
     data: Optional[List[Any]] = None
     meta: Optional[Any] = None
-
-
-class TagResource(BaseModel):
-    id: Optional[int] = None
-    tag: Optional[str] = None
-    supported_product_ids: Optional[List[Any]] = None
-    incompatible_product_ids: Optional[List[Any]] = None
-    version: Optional[int] = None
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
-    deleted_at: Optional[datetime] = None
 
 
 class TagResourceDataResponse(BaseModel):
@@ -1481,7 +1258,7 @@ class TimelineEventType(IntEnum):
     VALUE_30002 = 30002
 
 
-class TimelineResource(BaseModel):
+class Timeline(BaseModel):
     id: Optional[int] = None
     type: Optional[int] = None
     data: Optional[str] = None
@@ -1501,15 +1278,6 @@ class TimelineResourcePaginatedDataResult(BaseModel):
     meta: Optional[Any] = None
 
 
-class TimezoneResource(BaseModel):
-    id: Optional[int] = None
-    name: Optional[str] = None
-    timezone: Optional[str] = None
-    utc_offset: Optional[int] = None
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
-
-
 class TimezoneResourceDataResponse(BaseModel):
     data: Optional[Any] = None
 
@@ -1519,30 +1287,30 @@ class TimezoneResourcePaginatedDataResult(BaseModel):
     meta: Optional[Any] = None
 
 
-class UpdateDeviceResource(BaseModel):
+class UpdateDevice(BaseModel):
     name: str
 
 
-class UpdateDeviceTagResource(BaseModel):
+class UpdateDeviceTag(BaseModel):
     profile: Optional[Any] = None
 
 
-class UpdateHouseholdInviteResource(BaseModel):
+class UpdateHouseholdInvite(BaseModel):
     owner: Optional[bool] = None
     write: Optional[bool] = None
 
 
-class UpdateHouseholdResource(BaseModel):
+class UpdateHousehold(BaseModel):
     name: Optional[str] = None
     timezone_id: Optional[int] = None
 
 
-class UpdateHouseholdUserResource(BaseModel):
+class UpdateHouseholdUser(BaseModel):
     owner: Optional[bool] = None
     write: Optional[bool] = None
 
 
-class UpdateMeResource(BaseModel):
+class UpdateMe(BaseModel):
     email_address: Optional[str] = None
     first_name: Optional[str] = None
     last_name: Optional[str] = None
@@ -1556,7 +1324,7 @@ class UpdateMeResource(BaseModel):
     password: Optional[str] = None
 
 
-class UpdatePetResource(BaseModel):
+class UpdatePet(BaseModel):
     name: str
     gender: Optional[Any] = None
     date_of_birth: Optional[datetime] = None
@@ -1571,49 +1339,49 @@ class UpdatePetResource(BaseModel):
     conditions: Optional[List[Any]] = None
 
 
-class UpdatePhotoResource(BaseModel):
+class UpdatePhoto(BaseModel):
     title: Optional[str] = None
 
 
-class UpdateUserSettingsResource(BaseModel):
+class UpdateUserSettings(BaseModel):
     value: str
 
 
-class UserClientPlatformAppResource(BaseModel):
+class UserClientPlatformApp(BaseModel):
     bundle_identifier: Optional[str] = None
     version: Optional[str] = None
 
 
-class UserClientPlatformDeviceModelResource(BaseModel):
+class UserClientPlatformDeviceModel(BaseModel):
     name: Optional[str] = None
     manufacturer: Optional[str] = None
     version: Optional[str] = None
 
 
-class UserClientPlatformDeviceOsResource(BaseModel):
+class UserClientPlatformDeviceOs(BaseModel):
     platform: Optional[str] = None
     version: Optional[str] = None
 
 
-class UserClientPlatformDeviceResource(BaseModel):
+class UserClientPlatformDevice(BaseModel):
     name: Optional[str] = None
     model: Optional[Any] = None
     uuid: Optional[str] = None
     os: Optional[Any] = None
 
 
-class UserClientPlatformLocaleResource(BaseModel):
+class UserClientPlatformLocale(BaseModel):
     language: Optional[str] = None
     country: Optional[str] = None
 
 
-class UserClientPlatformResource(BaseModel):
+class UserClientPlatform(BaseModel):
     app: Optional[Any] = None
     device: Optional[Any] = None
     locale: Optional[Any] = None
 
 
-class UserClientResource(BaseModel):
+class UserClient(BaseModel):
     platform: Optional[Any] = None
     token: Optional[str] = None
 
@@ -1627,7 +1395,7 @@ class UserClientResourcePaginatedDataResult(BaseModel):
     meta: Optional[Any] = None
 
 
-class UserResource(BaseModel):
+class User(BaseModel):
     id: Optional[int] = None
     email_address: Optional[str] = None
     first_name: Optional[str] = None
@@ -1651,7 +1419,7 @@ class UserResourceDataResponse(BaseModel):
     data: Optional[Any] = None
 
 
-class UserSettingResource(BaseModel):
+class UserSetting(BaseModel):
     id: Optional[int] = None
     user_id: Optional[int] = None
     key: Optional[str] = None
@@ -1680,7 +1448,7 @@ class UserWeightUnitEnum(IntEnum):
     VALUE_1 = 1
 
 
-class WeightFrameResource(BaseModel):
+class WeightFrame(BaseModel):
     id: Optional[int] = None
     index: Optional[int] = None
     current_weight: Optional[float] = None
@@ -1689,7 +1457,7 @@ class WeightFrameResource(BaseModel):
     updated_at: Optional[datetime] = None
 
 
-class WeightResource(BaseModel):
+class Weight(BaseModel):
     id: Optional[int] = None
     device_id: Optional[int] = None
     tag_id: Optional[int] = None
