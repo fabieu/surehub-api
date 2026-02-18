@@ -1,5 +1,6 @@
+from datetime import datetime, date
 from enum import IntEnum
-from typing import Any, Optional
+from typing import Any, Optional, List
 
 from pydantic import BaseModel, Field
 
@@ -42,12 +43,12 @@ class ChangeProfileActionEnum(IntEnum):
 
 
 class ConsumptionAlertResource(BaseModel):
-    pet_id: Optional[Any] = None
-    tag_id: Optional[Any] = None
-    pet_weight: Optional[Any] = None
-    amount: Optional[Any] = None
-    time_noticed_utc: Optional[Any] = None
-    created_at: Optional[Any] = None
+    pet_id: Optional[int] = None
+    tag_id: Optional[int] = None
+    pet_weight: Optional[int] = None
+    amount: Optional[int] = None
+    time_noticed_utc: Optional[datetime] = None
+    created_at: Optional[datetime] = None
 
 
 class ConsumptionHabitOutcomeEnum(IntEnum):
@@ -58,234 +59,234 @@ class ConsumptionHabitOutcomeEnum(IntEnum):
 
 class ConsumptionHabitResource(BaseModel):
     outcome: Optional[Any] = None
-    calendar_day: Optional[Any] = None
-    amount: Optional[Any] = None
-    lower_limit: Optional[Any] = None
-    upper_limit: Optional[Any] = None
-    created_at: Optional[Any] = None
+    calendar_day: Optional[date] = None
+    amount: Optional[int] = None
+    lower_limit: Optional[int] = None
+    upper_limit: Optional[int] = None
+    created_at: Optional[datetime] = None
 
 
 class DeviceControlCurfewResource(BaseModel):
-    enabled: Optional[Any] = None
-    lock_time: Optional[Any] = None
-    unlock_time: Optional[Any] = None
+    enabled: Optional[bool] = None
+    lock_time: Optional[str] = None
+    unlock_time: Optional[str] = None
 
 
 class DeviceControlDualScanPetDoorResourceV2(BaseModel):
-    fast_polling: Optional[Any] = None
-    tag_profiles: Optional[Any] = None
-    timed_access: Optional[Any] = None
+    fast_polling: Optional[bool] = None
+    tag_profiles: Optional[List[Any]] = None
+    timed_access: Optional[List[Any]] = None
     locking: Optional[Any] = None
-    lockdown: Optional[Any] = None
-    timed_access_override: Optional[Any] = None
+    lockdown: Optional[bool] = None
+    timed_access_override: Optional[bool] = None
 
 
 class DeviceControlDualScanPetDoorResourceV2DeviceControlPendingResource(BaseModel):
     state: Optional[Any] = None
-    request_id: Optional[Any] = None
-    requested_at: Optional[Any] = None
-    requested_by: Optional[Any] = None
+    request_id: Optional[str] = None
+    requested_at: Optional[datetime] = None
+    requested_by: Optional[str] = None
 
 
 class DeviceControlDualScanPetDoorResourceV2DeviceControlResource(BaseModel):
     data: Optional[Any] = None
-    pending: Optional[Any] = None
-    results: Optional[Any] = None
+    pending: Optional[List[Any]] = None
+    results: Optional[List[Any]] = None
 
 
 class DeviceControlDualScanResourceV2(BaseModel):
-    fast_polling: Optional[Any] = None
-    tag_profiles: Optional[Any] = None
-    timed_access: Optional[Any] = None
+    fast_polling: Optional[bool] = None
+    tag_profiles: Optional[List[Any]] = None
+    timed_access: Optional[List[Any]] = None
     locking: Optional[Any] = None
-    lockdown: Optional[Any] = None
+    lockdown: Optional[bool] = None
 
 
 class DeviceControlDualScanResourceV2DeviceControlPendingResource(BaseModel):
     state: Optional[Any] = None
-    request_id: Optional[Any] = None
-    requested_at: Optional[Any] = None
-    requested_by: Optional[Any] = None
+    request_id: Optional[str] = None
+    requested_at: Optional[datetime] = None
+    requested_by: Optional[str] = None
 
 
 class DeviceControlDualScanResourceV2DeviceControlResource(BaseModel):
     data: Optional[Any] = None
-    pending: Optional[Any] = None
-    results: Optional[Any] = None
+    pending: Optional[List[Any]] = None
+    results: Optional[List[Any]] = None
 
 
 class DeviceControlFeederBowlResource(BaseModel):
-    settings: Optional[Any] = None
+    settings: Optional[List[Any]] = None
     type: Optional[Any] = None
 
 
 class DeviceControlFeederBowlSettingsResource(BaseModel):
     food_type: Optional[Any] = None
-    target: Optional[Any] = None
+    target: Optional[float] = None
 
 
 class DeviceControlFeederLidResource(BaseModel):
-    close_delay: Optional[Any] = None
+    close_delay: Optional[int] = None
 
 
 class DeviceControlFeederResourceV2(BaseModel):
-    fast_polling: Optional[Any] = None
-    tag_profiles: Optional[Any] = None
+    fast_polling: Optional[bool] = None
+    tag_profiles: Optional[List[Any]] = None
     bowls: Optional[Any] = None
     lid: Optional[Any] = None
     tare: Optional[Any] = None
     training_mode: Optional[Any] = None
-    timed_feeding: Optional[Any] = None
+    timed_feeding: Optional[List[Any]] = None
 
 
 class DeviceControlFeederResourceV2DeviceControlPendingResource(BaseModel):
     state: Optional[Any] = None
-    request_id: Optional[Any] = None
-    requested_at: Optional[Any] = None
-    requested_by: Optional[Any] = None
+    request_id: Optional[str] = None
+    requested_at: Optional[datetime] = None
+    requested_by: Optional[str] = None
 
 
 class DeviceControlFeederResourceV2DeviceControlResource(BaseModel):
     data: Optional[Any] = None
-    pending: Optional[Any] = None
-    results: Optional[Any] = None
+    pending: Optional[List[Any]] = None
+    results: Optional[List[Any]] = None
 
 
 class DeviceControlFeederTagTimedFeedingResource(BaseModel):
-    tag_id: Optional[Any] = None
-    fasting: Optional[Any] = None
+    tag_id: Optional[int] = None
+    fasting: Optional[List[Any]] = None
 
 
 class DeviceControlFeederTimedFeedingResource(BaseModel):
-    enabled: Optional[Any] = None
-    start_time: Optional[Any] = None
-    end_time: Optional[Any] = None
+    enabled: Optional[bool] = None
+    start_time: Optional[str] = None
+    end_time: Optional[str] = None
 
 
 class DeviceControlHubResource(BaseModel):
     led_mode: Optional[Any] = None
     pairing_mode: Optional[Any] = None
-    flash_leds: Optional[Any] = None
+    flash_leds: Optional[bool] = None
 
 
 class DeviceControlHubResourceDeviceControlPendingResource(BaseModel):
     state: Optional[Any] = None
-    request_id: Optional[Any] = None
-    requested_at: Optional[Any] = None
-    requested_by: Optional[Any] = None
+    request_id: Optional[str] = None
+    requested_at: Optional[datetime] = None
+    requested_by: Optional[str] = None
 
 
 class DeviceControlHubResourceDeviceControlResource(BaseModel):
     data: Optional[Any] = None
-    pending: Optional[Any] = None
-    results: Optional[Any] = None
+    pending: Optional[List[Any]] = None
+    results: Optional[List[Any]] = None
 
 
 class DeviceControlNoIdDogBowlResource(BaseModel):
-    fast_polling: Optional[Any] = None
-    tag_profiles: Optional[Any] = None
+    fast_polling: Optional[bool] = None
+    tag_profiles: Optional[List[Any]] = None
     food_type: Optional[Any] = None
     substance_type: Optional[Any] = None
 
 
 class DeviceControlNoIdDogBowlResourceDeviceControlPendingResource(BaseModel):
     state: Optional[Any] = None
-    request_id: Optional[Any] = None
-    requested_at: Optional[Any] = None
-    requested_by: Optional[Any] = None
+    request_id: Optional[str] = None
+    requested_at: Optional[datetime] = None
+    requested_by: Optional[str] = None
 
 
 class DeviceControlNoIdDogBowlResourceDeviceControlResource(BaseModel):
     data: Optional[Any] = None
-    pending: Optional[Any] = None
-    results: Optional[Any] = None
+    pending: Optional[List[Any]] = None
+    results: Optional[List[Any]] = None
 
 
 class DeviceControlPendingResource(BaseModel):
     state: Optional[Any] = None
-    request_id: Optional[Any] = None
-    requested_at: Optional[Any] = None
-    requested_by: Optional[Any] = None
+    request_id: Optional[str] = None
+    requested_at: Optional[datetime] = None
+    requested_by: Optional[str] = None
 
 
 class DeviceControlPetDoorMicrochipResource(BaseModel):
-    microchip_number: Optional[Any] = None
+    microchip_number: Optional[str] = None
     type: Optional[Any] = None
 
 
 class DeviceControlPetDoorResource(BaseModel):
-    fast_polling: Optional[Any] = None
+    fast_polling: Optional[bool] = None
     curfew: Optional[Any] = None
     locking: Optional[Any] = None
-    tag_profiles: Optional[Any] = None
+    tag_profiles: Optional[List[Any]] = None
 
 
 class DeviceControlPetDoorResourceDeviceControlPendingResource(BaseModel):
     state: Optional[Any] = None
-    request_id: Optional[Any] = None
-    requested_at: Optional[Any] = None
-    requested_by: Optional[Any] = None
+    request_id: Optional[str] = None
+    requested_at: Optional[datetime] = None
+    requested_by: Optional[str] = None
 
 
 class DeviceControlPetDoorResourceDeviceControlResource(BaseModel):
     data: Optional[Any] = None
-    pending: Optional[Any] = None
-    results: Optional[Any] = None
+    pending: Optional[List[Any]] = None
+    results: Optional[List[Any]] = None
 
 
 class DeviceControlPetDoorTagProfileResource(BaseModel):
-    tag_id: Optional[Any] = None
-    index: Optional[Any] = None
+    tag_id: Optional[int] = None
+    index: Optional[int] = None
     microchip: Optional[Any] = None
 
 
 class DeviceControlPoseidonResource(BaseModel):
-    fast_polling: Optional[Any] = None
-    tag_profiles: Optional[Any] = None
-    learn_mode: Optional[Any] = None
+    fast_polling: Optional[bool] = None
+    tag_profiles: Optional[List[Any]] = None
+    learn_mode: Optional[bool] = None
 
 
 class DeviceControlPoseidonResourceDeviceControlPendingResource(BaseModel):
     state: Optional[Any] = None
-    request_id: Optional[Any] = None
-    requested_at: Optional[Any] = None
-    requested_by: Optional[Any] = None
+    request_id: Optional[str] = None
+    requested_at: Optional[datetime] = None
+    requested_by: Optional[str] = None
 
 
 class DeviceControlPoseidonResourceDeviceControlResource(BaseModel):
     data: Optional[Any] = None
-    pending: Optional[Any] = None
-    results: Optional[Any] = None
+    pending: Optional[List[Any]] = None
+    results: Optional[List[Any]] = None
 
 
 class DeviceControlResultResource(BaseModel):
-    request_id: Optional[Any] = None
-    response_id: Optional[Any] = None
+    request_id: Optional[str] = None
+    response_id: Optional[str] = None
     status: Optional[Any] = None
     status_id: Optional[Any] = None
-    requested_at: Optional[Any] = None
-    committed_at: Optional[Any] = None
+    requested_at: Optional[datetime] = None
+    committed_at: Optional[datetime] = None
 
 
 class DeviceControlThalamusMicrochipResource(BaseModel):
-    microchip_number: Optional[Any] = None
+    microchip_number: Optional[str] = None
     type: Optional[Any] = None
 
 
 class DeviceControlThalamusMovementTagTimedAccessResource(BaseModel):
-    tag_id: Optional[Any] = None
-    timed_access: Optional[Any] = None
+    tag_id: Optional[int] = None
+    timed_access: Optional[List[Any]] = None
 
 
 class DeviceControlThalamusMovementTimedAccessResource(BaseModel):
     profile: Optional[Any] = None
-    lock_time: Optional[Any] = None
-    unlock_time: Optional[Any] = None
+    lock_time: Optional[str] = None
+    unlock_time: Optional[str] = None
 
 
 class DeviceControlThalamusTagProfileResource(BaseModel):
-    tag_id: Optional[Any] = None
-    index: Optional[Any] = None
+    tag_id: Optional[int] = None
+    index: Optional[int] = None
     profile: Optional[Any] = None
     action: Optional[Any] = None
     request_action: Optional[Any] = None
@@ -293,13 +294,13 @@ class DeviceControlThalamusTagProfileResource(BaseModel):
 
 
 class DeviceResourceV2(BaseModel):
-    id: Optional[Any] = None
+    id: Optional[int] = None
 
 
 class DeviceTagDataResource(BaseModel):
     data: Optional[Any] = None
-    pending: Optional[Any] = None
-    results: Optional[Any] = None
+    pending: Optional[List[Any]] = None
+    results: Optional[List[Any]] = None
 
 
 class DeviceTagProfiles(IntEnum):
@@ -308,13 +309,13 @@ class DeviceTagProfiles(IntEnum):
 
 
 class DeviceTagResource(BaseModel):
-    id: Optional[Any] = None
-    device_id: Optional[Any] = None
-    index: Optional[Any] = None
-    profile: Optional[Any] = None
-    version: Optional[Any] = None
-    created_at: Optional[Any] = None
-    updated_at: Optional[Any] = None
+    id: Optional[int] = None
+    device_id: Optional[int] = None
+    index: Optional[int] = None
+    profile: Optional[int] = None
+    version: Optional[int] = None
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
 
 
 class DoorDirectionEnum(IntEnum):
@@ -348,8 +349,8 @@ class DualScanLockingModeEnum(IntEnum):
 
 
 class ErrorResource(BaseModel):
-    success: Optional[Any] = None
-    error: Optional[Any] = None
+    success: Optional[bool] = None
+    error: Optional[dict] = None
 
 
 class FeederBowlTypeEnum(IntEnum):
@@ -366,7 +367,7 @@ class FoodTypesEnum(IntEnum):
 
 
 class HouseholdResourceV2(BaseModel):
-    id: Optional[Any] = None
+    id: Optional[int] = None
 
 
 class LedModeEnum(IntEnum):
@@ -379,22 +380,22 @@ class LedModeEnum(IntEnum):
 
 
 class MovementResource(BaseModel):
-    id: Optional[Any] = None
-    device_id: Optional[Any] = None
-    tag_id: Optional[Any] = None
-    user_id: Optional[Any] = None
+    id: Optional[int] = None
+    device_id: Optional[int] = None
+    tag_id: Optional[int] = None
+    user_id: Optional[int] = None
     direction: Optional[Any] = None
     side: Optional[Any] = None
     type: Optional[Any] = None
-    created_at: Optional[Any] = None
-    updated_at: Optional[Any] = None
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
 
 
 class PaginatedMetaDataResult(BaseModel):
-    page: Optional[Any] = None
-    page_size: Optional[Any] = None
-    count: Optional[Any] = None
-    total_pages: Optional[Any] = None
+    page: Optional[int] = None
+    page_size: Optional[int] = None
+    count: Optional[int] = None
+    total_pages: Optional[int] = None
 
 
 class PairingModeEnum(IntEnum):
@@ -427,55 +428,55 @@ class PetDoorTagType(IntEnum):
 
 
 class PetResourceV2(BaseModel):
-    id: Optional[Any] = None
+    id: Optional[int] = None
 
 
 class PhotoResource(BaseModel):
-    id: Optional[Any] = None
-    title: Optional[Any] = None
-    location: Optional[Any] = None
-    hash: Optional[Any] = None
-    uploading_user_id: Optional[Any] = None
-    version: Optional[Any] = None
-    created_at: Optional[Any] = None
-    updated_at: Optional[Any] = None
+    id: Optional[int] = None
+    title: Optional[str] = None
+    location: Optional[str] = None
+    hash: Optional[str] = None
+    uploading_user_id: Optional[int] = None
+    version: Optional[int] = None
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
 
 
 class ProblemDetails(BaseModel):
-    type: Optional[Any] = None
-    title: Optional[Any] = None
-    status: Optional[Any] = None
-    detail: Optional[Any] = None
-    instance: Optional[Any] = None
+    type: Optional[str] = None
+    title: Optional[str] = None
+    status: Optional[int] = None
+    detail: Optional[str] = None
+    instance: Optional[str] = None
 
 
 class PublicUserResource(BaseModel):
-    id: Optional[Any] = None
-    name: Optional[Any] = None
-    photo_id: Optional[Any] = None
+    id: Optional[int] = None
+    name: Optional[str] = None
+    photo_id: Optional[int] = None
     photo: Optional[Any] = None
 
 
 class ReportHouseholdDrinkingDataPoint(BaseModel):
-    datapoints: Optional[Any] = None
+    datapoints: Optional[List[Any]] = None
 
 
 class ReportHouseholdDrinkingResource(BaseModel):
-    from_: Optional[Any] = Field(default=None, alias='from')
-    to: Optional[Any] = None
-    duration: Optional[Any] = None
-    context: Optional[Any] = None
-    bowl_count: Optional[Any] = None
-    device_id: Optional[Any] = None
-    weights: Optional[Any] = None
-    actual_weight: Optional[Any] = None
-    entry_user_id: Optional[Any] = None
-    exit_user_id: Optional[Any] = None
-    created_at: Optional[Any] = None
-    updated_at: Optional[Any] = None
-    deleted_at: Optional[Any] = None
-    tag_id: Optional[Any] = None
-    user_id: Optional[Any] = None
+    from_: Optional[datetime] = Field(default=None, alias='from')
+    to: Optional[datetime] = None
+    duration: Optional[int] = None
+    context: Optional[int] = None
+    bowl_count: Optional[int] = None
+    device_id: Optional[int] = None
+    weights: Optional[List[Any]] = None
+    actual_weight: Optional[float] = None
+    entry_user_id: Optional[int] = None
+    exit_user_id: Optional[int] = None
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
+    deleted_at: Optional[datetime] = None
+    tag_id: Optional[int] = None
+    user_id: Optional[int] = None
 
 
 class ReportHouseholdEvent(IntEnum):
@@ -485,58 +486,58 @@ class ReportHouseholdEvent(IntEnum):
 
 
 class ReportHouseholdFeedingDataPoint(BaseModel):
-    datapoints: Optional[Any] = None
+    datapoints: Optional[List[Any]] = None
 
 
 class ReportHouseholdFeedingResource(BaseModel):
-    from_: Optional[Any] = Field(default=None, alias='from')
-    to: Optional[Any] = None
-    duration: Optional[Any] = None
-    context: Optional[Any] = None
-    bowl_count: Optional[Any] = None
-    device_id: Optional[Any] = None
-    weights: Optional[Any] = None
-    actual_weight: Optional[Any] = None
-    entry_user_id: Optional[Any] = None
-    exit_user_id: Optional[Any] = None
-    created_at: Optional[Any] = None
-    updated_at: Optional[Any] = None
-    deleted_at: Optional[Any] = None
-    tag_id: Optional[Any] = None
-    user_id: Optional[Any] = None
+    from_: Optional[datetime] = Field(default=None, alias='from')
+    to: Optional[datetime] = None
+    duration: Optional[int] = None
+    context: Optional[int] = None
+    bowl_count: Optional[int] = None
+    device_id: Optional[int] = None
+    weights: Optional[List[Any]] = None
+    actual_weight: Optional[float] = None
+    entry_user_id: Optional[int] = None
+    exit_user_id: Optional[int] = None
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
+    deleted_at: Optional[datetime] = None
+    tag_id: Optional[int] = None
+    user_id: Optional[int] = None
 
 
 class ReportHouseholdMovementDataPoint(BaseModel):
-    datapoints: Optional[Any] = None
+    datapoints: Optional[List[Any]] = None
 
 
 class ReportHouseholdMovementResource(BaseModel):
-    created_at: Optional[Any] = None
-    updated_at: Optional[Any] = None
-    deleted_at: Optional[Any] = None
-    device_id: Optional[Any] = None
-    tag_id: Optional[Any] = None
-    user_id: Optional[Any] = None
-    from_: Optional[Any] = Field(default=None, alias='from')
-    to: Optional[Any] = None
-    duration: Optional[Any] = None
-    entry_device_id: Optional[Any] = None
-    entry_user_id: Optional[Any] = None
-    exit_device_id: Optional[Any] = None
-    exit_user_id: Optional[Any] = None
-    active: Optional[Any] = None
-    exit_movement_id: Optional[Any] = None
-    entry_movement_id: Optional[Any] = None
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
+    deleted_at: Optional[datetime] = None
+    device_id: Optional[int] = None
+    tag_id: Optional[int] = None
+    user_id: Optional[int] = None
+    from_: Optional[datetime] = Field(default=None, alias='from')
+    to: Optional[datetime] = None
+    duration: Optional[int] = None
+    entry_device_id: Optional[int] = None
+    entry_user_id: Optional[int] = None
+    exit_device_id: Optional[int] = None
+    exit_user_id: Optional[int] = None
+    active: Optional[bool] = None
+    exit_movement_id: Optional[int] = None
+    entry_movement_id: Optional[int] = None
 
 
 class ReportHouseholdResource(BaseModel):
-    pet_id: Optional[Any] = None
-    device_id: Optional[Any] = None
+    pet_id: Optional[int] = None
+    device_id: Optional[int] = None
     movement: Optional[Any] = None
     feeding: Optional[Any] = None
     drinking: Optional[Any] = None
-    consumption_habit: Optional[Any] = None
-    consumption_alert: Optional[Any] = None
+    consumption_habit: Optional[List[Any]] = None
+    consumption_alert: Optional[List[Any]] = None
 
 
 class ReportHouseholdResourceDataResponse(BaseModel):
@@ -544,18 +545,18 @@ class ReportHouseholdResourceDataResponse(BaseModel):
 
 
 class ReportHouseholdV2QueryResource(BaseModel):
-    from_: Optional[Any] = Field(default=None, alias='from')
-    to: Optional[Any] = None
+    from_: datetime = Field(alias='from')
+    to: datetime
     event_type: Optional[Any] = None
 
 
 class ReportWeightFrame(BaseModel):
-    index: Optional[Any] = None
-    weight: Optional[Any] = None
-    change: Optional[Any] = None
-    food_type_id: Optional[Any] = None
-    target_weight: Optional[Any] = None
-    multi: Optional[Any] = None
+    index: Optional[int] = None
+    weight: Optional[float] = None
+    change: Optional[float] = None
+    food_type_id: Optional[int] = None
+    target_weight: Optional[int] = None
+    multi: Optional[bool] = None
 
 
 class RequestChangeStateResponseStatus(IntEnum):
@@ -584,7 +585,7 @@ class SubstanceTypesEnum(IntEnum):
 
 
 class TagResourceV2(BaseModel):
-    id: Optional[Any] = None
+    id: Optional[int] = None
 
 
 class ThalamusMovementTimedAccessAllowedSpecialProfiles(IntEnum):
@@ -606,22 +607,22 @@ class ThalamusTagType(IntEnum):
 
 
 class TimelineResourceV2(BaseModel):
-    id: Optional[Any] = None
-    type: Optional[Any] = None
-    data: Optional[Any] = None
-    created_at: Optional[Any] = None
-    updated_at: Optional[Any] = None
-    household: Optional[Any] = None
-    devices: Optional[Any] = None
-    movements: Optional[Any] = None
-    pets: Optional[Any] = None
-    tags: Optional[Any] = None
-    users: Optional[Any] = None
-    weights: Optional[Any] = None
+    id: Optional[int] = None
+    type: Optional[int] = None
+    data: Optional[str] = None
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
+    household: Optional[List[Any]] = None
+    devices: Optional[List[Any]] = None
+    movements: Optional[List[Any]] = None
+    pets: Optional[List[Any]] = None
+    tags: Optional[List[Any]] = None
+    users: Optional[List[Any]] = None
+    weights: Optional[List[Any]] = None
 
 
 class TimelineResourceV2PaginatedDataResult(BaseModel):
-    data: Optional[Any] = None
+    data: Optional[List[Any]] = None
     meta: Optional[Any] = None
 
 
@@ -640,30 +641,30 @@ class UpdateDeviceTagActions(IntEnum):
 
 
 class UpdateDeviceTagV2Resource(BaseModel):
-    tag_id: Optional[Any] = None
+    tag_id: Optional[int] = None
     request_action: Optional[Any] = None
     profile: Optional[Any] = None
-    timed_access: Optional[Any] = None
+    timed_access: Optional[List[Any]] = None
 
 
 class WeightFrameResource(BaseModel):
-    id: Optional[Any] = None
-    index: Optional[Any] = None
-    current_weight: Optional[Any] = None
-    change: Optional[Any] = None
-    created_at: Optional[Any] = None
-    updated_at: Optional[Any] = None
+    id: Optional[int] = None
+    index: Optional[int] = None
+    current_weight: Optional[float] = None
+    change: Optional[float] = None
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
 
 
 class WeightResource(BaseModel):
-    id: Optional[Any] = None
-    device_id: Optional[Any] = None
-    tag_id: Optional[Any] = None
-    context: Optional[Any] = None
-    duration: Optional[Any] = None
-    created_at: Optional[Any] = None
-    updated_at: Optional[Any] = None
-    frames: Optional[Any] = None
+    id: Optional[int] = None
+    device_id: Optional[int] = None
+    tag_id: Optional[int] = None
+    context: Optional[int] = None
+    duration: Optional[int] = None
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
+    frames: Optional[List[Any]] = None
 
 
 class ZeroAction(IntEnum):
