@@ -1,7 +1,9 @@
 from enum import IntEnum
+from pathlib import Path
 from typing import Optional
 
 from pydantic import BaseModel
+from surehub_api.entities._openapi_dynamic_models import populate_missing_openapi_models
 
 
 # TODO: Add descriptive names to device tag actions
@@ -33,3 +35,9 @@ class UpdateDeviceTag(BaseModel):
     request_action: DeviceTagAction
     profile: DeviceTagProfile
     timed_access: Optional[DeviceControlThalamusMovementTimedAccess] = None
+
+
+populate_missing_openapi_models(
+    module_globals=globals(),
+    spec_path=Path(__file__).resolve().parents[2] / "resources" / "swagger_v2.json",
+)

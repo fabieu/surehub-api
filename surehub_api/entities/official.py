@@ -1,8 +1,10 @@
 from datetime import datetime, time, date
 from enum import IntEnum
+from pathlib import Path
 from typing import Optional, List
 
 from pydantic import BaseModel, Field
+from surehub_api.entities._openapi_dynamic_models import populate_missing_openapi_models
 
 
 class DeviceType(IntEnum):
@@ -373,3 +375,9 @@ class PetReport(BaseModel):
 
     consumption_habit: Optional[List[ConsumptionHabit]] = None
     consumption_alert: Optional[List[ConsumptionAlert]] = None
+
+
+populate_missing_openapi_models(
+    module_globals=globals(),
+    spec_path=Path(__file__).resolve().parents[2] / "resources" / "swagger_v1.json",
+)
