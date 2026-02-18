@@ -16,7 +16,7 @@ from surehub_api.entities import official, official_v2
 def test_official_modules_include_all_openapi_schema_definitions(module, spec_path):
     spec = json.loads(spec_path.read_text())
     schema_names = (
-        schema_name[:-8] if schema_name.endswith("Resource") else schema_name
+        schema_name.replace("Resource", "")
         for schema_name in spec["components"]["schemas"].keys()
     )
 
@@ -26,8 +26,12 @@ def test_official_modules_include_all_openapi_schema_definitions(module, spec_pa
 
 
 @pytest.mark.parametrize("module", [official, official_v2])
-def test_official_modules_do_not_expose_resource_suffixed_models(module):
-    class_names = [name for name, value in vars(module).items() if isinstance(value, type)]
-    resource_suffixed_class_names = [name for name in class_names if name.endswith("Resource")]
+def test_official_modules_do_not_expose_resource_named_models(module):
+    class_names = [
+        name
+        for name, value in vars(module).items()
+        if isinstance(value, type) and value.__module__ == module.__name__
+    ]
+    resource_named_class_names = [name for name in class_names if "Resource" in name]
 
-    assert resource_suffixed_class_names == []
+    assert resource_named_class_names == []

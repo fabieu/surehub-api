@@ -72,7 +72,7 @@ class DeviceControlCurfew(BaseModel):
     unlock_time: Optional[str] = None
 
 
-class DeviceControlDualScanPetDoorResourceV2(BaseModel):
+class DeviceControlDualScanPetDoorV2(BaseModel):
     fast_polling: Optional[bool] = None
     tag_profiles: Optional[List[Any]] = None
     timed_access: Optional[List[Any]] = None
@@ -81,20 +81,20 @@ class DeviceControlDualScanPetDoorResourceV2(BaseModel):
     timed_access_override: Optional[bool] = None
 
 
-class DeviceControlDualScanPetDoorResourceV2DeviceControlPending(BaseModel):
+class DeviceControlDualScanPetDoorV2DeviceControlPending(BaseModel):
     state: Optional[Any] = None
     request_id: Optional[str] = None
     requested_at: Optional[datetime] = None
     requested_by: Optional[str] = None
 
 
-class DeviceControlDualScanPetDoorResourceV2DeviceControl(BaseModel):
+class DeviceControlDualScanPetDoorV2DeviceControl(BaseModel):
     data: Optional[Any] = None
     pending: Optional[List[Any]] = None
     results: Optional[List[Any]] = None
 
 
-class DeviceControlDualScanResourceV2(BaseModel):
+class DeviceControlDualScanV2(BaseModel):
     fast_polling: Optional[bool] = None
     tag_profiles: Optional[List[Any]] = None
     timed_access: Optional[List[Any]] = None
@@ -102,14 +102,14 @@ class DeviceControlDualScanResourceV2(BaseModel):
     lockdown: Optional[bool] = None
 
 
-class DeviceControlDualScanResourceV2DeviceControlPending(BaseModel):
+class DeviceControlDualScanV2DeviceControlPending(BaseModel):
     state: Optional[Any] = None
     request_id: Optional[str] = None
     requested_at: Optional[datetime] = None
     requested_by: Optional[str] = None
 
 
-class DeviceControlDualScanResourceV2DeviceControl(BaseModel):
+class DeviceControlDualScanV2DeviceControl(BaseModel):
     data: Optional[Any] = None
     pending: Optional[List[Any]] = None
     results: Optional[List[Any]] = None
@@ -129,7 +129,7 @@ class DeviceControlFeederLid(BaseModel):
     close_delay: Optional[int] = None
 
 
-class DeviceControlFeederResourceV2(BaseModel):
+class DeviceControlFeederV2(BaseModel):
     fast_polling: Optional[bool] = None
     tag_profiles: Optional[List[Any]] = None
     bowls: Optional[Any] = None
@@ -139,14 +139,14 @@ class DeviceControlFeederResourceV2(BaseModel):
     timed_feeding: Optional[List[Any]] = None
 
 
-class DeviceControlFeederResourceV2DeviceControlPending(BaseModel):
+class DeviceControlFeederV2DeviceControlPending(BaseModel):
     state: Optional[Any] = None
     request_id: Optional[str] = None
     requested_at: Optional[datetime] = None
     requested_by: Optional[str] = None
 
 
-class DeviceControlFeederResourceV2DeviceControl(BaseModel):
+class DeviceControlFeederV2DeviceControl(BaseModel):
     data: Optional[Any] = None
     pending: Optional[List[Any]] = None
     results: Optional[List[Any]] = None
@@ -169,14 +169,14 @@ class DeviceControlHub(BaseModel):
     flash_leds: Optional[bool] = None
 
 
-class DeviceControlHubResourceDeviceControlPending(BaseModel):
+class DeviceControlHubDeviceControlPending(BaseModel):
     state: Optional[Any] = None
     request_id: Optional[str] = None
     requested_at: Optional[datetime] = None
     requested_by: Optional[str] = None
 
 
-class DeviceControlHubResourceDeviceControl(BaseModel):
+class DeviceControlHubDeviceControl(BaseModel):
     data: Optional[Any] = None
     pending: Optional[List[Any]] = None
     results: Optional[List[Any]] = None
@@ -189,14 +189,14 @@ class DeviceControlNoIdDogBowl(BaseModel):
     substance_type: Optional[Any] = None
 
 
-class DeviceControlNoIdDogBowlResourceDeviceControlPending(BaseModel):
+class DeviceControlNoIdDogBowlDeviceControlPending(BaseModel):
     state: Optional[Any] = None
     request_id: Optional[str] = None
     requested_at: Optional[datetime] = None
     requested_by: Optional[str] = None
 
 
-class DeviceControlNoIdDogBowlResourceDeviceControl(BaseModel):
+class DeviceControlNoIdDogBowlDeviceControl(BaseModel):
     data: Optional[Any] = None
     pending: Optional[List[Any]] = None
     results: Optional[List[Any]] = None
@@ -221,14 +221,14 @@ class DeviceControlPetDoor(BaseModel):
     tag_profiles: Optional[List[Any]] = None
 
 
-class DeviceControlPetDoorResourceDeviceControlPending(BaseModel):
+class DeviceControlPetDoorDeviceControlPending(BaseModel):
     state: Optional[Any] = None
     request_id: Optional[str] = None
     requested_at: Optional[datetime] = None
     requested_by: Optional[str] = None
 
 
-class DeviceControlPetDoorResourceDeviceControl(BaseModel):
+class DeviceControlPetDoorDeviceControl(BaseModel):
     data: Optional[Any] = None
     pending: Optional[List[Any]] = None
     results: Optional[List[Any]] = None
@@ -246,14 +246,14 @@ class DeviceControlPoseidon(BaseModel):
     learn_mode: Optional[bool] = None
 
 
-class DeviceControlPoseidonResourceDeviceControlPending(BaseModel):
+class DeviceControlPoseidonDeviceControlPending(BaseModel):
     state: Optional[Any] = None
     request_id: Optional[str] = None
     requested_at: Optional[datetime] = None
     requested_by: Optional[str] = None
 
 
-class DeviceControlPoseidonResourceDeviceControl(BaseModel):
+class DeviceControlPoseidonDeviceControl(BaseModel):
     data: Optional[Any] = None
     pending: Optional[List[Any]] = None
     results: Optional[List[Any]] = None
@@ -287,7 +287,7 @@ class DeviceControlThalamusTagProfile(BaseModel):
     microchip: Optional[Any] = None
 
 
-class DeviceResourceV2(BaseModel):
+class DeviceV2(BaseModel):
     id: Optional[int] = None
 
 
@@ -360,7 +360,7 @@ class FoodTypesEnum(IntEnum):
     VALUE_3 = 3
 
 
-class HouseholdResourceV2(BaseModel):
+class HouseholdV2(BaseModel):
     id: Optional[int] = None
 
 
@@ -421,7 +421,7 @@ class PetDoorTagType(IntEnum):
     VALUE_128 = 128
 
 
-class PetResourceV2(BaseModel):
+class PetV2(BaseModel):
     id: Optional[int] = None
 
 
@@ -534,7 +534,7 @@ class ReportHousehold(BaseModel):
     consumption_alert: Optional[List[Any]] = None
 
 
-class ReportHouseholdResourceDataResponse(BaseModel):
+class ReportHouseholdDataResponse(BaseModel):
     data: Optional[Any] = None
 
 
@@ -578,7 +578,7 @@ class SubstanceTypesEnum(IntEnum):
     VALUE_2 = 2
 
 
-class TagResourceV2(BaseModel):
+class TagV2(BaseModel):
     id: Optional[int] = None
 
 
@@ -600,7 +600,7 @@ class ThalamusTagType(IntEnum):
     VALUE_8 = 8
 
 
-class TimelineResourceV2(BaseModel):
+class TimelineV2(BaseModel):
     id: Optional[int] = None
     type: Optional[int] = None
     data: Optional[str] = None
@@ -615,7 +615,7 @@ class TimelineResourceV2(BaseModel):
     weights: Optional[List[Any]] = None
 
 
-class TimelineResourceV2PaginatedDataResult(BaseModel):
+class TimelineV2PaginatedDataResult(BaseModel):
     data: Optional[List[Any]] = None
     meta: Optional[Any] = None
 
@@ -666,3 +666,4 @@ class ZeroAction(IntEnum):
     VALUE_1 = 1
     VALUE_2 = 2
     VALUE_3 = 3
+
