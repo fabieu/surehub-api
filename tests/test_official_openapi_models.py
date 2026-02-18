@@ -1,4 +1,5 @@
 import json
+import re
 from pathlib import Path
 
 import pytest
@@ -35,3 +36,16 @@ def test_official_modules_do_not_expose_resource_named_models(module):
     resource_named_class_names = [name for name in class_names if "Resource" in name]
 
     assert resource_named_class_names == []
+
+
+@pytest.mark.parametrize(
+    "entity_file_path",
+    [
+        Path(__file__).resolve().parents[1] / "surehub_api" / "entities" / "official.py",
+        Path(__file__).resolve().parents[1] / "surehub_api" / "entities" / "official_v2.py",
+    ],
+)
+def test_official_entity_classes_are_alphabetically_ordered(entity_file_path):
+    class_names = re.findall(r"^class\s+(\w+)\s*\(", entity_file_path.read_text(), flags=re.M)
+
+    assert class_names == sorted(class_names)
