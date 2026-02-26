@@ -1,8 +1,9 @@
 from datetime import datetime, time, date
 from enum import IntEnum
-from typing import Optional, List
+from typing import Optional, List, Any
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, GetJsonSchemaHandler
+from pydantic_core import CoreSchema
 
 
 class DeviceType(IntEnum):
@@ -59,10 +60,30 @@ class Curfew(BaseModel):
     unlock_time: Optional[time] = None
 
 
+class LockMode(IntEnum):
+    NONE = 0
+    IN = 1
+    OUT = 2
+    BOTH = 3
+
+    @classmethod
+    def __get_pydantic_json_schema__(cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler) -> dict[str, Any]:
+        schema = handler(core_schema)
+        schema["title"] = "Lock Mode"
+        schema["description"] = (
+            "Controls the direction of locking:\n"
+            "- `0` (NONE): No locking\n"
+            "- `1` (IN): Lock inbound only\n"
+            "- `2` (OUT): Lock outbound only\n"
+            "- `3` (BOTH): Lock both directions"
+        )
+        return schema
+
+
 class DeviceControl(BaseModel):
     curfew: Curfew | List[Curfew] | None = None
     fast_polling: Optional[bool] = None
-    locking: Optional[int] = None
+    locking: Optional[LockMode] = None
     led_mode: Optional[int] = None
     pairing_mode: Optional[int] = None
 

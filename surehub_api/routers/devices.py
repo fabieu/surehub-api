@@ -35,6 +35,7 @@ async def get_device_state_by_id(device_id: int) -> Any:
 
 
 @router.patch("/{device_id}/control",
+              deprecated=True,
               response_model_exclude_none=True)
 async def set_device_lock_mode(device_id: int, lock_mode: Annotated[custom.LockMode, Query(
     description="**none** = Pets can enter and leave the house \n\n"
@@ -43,6 +44,12 @@ async def set_device_lock_mode(device_id: int, lock_mode: Annotated[custom.LockM
                 "**both** = Pets can no longer enter and leave the house \n\n")
 ]) -> official.DeviceControl:
     return devices.set_lock_mode(device_id, lock_mode)
+
+
+@router.patch("/{device_id}/state",
+              response_model_exclude_none=True)
+async def update_device_state(device_id: int, device_state: official.DeviceControl) -> official.DeviceControl:
+    return devices.update_device_state(device_id, device_state)
 
 
 @router.get("/{device_id}/tags",
