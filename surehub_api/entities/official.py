@@ -32,7 +32,7 @@ class AuthChangePassword(BaseModel):
 
 
 class AuthLogin(BaseModel):
-    client_uid: str
+    client_uid: Optional[str] = None
     device_id: Optional[str] = None
     email_address: str
     password: str

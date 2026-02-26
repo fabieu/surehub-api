@@ -1,5 +1,3 @@
-import uuid
-
 import requests
 from cachetools import TTLCache
 
@@ -8,7 +6,6 @@ from surehub_api.entities import official
 from surehub_api.utils import response_handler
 
 DEFAULT_HEADERS = {
-    "Host": "app-api.production.surehub.io",
     "Accept": "application/json, */*",
     "Accept-Encoding": "gzip, deflate, br, zstd",
     "Accept-Language": "en-US,en-GB;q=0.9",
@@ -31,7 +28,7 @@ def _get_token() -> str:
 
     if not token:
         auth_login = official.AuthLogin(
-            client_uid=str(uuid.uuid4()),
+            device_id="web",
             email_address=settings.email,
             password=settings.password,
         )
