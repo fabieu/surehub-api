@@ -1,16 +1,35 @@
 from __future__ import annotations
 
 from datetime import datetime, date
-from enum import IntEnum
 from typing import Any, Optional, List
 
 from pydantic import BaseModel, Field
 
-
-class ChangeProfileActionEnum(IntEnum):
-    VALUE_0 = 0
-    VALUE_1 = 1
-    VALUE_2 = 2
+from surehub_api.entities.enums import (
+    ChangeProfileAction,
+    ConsumptionHabitOutcome,
+    DeviceTagProfiles,
+    DoorDirection,
+    DoorSide,
+    DoorStatus,
+    DualScanLockingMode,
+    FailSafeOptions,
+    FeederBowlType,
+    FoodTypes,
+    LedMode,
+    PairingMode,
+    PetDoorLockingMode,
+    PetDoorTagType,
+    ReportHouseholdEvent,
+    RequestChangeStateResponseStatus,
+    SpecialProfiles,
+    SubstanceTypes,
+    ThalamusMovementTimedAccessAllowedSpecialProfiles,
+    ThalamusTagType,
+    TrainingMode,
+    UpdateDeviceTagActions,
+    ZeroAction,
+)
 
 
 class ConsumptionAlert(BaseModel):
@@ -23,18 +42,12 @@ class ConsumptionAlert(BaseModel):
 
 
 class ConsumptionHabit(BaseModel):
-    outcome: Optional[ConsumptionHabitOutcomeEnum] = None
+    outcome: Optional[ConsumptionHabitOutcome] = None
     calendar_day: Optional[date] = None
     amount: Optional[int] = None
     lower_limit: Optional[int] = None
     upper_limit: Optional[int] = None
     created_at: Optional[datetime] = None
-
-
-class ConsumptionHabitOutcomeEnum(IntEnum):
-    VALUE_0 = 0
-    VALUE_1 = 1
-    VALUE_2 = 2
 
 
 class DeviceControlCurfew(BaseModel):
@@ -47,7 +60,7 @@ class DeviceControlDualScanPetDoorV2(BaseModel):
     fast_polling: Optional[bool] = None
     tag_profiles: Optional[List[DeviceControlThalamusTagProfile]] = None
     timed_access: Optional[List[DeviceControlThalamusMovementTagTimedAccess]] = None
-    locking: Optional[DualScanLockingModeEnum] = None
+    locking: Optional[DualScanLockingMode] = None
     lockdown: Optional[bool] = None
     timed_access_override: Optional[bool] = None
     fail_safe: Optional[FailSafeOptions] = None
@@ -70,7 +83,7 @@ class DeviceControlDualScanV2(BaseModel):
     fast_polling: Optional[bool] = None
     tag_profiles: Optional[List[DeviceControlThalamusTagProfile]] = None
     timed_access: Optional[List[DeviceControlThalamusMovementTagTimedAccess]] = None
-    locking: Optional[DualScanLockingModeEnum] = None
+    locking: Optional[DualScanLockingMode] = None
     lockdown: Optional[bool] = None
     fail_safe: Optional[FailSafeOptions] = None
 
@@ -90,11 +103,11 @@ class DeviceControlDualScanV2DeviceControlPending(BaseModel):
 
 class DeviceControlFeederBowl(BaseModel):
     settings: Optional[List[DeviceControlFeederBowlSettings]] = None
-    type: Optional[FeederBowlTypeEnum] = None
+    type: Optional[FeederBowlType] = None
 
 
 class DeviceControlFeederBowlSettings(BaseModel):
-    food_type: Optional[FoodTypesEnum] = None
+    food_type: Optional[FoodTypes] = None
     target: Optional[float] = None
 
 
@@ -137,8 +150,8 @@ class DeviceControlFeederV2DeviceControlPending(BaseModel):
 
 
 class DeviceControlHub(BaseModel):
-    led_mode: Optional[LedModeEnum] = None
-    pairing_mode: Optional[PairingModeEnum] = None
+    led_mode: Optional[LedMode] = None
+    pairing_mode: Optional[PairingMode] = None
     flash_leds: Optional[bool] = None
 
 
@@ -158,8 +171,8 @@ class DeviceControlHubDeviceControlPending(BaseModel):
 class DeviceControlNoIdDogBowl(BaseModel):
     fast_polling: Optional[bool] = None
     tag_profiles: Optional[List[DeviceControlThalamusTagProfile]] = None
-    food_type: Optional[FoodTypesEnum] = None
-    substance_type: Optional[SubstanceTypesEnum] = None
+    food_type: Optional[FoodTypes] = None
+    substance_type: Optional[SubstanceTypes] = None
 
 
 class DeviceControlNoIdDogBowlDeviceControl(BaseModel):
@@ -185,7 +198,7 @@ class DeviceControlPending(BaseModel):
 class DeviceControlPetDoor(BaseModel):
     fast_polling: Optional[bool] = None
     curfew: Optional[DeviceControlCurfew] = None
-    locking: Optional[PetDoorLockingModeEnum] = None
+    locking: Optional[PetDoorLockingMode] = None
     tag_profiles: Optional[List[DeviceControlPetDoorTagProfile]] = None
 
 
@@ -261,7 +274,7 @@ class DeviceControlThalamusTagProfile(BaseModel):
     tag_id: Optional[int] = None
     index: Optional[int] = None
     profile: Optional[SpecialProfiles] = None
-    action: Optional[ChangeProfileActionEnum] = None
+    action: Optional[ChangeProfileAction] = None
     request_action: Optional[UpdateDeviceTagActions] = None
     microchip: Optional[DeviceControlThalamusMicrochip] = None
 
@@ -282,43 +295,8 @@ class DeviceTagData(BaseModel):
     results: Optional[List[DeviceControlResult]] = None
 
 
-class DeviceTagProfiles(IntEnum):
-    DISABLED = 2
-    ENABLED = 3
-
-
 class DeviceV2(BaseModel):
     id: Optional[int] = None
-
-
-class DoorDirectionEnum(IntEnum):
-    VALUE_0 = 0
-    VALUE_1 = 1
-    VALUE_2 = 2
-    VALUE_3 = 3
-
-
-class DoorSide(IntEnum):
-    VALUE_0 = 0
-    VALUE_1 = 1
-    VALUE_2 = 2
-
-
-class DoorStatusEnum(IntEnum):
-    VALUE_4 = 4
-    VALUE_6 = 6
-    VALUE_8 = 8
-    VALUE_10 = 10
-    VALUE_11 = 11
-    VALUE_12 = 12
-    VALUE_13 = 13
-
-
-class DualScanLockingModeEnum(IntEnum):
-    VALUE_0 = 0
-    VALUE_1 = 1
-    VALUE_2 = 2
-    VALUE_3 = 3
 
 
 class Error(BaseModel):
@@ -326,35 +304,8 @@ class Error(BaseModel):
     error: Optional[dict] = None
 
 
-class FailSafeOptions(IntEnum):
-    VALUE_0 = 0
-    VALUE_1 = 1
-
-
-class FeederBowlTypeEnum(IntEnum):
-    VALUE_1 = 1
-    VALUE_4 = 4
-    VALUE_5 = 5
-
-
-class FoodTypesEnum(IntEnum):
-    VALUE_0 = 0
-    VALUE_1 = 1
-    VALUE_2 = 2
-    VALUE_3 = 3
-
-
 class HouseholdV2(BaseModel):
     id: Optional[int] = None
-
-
-class LedModeEnum(IntEnum):
-    VALUE_0 = 0
-    VALUE_1 = 1
-    VALUE_2 = 2
-    VALUE_3 = 3
-    VALUE_4 = 4
-    VALUE_128 = 128
 
 
 class Movement(BaseModel):
@@ -362,9 +313,9 @@ class Movement(BaseModel):
     device_id: Optional[int] = None
     tag_id: Optional[int] = None
     user_id: Optional[int] = None
-    direction: Optional[DoorDirectionEnum] = None
+    direction: Optional[DoorDirection] = None
     side: Optional[DoorSide] = None
-    type: Optional[DoorStatusEnum] = None
+    type: Optional[DoorStatus] = None
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
 
@@ -374,35 +325,6 @@ class PaginatedMetaDataResult(BaseModel):
     page_size: Optional[int] = None
     count: Optional[int] = None
     total_pages: Optional[int] = None
-
-
-class PairingModeEnum(IntEnum):
-    VALUE_0 = 0
-    VALUE_1 = 1
-    VALUE_2 = 2
-    VALUE_3 = 3
-    VALUE_128 = 128
-
-
-class PetDoorLockingModeEnum(IntEnum):
-    VALUE_0 = 0
-    VALUE_1 = 1
-    VALUE_2 = 2
-    VALUE_3 = 3
-    VALUE_4 = 4
-    VALUE_5 = 5
-
-
-class PetDoorTagType(IntEnum):
-    VALUE_0 = 0
-    VALUE_1 = 1
-    VALUE_2 = 2
-    VALUE_4 = 4
-    VALUE_8 = 8
-    VALUE_16 = 16
-    VALUE_32 = 32
-    VALUE_64 = 64
-    VALUE_128 = 128
 
 
 class PetV2(BaseModel):
@@ -471,12 +393,6 @@ class ReportHouseholdDrinkingDataPoint(BaseModel):
     datapoints: Optional[List[ReportHouseholdDrinking]] = None
 
 
-class ReportHouseholdEvent(IntEnum):
-    VALUE_0 = 0
-    VALUE_1 = 1
-    VALUE_2 = 2
-
-
 class ReportHouseholdFeeding(BaseModel):
     from_: Optional[datetime] = Field(default=None, alias='from')
     to: Optional[datetime] = None
@@ -537,51 +453,8 @@ class ReportWeightFrame(BaseModel):
     multi: Optional[bool] = None
 
 
-class RequestChangeStateResponseStatus(IntEnum):
-    VALUE_0 = 0
-    VALUE_1 = 1
-    VALUE_2 = 2
-    VALUE_3 = 3
-    VALUE_4 = 4
-    VALUE_5 = 5
-
-
-class SpecialProfiles(IntEnum):
-    VALUE_0 = 0
-    VALUE_1 = 1
-    VALUE_2 = 2
-    VALUE_3 = 3
-    VALUE_4 = 4
-    VALUE_5 = 5
-    VALUE_6 = 6
-
-
-class SubstanceTypesEnum(IntEnum):
-    VALUE_0 = 0
-    VALUE_1 = 1
-    VALUE_2 = 2
-
-
 class TagV2(BaseModel):
     id: Optional[int] = None
-
-
-class ThalamusMovementTimedAccessAllowedSpecialProfiles(IntEnum):
-    SPECIAL_PROFILE_3 = 3
-    SPECIAL_PROFILE_5 = 5
-    SPECIAL_PROFILE_6 = 6
-
-
-class ThalamusTagType(IntEnum):
-    VALUE_0 = 0
-    VALUE_1 = 1
-    VALUE_2 = 2
-    VALUE_3 = 3
-    VALUE_4 = 4
-    VALUE_5 = 5
-    VALUE_6 = 6
-    VALUE_7 = 7
-    VALUE_8 = 8
 
 
 class TimelineV2(BaseModel):
@@ -604,25 +477,11 @@ class TimelineV2PaginatedDataResult(BaseModel):
     meta: Optional[PaginatedMetaDataResult] = None
 
 
-class TrainingMode(IntEnum):
-    VALUE_0 = 0
-    VALUE_1 = 1
-    VALUE_2 = 2
-    VALUE_3 = 3
-    VALUE_4 = 4
-
-
 class UpdateDeviceTag(BaseModel):
     tag_id: Optional[int] = None
     request_action: UpdateDeviceTagActions
     profile: DeviceTagProfiles
     timed_access: Optional[DeviceControlThalamusMovementTimedAccess] = None
-
-
-class UpdateDeviceTagActions(IntEnum):
-    VALUE_0 = 0
-    VALUE_1 = 1
-    VALUE_2 = 2
 
 
 class UpdateDeviceTagV2(BaseModel):
@@ -650,10 +509,3 @@ class WeightFrame(BaseModel):
     change: Optional[float] = None
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
-
-
-class ZeroAction(IntEnum):
-    VALUE_0 = 0
-    VALUE_1 = 1
-    VALUE_2 = 2
-    VALUE_3 = 3

@@ -1,17 +1,34 @@
 from __future__ import annotations
 
 from datetime import datetime, time, date
-from enum import IntEnum
 from typing import Optional, List, Any
 
-from pydantic import BaseModel, Field, GetJsonSchemaHandler
-from pydantic_core import CoreSchema
+from pydantic import BaseModel, Field
+
+from surehub_api.entities.enums import (
+    ConsumptionHabitModelState,
+    ConsumptionHabitOutcome,
+    DeviceType,
+    DoorDirection,
+    DoorSide,
+    DoorStatus,
+    HouseholdInviteStatus,
+    LockMode,
+    PetGender,
+    PetPositionWhere,
+    RequestChangeStateResponseStatus,
+    Spayed,
+    SpecialProfiles,
+    TimelineEventType,
+    UserTimeFormat,
+    UserWeightUnit,
+)
 
 
 class AnimoPet(BaseModel):
     id: Optional[int] = None
     name: Optional[str] = None
-    gender: Optional[PetGenderEnum] = None
+    gender: Optional[PetGender] = None
     date_of_birth: Optional[datetime] = None
     weight: Optional[str] = None
     breed_id: Optional[int] = None
@@ -52,8 +69,8 @@ class AuthRegister(BaseModel):
     country_id: int
     photo_id: Optional[int] = None
     marketing_opt_in: bool
-    weight_units: Optional[UserWeightUnitEnum] = None
-    time_format: Optional[UserTimeFormatEnum] = None
+    weight_units: Optional[UserWeightUnit] = None
+    time_format: Optional[UserTimeFormat] = None
     device_id: str
 
 
@@ -143,7 +160,7 @@ class ConsumptionAlert(BaseModel):
 
 
 class ConsumptionHabit(BaseModel):
-    outcome: ConsumptionHabitOutcomeEnum
+    outcome: ConsumptionHabitOutcome
     calendar_day: date
     amount: int
     lower_limit: Optional[int] = None
@@ -154,20 +171,7 @@ class ConsumptionHabit(BaseModel):
 class ConsumptionHabitModelState(BaseModel):
     pet_id: Optional[int] = None
     tag_id: Optional[int] = None
-    state: Optional[ConsumptionHabitModelStateEnum] = None
-
-
-class ConsumptionHabitModelStateEnum(IntEnum):
-    VALUE_0 = 0
-    VALUE_1 = 1
-    VALUE_2 = 2
-    VALUE_3 = 3
-
-
-class ConsumptionHabitOutcomeEnum(IntEnum):
-    OK = 0
-    BELOW_LIMIT = 1
-    ABOVE_LIMIT = 2
+    state: Optional[ConsumptionHabitModelState] = None
 
 
 class Country(BaseModel):
@@ -212,13 +216,13 @@ class CreateHouseholdInvite(BaseModel):
 
 class CreatePet(BaseModel):
     name: str
-    gender: Optional[PetGenderEnum] = None
+    gender: Optional[PetGender] = None
     date_of_birth: Optional[datetime] = None
     weight: Optional[float] = None
     comments: Optional[str] = None
     breed_id: Optional[int] = None
     breed_id2: Optional[int] = None
-    spayed: Optional[SpayedEnum] = None
+    spayed: Optional[Spayed] = None
     food_type_id: Optional[int] = None
     photo_id: Optional[int] = None
     species_id: Optional[int] = None
@@ -266,26 +270,6 @@ class Device(BaseModel):
     control: Optional[DeviceControl] = None
     status: Optional[DeviceStatus] = None
     tags: Optional[List[DeviceTag]] = None
-
-
-class LockMode(IntEnum):
-    NONE = 0
-    IN = 1
-    OUT = 2
-    BOTH = 3
-
-    @classmethod
-    def __get_pydantic_json_schema__(cls, core_schema: CoreSchema, handler: GetJsonSchemaHandler) -> dict[str, Any]:
-        schema = handler(core_schema)
-        schema["title"] = "Lock Mode"
-        schema["description"] = (
-            "Controls the direction of locking:\n"
-            "- `0` (NONE): No locking\n"
-            "- `1` (IN): Lock inbound only\n"
-            "- `2` (OUT): Lock outbound only\n"
-            "- `3` (BOTH): Lock both directions"
-        )
-        return schema
 
 
 class DeviceControl(BaseModel):
@@ -396,46 +380,7 @@ class DeviceTagPaginatedDataResult(BaseModel):
     meta: Optional[PaginatedMetaDataResult] = None
 
 
-class DeviceType(IntEnum):
-    UNKNOWN_DEVICE_0 = 0
-    HUB = 1
-    REPEATER = 2
-    PET_DOOR_CONNECT = 3
-    PET_FEEDER_CONNECT = 4
-    PROGRAMMER = 5
-    DUALSCAN_CAT_FLAP_CONNECT = 6
-    MICROCHIP_FEEDER = 7
-    FELAQUA_CONNECT = 8  # Poseidon
-    CAT_FLAP_CONNECT = 9
-    DUALSCAN_PET_DOOR_CONNECT = 10
-    DOG_BOWL_CONNECT = 32  # Cerberus
-    UNKNOWN_DEVICE_255 = 255
-
-
 # TODO: Add descriptive names to numeric special profiles
-
-
-class DoorDirectionEnum(IntEnum):
-    VALUE_0 = 0
-    VALUE_1 = 1
-    VALUE_2 = 2
-    VALUE_3 = 3
-
-
-class DoorSide(IntEnum):
-    VALUE_0 = 0
-    VALUE_1 = 1
-    VALUE_2 = 2
-
-
-class DoorStatusEnum(IntEnum):
-    VALUE_4 = 4
-    VALUE_6 = 6
-    VALUE_8 = 8
-    VALUE_10 = 10
-    VALUE_11 = 11
-    VALUE_12 = 12
-    VALUE_13 = 13
 
 
 class DrinkingReport(BaseModel):
@@ -562,12 +507,6 @@ class HouseholdInvitePaginatedDataResult(BaseModel):
     meta: Optional[PaginatedMetaDataResult] = None
 
 
-class HouseholdInviteStatus(IntEnum):
-    PENDING = 0
-    ACCEPTED = 1
-    EXPIRED = 2
-
-
 class HouseholdInviteUser(BaseModel):
     creator: Optional[PublicUser] = None
     acceptor: Optional[PublicUser] = None
@@ -668,9 +607,9 @@ class Movement(BaseModel):
     device_id: Optional[int] = None
     tag_id: Optional[int] = None
     user_id: Optional[int] = None
-    direction: Optional[DoorDirectionEnum] = None
+    direction: Optional[DoorDirection] = None
     side: Optional[DoorSide] = None
-    type: Optional[DoorStatusEnum] = None
+    type: Optional[DoorStatus] = None
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
 
@@ -725,7 +664,7 @@ class PaginatedMetaDataResult(BaseModel):
 class Pet(BaseModel):
     id: int
     name: Optional[str] = None
-    gender: Optional[PetGenderEnum] = None
+    gender: Optional[PetGender] = None
     date_of_birth: Optional[datetime] = None
     weight: Optional[str] = None
     comments: Optional[str] = None
@@ -735,7 +674,7 @@ class Pet(BaseModel):
     household_id: Optional[int] = None
     photo_id: Optional[int] = None
     species_id: Optional[int] = None
-    spayed: Optional[SpayedEnum] = None
+    spayed: Optional[Spayed] = None
     tag_id: Optional[int] = None
     version: int
     created_at: Optional[datetime] = None
@@ -804,11 +743,6 @@ class PetDataResponse(BaseModel):
     data: Optional[Pet] = None
 
 
-class PetGenderEnum(IntEnum):
-    FEMALE = 0
-    MALE = 1
-
-
 class PetInsight(BaseModel):
     pet_id: Optional[int] = None
     drinking_habit: Optional[ConsumptionHabit] = None
@@ -855,12 +789,6 @@ class PetPositionDataResponse(BaseModel):
 class PetPositionPaginatedDataResult(BaseModel):
     data: Optional[List[PetPosition]] = None
     meta: Optional[PaginatedMetaDataResult] = None
-
-
-class PetPositionWhere(IntEnum):
-    UNKNOWN = 0
-    INSIDE = 1
-    OUTSIDE = 2
 
 
 class PetReport(BaseModel):
@@ -1050,31 +978,6 @@ class ReportWeightFrame(BaseModel):
     multi: Optional[bool] = None
 
 
-class RequestChangeStateResponseStatus(IntEnum):
-    VALUE_0 = 0
-    VALUE_1 = 1
-    VALUE_2 = 2
-    VALUE_3 = 3
-    VALUE_4 = 4
-    VALUE_5 = 5
-
-
-class SpayedEnum(IntEnum):
-    UNKNOWN = 0
-    YES = 1
-    NO = 2
-
-
-class SpecialProfiles(IntEnum):
-    SPECIAL_PROFILE_0 = 0
-    SPECIAL_PROFILE_1 = 1
-    SPECIAL_PROFILE_2 = 2
-    SPECIAL_PROFILE_3 = 3
-    SPECIAL_PROFILE_4 = 4
-    SPECIAL_PROFILE_5 = 5
-    SPECIAL_PROFILE_6 = 6
-
-
 class Species(BaseModel):
     id: Optional[int] = None
     name: Optional[str] = None
@@ -1114,12 +1017,6 @@ class StartDataResponse(BaseModel):
 
 class StartQuery(BaseModel):
     lang: Optional[str] = None
-
-
-class SubstanceTypesEnum(IntEnum):
-    VALUE_0 = 0
-    VALUE_1 = 1
-    VALUE_2 = 2
 
 
 class Tag(BaseModel):
@@ -1173,111 +1070,6 @@ class Timeline(BaseModel):
     tags: Optional[List[Tag]] = None
     users: Optional[List[PublicUser]] = None
     weights: Optional[List[Weight]] = None
-
-
-class TimelineEventType(IntEnum):
-    VALUE_0 = 0
-    VALUE_1 = 1
-    VALUE_2 = 2
-    VALUE_3 = 3
-    VALUE_6 = 6
-    VALUE_7 = 7
-    VALUE_9 = 9
-    VALUE_10 = 10
-    VALUE_11 = 11
-    VALUE_12 = 12
-    VALUE_13 = 13
-    VALUE_14 = 14
-    VALUE_17 = 17
-    VALUE_18 = 18
-    VALUE_19 = 19
-    VALUE_20 = 20
-    VALUE_21 = 21
-    VALUE_22 = 22
-    VALUE_23 = 23
-    VALUE_24 = 24
-    VALUE_25 = 25
-    VALUE_28 = 28
-    VALUE_29 = 29
-    VALUE_30 = 30
-    VALUE_31 = 31
-    VALUE_32 = 32
-    VALUE_33 = 33
-    VALUE_34 = 34
-    VALUE_35 = 35
-    VALUE_36 = 36
-    VALUE_40 = 40
-    VALUE_50 = 50
-    VALUE_51 = 51
-    VALUE_52 = 52
-    VALUE_53 = 53
-    VALUE_54 = 54
-    VALUE_55 = 55
-    VALUE_9999 = 9999
-    VALUE_19999 = 19999
-    VALUE_20000 = 20000
-    VALUE_20001 = 20001
-    VALUE_20002 = 20002
-    VALUE_20003 = 20003
-    VALUE_20004 = 20004
-    VALUE_20005 = 20005
-    VALUE_20006 = 20006
-    VALUE_20007 = 20007
-    VALUE_20008 = 20008
-    VALUE_20009 = 20009
-    VALUE_20010 = 20010
-    VALUE_20011 = 20011
-    VALUE_20012 = 20012
-    VALUE_20399 = 20399
-    VALUE_20400 = 20400
-    VALUE_20401 = 20401
-    VALUE_20402 = 20402
-    VALUE_20403 = 20403
-    VALUE_20404 = 20404
-    VALUE_20405 = 20405
-    VALUE_20406 = 20406
-    VALUE_20407 = 20407
-    VALUE_20408 = 20408
-    VALUE_20409 = 20409
-    VALUE_20410 = 20410
-    VALUE_20411 = 20411
-    VALUE_20999 = 20999
-    VALUE_21000 = 21000
-    VALUE_21001 = 21001
-    VALUE_21002 = 21002
-    VALUE_21003 = 21003
-    VALUE_21004 = 21004
-    VALUE_21005 = 21005
-    VALUE_21006 = 21006
-    VALUE_21007 = 21007
-    VALUE_21008 = 21008
-    VALUE_21009 = 21009
-    VALUE_21010 = 21010
-    VALUE_21011 = 21011
-    VALUE_21012 = 21012
-    VALUE_21013 = 21013
-    VALUE_21014 = 21014
-    VALUE_21015 = 21015
-    VALUE_21016 = 21016
-    VALUE_21017 = 21017
-    VALUE_21018 = 21018
-    VALUE_21019 = 21019
-    VALUE_21020 = 21020
-    VALUE_21999 = 21999
-    VALUE_23000 = 23000
-    VALUE_23001 = 23001
-    VALUE_23002 = 23002
-    VALUE_23003 = 23003
-    VALUE_23004 = 23004
-    VALUE_23005 = 23005
-    VALUE_23006 = 23006
-    VALUE_23999 = 23999
-    VALUE_24999 = 24999
-    VALUE_26999 = 26999
-    VALUE_28999 = 28999
-    VALUE_30000 = 30000
-    VALUE_30001 = 30001
-    VALUE_30002 = 30002
 
 
 class TimelinePaginatedDataResult(BaseModel):
@@ -1334,21 +1126,21 @@ class UpdateMe(BaseModel):
     country_id: Optional[int] = None
     photo_id: Optional[int] = None
     marketing_opt_in: Optional[bool] = None
-    weight_units: Optional[UserWeightUnitEnum] = None
-    time_format: Optional[UserTimeFormatEnum] = None
+    weight_units: Optional[UserWeightUnit] = None
+    time_format: Optional[UserTimeFormat] = None
     notifications: Optional[dict] = None
     password: Optional[str] = None
 
 
 class UpdatePet(BaseModel):
     name: str
-    gender: Optional[PetGenderEnum] = None
+    gender: Optional[PetGender] = None
     date_of_birth: Optional[datetime] = None
     weight: Optional[float] = None
     comments: Optional[str] = None
     breed_id: Optional[int] = None
     breed_id2: Optional[int] = None
-    spayed: Optional[SpayedEnum] = None
+    spayed: Optional[Spayed] = None
     food_type_id: Optional[int] = None
     photo_id: Optional[int] = None
     species_id: Optional[int] = None
@@ -1453,16 +1245,6 @@ class UserSettingDataResponse(BaseModel):
 class UserSettingPaginatedDataResult(BaseModel):
     data: Optional[List[UserSetting]] = None
     meta: Optional[PaginatedMetaDataResult] = None
-
-
-class UserTimeFormatEnum(IntEnum):
-    VALUE_0 = 0
-    VALUE_1 = 1
-
-
-class UserWeightUnitEnum(IntEnum):
-    VALUE_0 = 0
-    VALUE_1 = 1
 
 
 class Weight(BaseModel):
