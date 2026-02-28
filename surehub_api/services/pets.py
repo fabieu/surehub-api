@@ -77,8 +77,8 @@ def _update_indoor_only_mode(pet_id: int, indoor_only: bool, household_ids: List
             detail=f"Failed to update indoor mode for pet id {pet_id}, because no devices supporting indoor-only mode were found",
         )
 
-    request_action = official_v2.DeviceTagAction.ACTION_0
-    profile = official_v2.DeviceTagProfile.ENABLED if indoor_only else official_v2.DeviceTagProfile.DISABLED
+    request_action = official_v2.UpdateDeviceTagActions.VALUE_0
+    profile = official_v2.DeviceTagProfiles.ENABLED if indoor_only else official_v2.DeviceTagProfiles.DISABLED
 
     for device in supported_devices:
         uri = f"{settings.endpoint}/api/v2/device/{device.id}/tag/async"
