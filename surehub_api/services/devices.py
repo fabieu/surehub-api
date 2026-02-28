@@ -77,7 +77,7 @@ def assign_tag_to_device(device_id: int, tag_id: int) -> official.DeviceTag:
     uri = f"{settings.endpoint}/api/device/{device_id}/tag/{tag_id}"
 
     data = {
-        "profile": official.SpecialProfile.SPECIAL_PROFILE_0  # It is currently not known what this is for
+        "profile": official.SpecialProfiles.SPECIAL_PROFILE_0  # It is currently not known what this is for
     }
 
     response = requests.put(uri, headers=auth.auth_headers(), json=data)
