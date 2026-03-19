@@ -19,6 +19,7 @@ from surehub_api.entities.enums import (
     RequestChangeStateResponseStatus,
     Spayed,
     SpecialProfiles,
+    SubstanceTypes,
     TimelineEventType,
     UserTimeFormat,
     UserWeightUnit,
@@ -708,6 +709,17 @@ class PetConsumption(BaseModel):
     date: Optional[datetime] = None
 
 
+class PetConsumptionOverview(BaseModel):
+    date: Optional[datetime] = None
+    last_consumption: Optional[datetime] = None
+    substance_type: Optional[SubstanceTypes] = None
+    total_consumption: Optional[float] = None
+    number_of_visits: Optional[int] = None
+    consumption_time: Optional[int] = None
+    activity: Optional[List[PetConsumption]] = None
+    device_ids: Optional[List[int]] = None
+
+
 class PetConsumptionStatus(BaseModel):
     id: int
     tag_id: Optional[int] = None
@@ -718,9 +730,9 @@ class PetConsumptionStatus(BaseModel):
 
 class PetDashboard(BaseModel):
     pet_id: Optional[int] = None
-    movement: Optional[PetMovement] = None
-    drinking: Optional[PetConsumption] = None
-    feeding: Optional[PetConsumption] = None
+    movement: Optional[PetMovementOverview] = None
+    drinking: Optional[PetConsumptionOverview] = None
+    feeding: Optional[PetConsumptionOverview] = None
     drinking_habit: Optional[ConsumptionHabit] = None
     drinking_alert: Optional[ConsumptionAlert] = None
     habit_model_state: Optional[ConsumptionHabitModelState] = None
@@ -765,6 +777,19 @@ class PetInsightQuery(BaseModel):
 class PetMovement(BaseModel):
     date: Optional[datetime] = None
     time_outside: Optional[str] = None
+
+
+class PetMovementOverview(BaseModel):
+    date: Optional[datetime] = None
+    where: Optional[DoorDirection] = None
+    time_outside: Optional[str] = None
+    since: Optional[datetime] = None
+    last_entry: Optional[datetime] = None
+    trips_outside: Optional[int] = None
+    entries: Optional[int] = None
+    time_outside_in_seconds: Optional[int] = None
+    activity: Optional[List[PetMovement]] = None
+    device_ids: Optional[List[int]] = None
 
 
 class PetPaginatedDataResult(BaseModel):
