@@ -1,10 +1,8 @@
 from typing import List
 
-import requests
-
 from surehub_api.config import settings
 from surehub_api.entities import official
-from surehub_api.services import auth
+from surehub_api.services import api
 from surehub_api.utils import response_handler
 
 DEVICE_TYPES_SUPPORTING_INDOOR_ONLY_MODE = [
@@ -24,43 +22,43 @@ def get_devices(
     if household_ids:
         params["HouseholdId"] = household_ids
 
-    response = requests.get(uri, headers=auth.auth_headers(), params=params)
+    response = api.get(uri, params=params)
     return response_handler.parse(response, model=List[official.Device])
 
 
 def get_device_by_id(device_id: int) -> official.Device:
     uri = f"{settings.endpoint}/api/device/{device_id}"
 
-    response = requests.get(uri, headers=auth.auth_headers())
+    response = api.get(uri)
     return response_handler.parse(response, model=official.Device)
 
 
-def get_device_state_by_id(device_id) -> official.DeviceControl:
+def get_device_state_by_id(device_id: int) -> official.DeviceControl:
     uri = f"{settings.endpoint}/api/device/{device_id}/control"
 
-    response = requests.get(uri, headers=auth.auth_headers())
+    response = api.get(uri)
     return response_handler.parse(response, model=official.DeviceControl)
 
 
 def get_tags_of_device(device_id: int) -> List[official.DeviceTag]:
     uri = f"{settings.endpoint}/api/device/{device_id}/tag"
 
-    response = requests.get(uri, headers=auth.auth_headers())
-    return response_handler.parse(response, model=List[official.Tag])
+    response = api.get(uri)
+    return response_handler.parse(response, model=List[official.DeviceTag])
 
 
 def update_device_state(device_id: int, device_state: official.DeviceControl) -> official.DeviceControl:
     uri = f"{settings.endpoint}/api/device/{device_id}/control"
 
-    response = requests.put(uri, headers=auth.auth_headers(), json=device_state.model_dump(mode='json'))
+    response = api.put(uri, json=device_state.model_dump(mode='json'))
     return response_handler.parse(response, model=official.DeviceControl)
 
 
 def get_tag_of_device(device_id: int, tag_id: int) -> official.DeviceTag:
     uri = f"{settings.endpoint}/api/device/{device_id}/tag/{tag_id}"
 
-    response = requests.get(uri, headers=auth.auth_headers())
-    return response_handler.parse(response, model=official.Tag)
+    response = api.get(uri)
+    return response_handler.parse(response, model=official.DeviceTag)
 
 
 def assign_tag_to_device(device_id: int, tag_id: int) -> official.DeviceTag:
@@ -70,12 +68,12 @@ def assign_tag_to_device(device_id: int, tag_id: int) -> official.DeviceTag:
         "profile": official.SpecialProfiles.SPECIAL_PROFILE_0  # It is currently not known what this is for
     }
 
-    response = requests.put(uri, headers=auth.auth_headers(), json=data)
-    return response_handler.parse(response, model=official.Tag)
+    response = api.put(uri, json=data)
+    return response_handler.parse(response, model=official.DeviceTag)
 
 
 def remove_tag_from_device(device_id: int, tag_id: int) -> official.DeviceTag:
     uri = f"{settings.endpoint}/api/device/{device_id}/tag/{tag_id}"
 
-    response = requests.delete(uri, headers=auth.auth_headers())
-    return response_handler.parse(response, model=official.Tag)
+    response = api.delete(uri)
+    return response_handler.parse(response, model=official.DeviceTag)
