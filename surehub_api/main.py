@@ -63,9 +63,8 @@ def main():
         app.add_middleware(
             CORSMiddleware,
             allow_origins=settings.cors.split(","),
-            allow_credentials=True,
-            allow_methods=["*"],
-            allow_headers=["*"],
+            allow_methods=["GET", "POST", "PATCH", "PUT", "DELETE"],
+            allow_headers=["Content-Type"],
         )
 
     # Load logging configuration

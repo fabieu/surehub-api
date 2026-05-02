@@ -123,9 +123,25 @@ port isn't used by another application.
 
 > Default: None
 
-Enables CORS (Cross-Origin Resource Sharing) for the specified domain names or ip adresses. Define a comma-seperated
-list of fully qualified domain names or ip adresses or `*` to enable CORS for all domains. The latter is not recommended
-from a security perspective.
+Enables CORS (Cross-Origin Resource Sharing) for browser-based frontends that call this API from a different origin.
+Define a comma-separated list of fully qualified origins (scheme + host + optional port) to allow.
+
+When unset (the default), CORS headers are not added and all cross-origin browser requests are blocked. This is the
+correct default for local or trusted-network use — tools like `curl`, Postman, and server-side clients are unaffected
+by CORS regardless of this setting.
+
+**Wildcards (`*`) are not supported.** Allowing all origins means any website can call your API from a browser,
+which exposes your Sure Petcare data to arbitrary third-party pages. Explicit origins are always required.
+
+Examples:
+
+```bash
+# Single origin
+SUREHUB_CORS=https://app.example.com
+
+# Multiple origins (comma-separated, no spaces)
+SUREHUB_CORS=https://app1.example.com,https://app2.example.com
+```
 
 # Usage
 
