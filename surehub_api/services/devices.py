@@ -53,7 +53,7 @@ def update_device_state(device_id: int, device_state: official.DeviceControl) ->
     uri = f"{settings.endpoint}/api/device/{device_id}/control"
 
     response = requests.put(uri, headers=auth.auth_headers(), json=device_state.model_dump(mode='json'))
-    return http_utils.extract_response_data(response)
+    return response_handler.parse(response, model=official.DeviceControl)
 
 
 def get_tag_of_device(device_id: int, tag_id: int) -> official.DeviceTag:
