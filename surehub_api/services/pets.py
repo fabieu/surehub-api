@@ -1,26 +1,25 @@
 from datetime import datetime, timezone
 from typing import List
 
-import requests
 from fastapi import HTTPException
 
 from surehub_api.config import settings
 from surehub_api.entities import official, dto, official_v2
-from surehub_api.services import auth, devices
+from surehub_api.services import api, devices
 from surehub_api.utils import response_handler
 
 
 def get_pets() -> List[official.Pet]:
     uri = f"{settings.endpoint}/api/pet"
 
-    response = requests.get(uri, headers=auth.auth_headers())
+    response = api.get(uri)
     return response_handler.parse(response, model=List[official.Pet])
 
 
 def get_pet(pet_id: int) -> official.Pet:
     uri = f"{settings.endpoint}/api/pet/{pet_id}"
 
-    response = requests.get(uri, headers=auth.auth_headers())
+    response = api.get(uri)
     return response_handler.parse(response, model=official.Pet)
 
 
@@ -54,7 +53,7 @@ def _update_pet_position(pet_id: int, position: official.PetPositionWhere) -> No
         since=datetime.now(timezone.utc)
     )
 
-    response = requests.post(uri, headers=auth.auth_headers(), json=payload.model_dump(mode='json'))
+    response = api.post(uri, json=payload.model_dump(mode='json'))
     response_handler.raise_for_status(response)
 
 
@@ -88,5 +87,5 @@ def _update_indoor_only_mode(pet_id: int, indoor_only: bool, household_ids: List
             profile=profile,
         )
 
-        response = requests.put(uri, headers=auth.auth_headers(), json=[payload.model_dump(mode='json')])
+        response = api.put(uri, json=[payload.model_dump(mode='json')])
         response_handler.raise_for_status(response)
