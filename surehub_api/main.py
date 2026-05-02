@@ -4,6 +4,7 @@ from pathlib import Path
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from starlette.responses import RedirectResponse
 
 from surehub_api import __version__
@@ -45,9 +46,13 @@ app.include_router(dashboard.router)
 app.include_router(pets.router)
 
 
+@app.get('/health', include_in_schema=False)
+async def health():
+    return JSONResponse({"status": "ok", "version": __version__})
+
+
 # Redirect default url to docs
-@app.get('/',
-         include_in_schema=False)
+@app.get('/', include_in_schema=False)
 async def root():
     return RedirectResponse(url="/docs")
 
