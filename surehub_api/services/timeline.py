@@ -1,4 +1,5 @@
 import math
+from typing import Any
 
 from fastapi import HTTPException
 
@@ -7,7 +8,7 @@ from surehub_api.services import api
 from surehub_api.utils import response_handler
 
 
-def get_timeline_of_household(household_id: int) -> list:
+def get_timeline_of_household(household_id: int) -> list[dict[str, Any]]:
     uri = f"{settings.endpoint}/api/timeline/household/{household_id}"
 
     result = []
