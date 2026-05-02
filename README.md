@@ -160,7 +160,7 @@ You can look at the projects following the links below:
 
 # Licence
 
-Copyright 2020-2021 Fabian Eulitz
+Copyright 2020-2026 Fabian Eulitz
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
 License. You may obtain a copy of the License at
