@@ -1,17 +1,17 @@
 import math
+from typing import Any
 
 from fastapi import HTTPException
 
 from surehub_api.config import settings
-from surehub_api.entities import official
 from surehub_api.services import api
 from surehub_api.utils import response_handler
 
 
-def get_timeline_of_household(household_id: int) -> list[official.Timeline]:
+def get_timeline_of_household(household_id: int) -> list[dict[str, Any]]:
     uri = f"{settings.endpoint}/api/timeline/household/{household_id}"
 
-    result: list[official.Timeline] = []
+    result = []
     fetch_size = 100
 
     response = api.get(uri)
@@ -27,6 +27,6 @@ def get_timeline_of_household(household_id: int) -> list[official.Timeline]:
     for i in range(1, request_count + 1):
         payload = {'page_size': fetch_size, 'page': i}
         response2 = api.get(uri, params=payload)
-        result += response_handler.parse(response2, model=official.Timeline)
+        result += response_handler.parse(response2)
 
     return result
