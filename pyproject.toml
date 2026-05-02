@@ -1,6 +1,6 @@
 [project]
 name = "surehub-api"
-version = "7.0.1"
+version = "7.0.2"
 description = "SureHub API is a simple, yet powerful RESTful API for products from Sure Petcare"
 license = "Apache-2.0"
 authors = [
