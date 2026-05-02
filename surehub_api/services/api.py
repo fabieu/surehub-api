@@ -93,7 +93,7 @@ def _get_token(force_refresh: bool = False) -> str:
 
 def _parse_expiry(token: str) -> datetime:
     try:
-        payload = jwt.decode(token, options={"verify_signature": False})
+        payload = jwt.decode(token)
         return datetime.fromtimestamp(payload["exp"], tz=timezone.utc) - _TOKEN_EXPIRY_MARGIN
     except (jwt.exceptions.DecodeError, KeyError) as exc:
         raise HTTPException(status_code=502, detail=f"Invalid token from upstream: {exc}") from exc
