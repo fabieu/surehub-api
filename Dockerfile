@@ -25,7 +25,8 @@ FROM python:3.14.3-alpine AS runtime
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     VIRTUAL_ENV=/app/.venv \
-    PATH="/app/.venv/bin:$PATH"
+    PATH="/app/.venv/bin:$PATH" \
+    SUREHUB_HOST=0.0.0.0
 
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 

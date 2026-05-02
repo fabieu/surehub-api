@@ -72,8 +72,8 @@ def main():
 
     uvicorn.run(
         "surehub_api.main:app",
+        host=settings.host,
         port=settings.port,
-        host="127.0.0.1",
         log_level=settings.loglevel,
         log_config=log_config,
         reload=settings.debug
