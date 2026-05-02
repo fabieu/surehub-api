@@ -8,3 +8,4 @@ services:
       - SUREHUB_LOGLEVEL=warning
     ports:
       - "8080:3001"
+    restart: unless-stopped
