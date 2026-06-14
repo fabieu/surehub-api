@@ -90,6 +90,15 @@ poetry run pytest
   poetry run vermin surehub_api/
   ```
 
+### Contract tests
+
+`tests/contract/` contains live tests against the real Sure Petcare API that:
+
+- Validate every read-only endpoint's response against its Pydantic model (catches breaking type/required-field changes).
+- Diff the raw response *structure* against a committed snapshot in `tests/contract/snapshots/` to detect added, removed, or renamed fields that Pydantic alone wouldn't flag.
+
+They require `SUREHUB_EMAIL`/`SUREHUB_PASSWORD` and are skipped automatically otherwise. They also run on a daily schedule via [`contract-tests.yml`](.github/workflows/contract-tests.yml) and fail the workflow if Sure Petcare's API contract has changed. See [`tests/contract/snapshots/README.md`](tests/contract/snapshots/README.md) for how to review and accept such changes.
+
 ## Commit Messages
 
 Follow [Conventional Commits](https://www.conventionalcommits.org/):

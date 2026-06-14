@@ -31,3 +31,9 @@ dev = [
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "contract: live tests against the real Sure Petcare API (requires SUREHUB_EMAIL/SUREHUB_PASSWORD)",
+]
