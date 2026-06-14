@@ -10,8 +10,6 @@ env:
 jobs:
   github-pages:
     runs-on: ubuntu-latest
-    container:
-      image: python:3.14-slim
     permissions:
       contents: read
       pages: write
@@ -22,6 +20,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
       - name: Setup Pages
         uses: actions/configure-pages@v6
       - name: Install poetry
