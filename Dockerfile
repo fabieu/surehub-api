@@ -1,5 +1,5 @@
 # ── Stage 1: build dependencies ──────────────────────────────────────────────
-FROM python:3.14.5-alpine AS builder
+FROM python:3.14.6-alpine AS builder
 
 ARG POETRY_VERSION=2.3.2
 
@@ -20,7 +20,7 @@ COPY surehub_api ./surehub_api
 RUN poetry install --only main
 
 # ── Stage 2: runtime image ────────────────────────────────────────────────────
-FROM python:3.14.5-alpine AS runtime
+FROM python:3.14.6-alpine AS runtime
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
