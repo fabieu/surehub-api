@@ -84,6 +84,7 @@ class DoorSide(IntEnum):
 
 
 class DoorStatus(IntEnum):
+    VALUE_0 = 0
     VALUE_4 = 4
     VALUE_6 = 6
     VALUE_8 = 8
