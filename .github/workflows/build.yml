@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v7
 
       - name: Install poetry
-        run: pip install poetry==${{ vars.POETRY_VERSION }}
+        run: "pip install poetry==${{ vars.POETRY_VERSION }}"
 
       - name: Save version to output
         id: version
@@ -32,7 +32,7 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Display version
-        run: echo "Version ${{ steps.version.outputs.version }}"
+        run: 'echo "Version ${{ steps.version.outputs.version }}"'
 
   build-and-publish:
     name: Build and publish images
