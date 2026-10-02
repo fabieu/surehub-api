@@ -26,7 +26,7 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v6
       - name: Install poetry
-        run: pip install --only-binary :all: poetry==$POETRY_VERSION
+        run: "pip install --only-binary :all: poetry==$POETRY_VERSION"
       - name: Install dependencies
         run: poetry install --only main
       - name: Export docs
