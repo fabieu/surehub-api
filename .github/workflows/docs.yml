@@ -28,9 +28,9 @@ jobs:
       - name: Install poetry
         run: "pip install --only-binary :all: poetry==$POETRY_VERSION"
       - name: Install dependencies
-        run: "poetry install --only main"
+        run: poetry install --only main
       - name: Export docs
-        run: "poetry run python ./docs/export_openapi.py"
+        run: poetry run python ./docs/export_openapi.py
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
         with:
