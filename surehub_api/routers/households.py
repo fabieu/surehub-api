@@ -5,7 +5,7 @@ from fastapi import APIRouter, Query
 
 from surehub_api.entities import official
 from surehub_api.entities.openapi import Tags
-from surehub_api.services import households, reports
+from surehub_api.services import households, reports, timeline
 
 router = APIRouter(
     prefix="/households",
@@ -70,3 +70,9 @@ async def get_devices_of_household(household_id: int) -> List[official.Device]:
             response_model_exclude_none=True)
 async def get_device_of_household(household_id: int, device_id: int) -> official.Device:
     return households.get_device_of_household(household_id, device_id)
+
+
+@router.get("/{household_id}/timeline",
+            response_model_exclude_none=True)
+async def get_timeline_of_household(household_id: int) -> list[official.Timeline]:
+    return timeline.get_timeline_of_household(household_id)
