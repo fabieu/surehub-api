@@ -17,12 +17,10 @@ def get_timeline_of_household(household_id: int) -> list[official.Timeline]:
     response = api.get(uri)
     meta = response_handler.parse(response, key='meta')
     count = meta.get('count')
-    page_size = meta.get('page_size')
-
-    if count is None or page_size in (None, 0):
+    if count is None:
         raise HTTPException(status_code=500, detail="Invalid response format: missing timeline meta fields")
 
-    request_count = math.ceil(count / page_size)
+    request_count = math.ceil(count / fetch_size)
 
     for i in range(1, request_count + 1):
         payload = {'page_size': fetch_size, 'page': i}
