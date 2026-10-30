@@ -1,32 +1,31 @@
-import math
-from typing import Any
-
-from fastapi import HTTPException
+import itertools
+from datetime import datetime, timedelta, timezone
 
 from surehub_api.config import settings
+from surehub_api.entities import official
 from surehub_api.services import api
 from surehub_api.utils import response_handler
 
 
-def get_timeline_of_household(household_id: int) -> list[dict[str, Any]]:
+def get_timeline_of_household(household_id: int, from_datetime: datetime | None = None) -> list[official.Timeline]:
     uri = f"{settings.endpoint}/api/timeline/household/{household_id}"
 
-    result = []
+    if from_datetime is None:
+        from_datetime = datetime.now(timezone.utc) - timedelta(hours=24)
+
+    result: list[official.Timeline] = []
     fetch_size = 100
 
-    response = api.get(uri)
-    meta = response_handler.parse(response, key='meta')
-    count = meta.get('count')
-    page_size = meta.get('page_size')
+    # Upstream returns entries newest first and reports a placeholder count,
+    # so page until an entry is older than the requested range or a page is empty.
+    for page in itertools.count(1):
+        payload = {'page_size': fetch_size, 'page': page}
+        response = api.get(uri, params=payload)
+        entries = response_handler.parse(response, model=list[official.Timeline])
 
-    if count is None or page_size in (None, 0):
-        raise HTTPException(status_code=500, detail="Invalid response format: missing timeline meta fields")
+        result += [e for e in entries if e.created_at and e.created_at >= from_datetime]
 
-    request_count = math.ceil(count / page_size)
-
-    for i in range(1, request_count + 1):
-        payload = {'page_size': fetch_size, 'page': i}
-        response2 = api.get(uri, params=payload)
-        result += response_handler.parse(response2)
+        if not entries or (entries[-1].created_at and entries[-1].created_at < from_datetime):
+            break
 
     return result
