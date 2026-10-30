@@ -1,7 +1,7 @@
-from datetime import datetime
 from typing import Annotated, List
 
 from fastapi import APIRouter, Query
+from pydantic import AwareDatetime
 
 from surehub_api.entities import official
 from surehub_api.entities.openapi import Tags
@@ -54,8 +54,8 @@ async def get_pet_of_household(household_id: int, pet_id: int) -> official.Pet:
 async def get_pet_report(
         household_id: int,
         pet_id: int,
-        from_datetime: Annotated[datetime, Query(alias="from")],
-        to_datetime: Annotated[datetime, Query(alias="to")],
+        from_datetime: Annotated[AwareDatetime, Query(alias="from")],
+        to_datetime: Annotated[AwareDatetime, Query(alias="to")],
 ) -> official.PetReport:
     return reports.get_pet_report(household_id, pet_id, from_datetime, to_datetime)
 
@@ -74,5 +74,8 @@ async def get_device_of_household(household_id: int, device_id: int) -> official
 
 @router.get("/{household_id}/timeline",
             response_model_exclude_none=True)
-async def get_timeline_of_household(household_id: int) -> list[official.Timeline]:
-    return timeline.get_timeline_of_household(household_id)
+async def get_timeline_of_household(
+        household_id: int,
+        from_datetime: Annotated[AwareDatetime | None, Query(alias="from", description="Defaults to 24 hours ago")] = None,
+) -> list[official.Timeline]:
+    return timeline.get_timeline_of_household(household_id, from_datetime)
