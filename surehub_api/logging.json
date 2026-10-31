@@ -3,13 +3,11 @@
   "disable_existing_loggers": false,
   "formatters": {
     "default": {
-      "format": "%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
-      "datefmt": "%Y-%m-%dT%H:%M:%S"
+      "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
     },
     "access": {
       "()": "uvicorn.logging.AccessFormatter",
-      "fmt": "%(asctime)s | %(levelname)-8s | %(name)s | %(client_addr)s - \"%(request_line)s\" %(status_code)s",
-      "datefmt": "%Y-%m-%dT%H:%M:%S"
+      "fmt": "%(asctime)s - %(name)s - %(levelname)s - %(client_addr)s - \"%(request_line)s\" %(status_code)s"
     }
   },
   "handlers": {
@@ -22,6 +20,9 @@
       "class": "logging.StreamHandler",
       "stream": "ext://sys.stdout",
       "formatter": "access"
+    },
+    "null": {
+      "class": "logging.NullHandler"
     }
   },
   "loggers": {
@@ -38,6 +39,10 @@
     "uvicorn.access": {
       "handlers": ["access_console"],
       "level": "INFO",
+      "propagate": false
+    },
+    "uvicorn.asgi": {
+      "handlers": ["null"],
       "propagate": false
     }
   },

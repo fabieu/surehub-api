@@ -6,6 +6,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from starlette.responses import RedirectResponse
+from uvicorn.config import LOG_LEVELS
 
 from surehub_api import __version__
 from surehub_api.config import settings
@@ -69,6 +70,7 @@ def main():
 
     # Load logging configuration
     log_config = json.loads((Path(__file__).parent / "logging.json").read_text())
+    log_config["root"]["level"] = LOG_LEVELS[settings.loglevel]
 
     uvicorn.run(
         "surehub_api.main:app",
