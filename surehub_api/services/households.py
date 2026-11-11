@@ -3,60 +3,59 @@ from typing import List
 from surehub_api.config import settings
 from surehub_api.entities import official
 from surehub_api.services import api
-from surehub_api.utils import response_handler
 
 
 def get_households() -> List[official.Household]:
     uri = f"{settings.endpoint}/api/household"
 
     response = api.get(uri)
-    return response_handler.parse(response, model=List[official.Household])
+    return api.parse(response, model=List[official.Household])
 
 
 def get_household_by_id(household_id: int) -> official.Household:
     uri = f"{settings.endpoint}/api/household/{household_id}"
 
     response = api.get(uri)
-    return response_handler.parse(response, model=official.Household)
+    return api.parse(response, model=official.Household)
 
 
 def get_users_of_household(household_id: int) -> List[official.HouseholdUser]:
     uri = f"{settings.endpoint}/api/household/{household_id}/user"
 
     response = api.get(uri)
-    return response_handler.parse(response, model=List[official.HouseholdUser])
+    return api.parse(response, model=List[official.HouseholdUser])
 
 
 def get_user_of_household(household_id: int, user_id: int) -> official.HouseholdUser:
     uri = f"{settings.endpoint}/api/household/{household_id}/user/{user_id}"
 
     response = api.get(uri)
-    return response_handler.parse(response, model=official.HouseholdUser)
+    return api.parse(response, model=official.HouseholdUser)
 
 
 def get_pets_of_household(household_id: int) -> List[official.Pet]:
     uri = f"{settings.endpoint}/api/household/{household_id}/pet"
 
     response = api.get(uri)
-    return response_handler.parse(response, model=List[official.Pet])
+    return api.parse(response, model=List[official.Pet])
 
 
 def get_pet_of_household(household_id: int, pet_id: int) -> official.Pet:
     uri = f"{settings.endpoint}/api/household/{household_id}/pet/{pet_id}"
 
     response = api.get(uri)
-    return response_handler.parse(response, model=official.Pet)
+    return api.parse(response, model=official.Pet)
 
 
 def get_devices_of_household(household_id: int) -> List[official.Device]:
     uri = f"{settings.endpoint}/api/household/{household_id}/device"
 
     response = api.get(uri)
-    return response_handler.parse(response, model=List[official.Device])
+    return api.parse(response, model=List[official.Device])
 
 
 def get_device_of_household(household_id: int, device_id: int) -> official.Device:
     uri = f"{settings.endpoint}/api/household/{household_id}/device/{device_id}"
 
     response = api.get(uri)
-    return response_handler.parse(response, model=official.Device)
+    return api.parse(response, model=official.Device)

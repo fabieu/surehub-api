@@ -6,21 +6,20 @@ from fastapi import HTTPException
 from surehub_api.config import settings
 from surehub_api.entities import official, dto, official_v2
 from surehub_api.services import api, devices
-from surehub_api.utils import response_handler
 
 
 def get_pets() -> List[official.Pet]:
     uri = f"{settings.endpoint}/api/pet"
 
     response = api.get(uri)
-    return response_handler.parse(response, model=List[official.Pet])
+    return api.parse(response, model=List[official.Pet])
 
 
 def get_pet(pet_id: int) -> official.Pet:
     uri = f"{settings.endpoint}/api/pet/{pet_id}"
 
     response = api.get(uri)
-    return response_handler.parse(response, model=official.Pet)
+    return api.parse(response, model=official.Pet)
 
 
 def get_pet_state(pet_id: int) -> dto.PetStateResponse:
@@ -54,7 +53,7 @@ def _update_pet_position(pet_id: int, position: official.PetPositionWhere) -> No
     )
 
     response = api.post(uri, json=payload.model_dump(mode='json'))
-    response_handler.raise_for_status(response)
+    api.raise_for_status(response)
 
 
 def _update_indoor_only_mode(pet_id: int, indoor_only: bool, household_ids: List[int] | None = None) -> None:
@@ -88,4 +87,4 @@ def _update_indoor_only_mode(pet_id: int, indoor_only: bool, household_ids: List
         )
 
         response = api.put(uri, json=[payload.model_dump(mode='json')])
-        response_handler.raise_for_status(response)
+        api.raise_for_status(response)

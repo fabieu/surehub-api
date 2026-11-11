@@ -3,7 +3,6 @@ from datetime import datetime
 from surehub_api.config import settings
 from surehub_api.entities import official
 from surehub_api.services import api
-from surehub_api.utils import response_handler
 
 
 def get_pet_report(household_id: int, pet_id: int, from_datetime: datetime,
@@ -16,4 +15,4 @@ def get_pet_report(household_id: int, pet_id: int, from_datetime: datetime,
     }
 
     response = api.get(uri, params=params)
-    return response_handler.parse(response, model=official.PetReport)
+    return api.parse(response, model=official.PetReport)

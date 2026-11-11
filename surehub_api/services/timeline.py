@@ -4,7 +4,6 @@ from datetime import datetime, timedelta, timezone
 from surehub_api.config import settings
 from surehub_api.entities import official
 from surehub_api.services import api
-from surehub_api.utils import response_handler
 
 
 def get_timeline_of_household(household_id: int, from_datetime: datetime | None = None) -> list[official.Timeline]:
@@ -21,7 +20,7 @@ def get_timeline_of_household(household_id: int, from_datetime: datetime | None 
     for page in itertools.count(1):
         payload = {'page_size': fetch_size, 'page': page}
         response = api.get(uri, params=payload)
-        entries = response_handler.parse(response, model=list[official.Timeline])
+        entries = api.parse(response, model=list[official.Timeline])
 
         result += [e for e in entries if e.created_at and e.created_at >= from_datetime]
 
