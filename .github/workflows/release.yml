@@ -1,0 +1,132 @@
+name: Release
+
+# release-please keeps a release PR up to date from Conventional Commits on
+# main. Merging it creates the tag and a draft GitHub release; the publish
+# jobs then push the Docker images and the docs for that release, and the
+# draft is published only once both succeeded.
+on:
+  push:
+    branches: [main]
+  # Manual lever: refresh the release PR, or republish the images and docs of
+  # an existing release (e.g. after a failed build).
+  workflow_dispatch:
+    inputs:
+      build_tag:
+        description: "Tag to rebuild, e.g. 7.1.0. Empty: only refresh the release PR."
+        type: string
+        default: ""
+
+# One release run at a time; never cancel one that is pushing images.
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+env:
+  POETRY_VERSION: "2.5.1"
+
+permissions: {}
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag: ${{ steps.release.outputs.tag_name || inputs.build_tag }}
+    steps:
+      # A GitHub App token, unlike GITHUB_TOKEN, lets the release PR trigger CI.
+      - uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        id: app-token
+        with:
+          client-id: ${{ secrets.RELEASE_APP_CLIENT_ID }}
+          private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
+      - uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5.0.0
+        id: release
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+
+  build-and-publish:
+    name: Build and publish images
+    needs: release-please
+    # On a push, inputs.build_tag is null, not '', so the event check is needed.
+    if: >-
+      needs.release-please.outputs.release_created == 'true' ||
+      (github.event_name == 'workflow_dispatch' && inputs.build_tag != '')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      sha: ${{ steps.commit.outputs.sha }}
+    steps:
+      # The tag, not the branch: main may already carry the next commit.
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ needs.release-please.outputs.tag }}
+
+      # The docs are built from exactly this commit.
+      - name: Resolve commit
+        id: commit
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Docker Meta
+        id: meta
+        uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6.2.0
+        with:
+          images: |
+            ghcr.io/${{ github.repository }}
+          tags: |
+            type=semver,pattern={{version}},value=${{ needs.release-please.outputs.tag }}
+            type=semver,pattern={{major}}.{{minor}},value=${{ needs.release-please.outputs.tag }}
+            type=semver,pattern={{major}},value=${{ needs.release-please.outputs.tag }}
+
+      - name: Login to GHCR
+        uses: docker/login-action@8aa5831fb8d48d8f76594c7ddde61ae58019f550 # v4.8.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4.4.0
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+
+      - name: Build and push
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          push: true
+          context: .
+          build-args: |
+            POETRY_VERSION=${{ env.POETRY_VERSION }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          platforms: linux/amd64,linux/arm64
+
+  publish-docs:
+    needs: build-and-publish
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/docs.yml
+    with:
+      ref: ${{ needs.build-and-publish.outputs.sha }}
+
+  publish-release:
+    name: Publish release
+    needs: [release-please, publish-docs]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      # release-please has no release name template, so the title is set here.
+      # No-op for a release that is already published (manual rebuild).
+      - name: Publish draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ needs.release-please.outputs.tag }}
+        run: gh release edit "$TAG" --repo "$GITHUB_REPOSITORY" --title "Release $TAG" --draft=false

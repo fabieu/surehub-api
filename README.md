@@ -156,14 +156,17 @@ If you have additional questions feel free to open an issue here on GitHub.
 
 # Changelog & Releases
 
-This repository keeps a changelog using GitHub's releases functionality.
+Releases are managed by [release-please](https://github.com/googleapis/release-please) from
+[Conventional Commits](https://www.conventionalcommits.org/) on `main`. It keeps a release pull request up to date;
+merging it bumps the version in `pyproject.toml`, updates [CHANGELOG.md](CHANGELOG.md), creates the GitHub release and
+publishes the Docker images and documentation.
 
 Releases are based on Semantic Versioning, and use the format of `MAJOR.MINOR.PATCH`. In short, the version will be
 incremented based on the following:
 
-- `MAJOR`: Incompatible or major changes.
-- `MINOR`: Backwards-compatible new features and enhancements.
-- `PATCH`: Backwards-compatible bugfixes and package updates.
+- `MAJOR`: Incompatible or major changes (`feat!:`, `BREAKING CHANGE:`).
+- `MINOR`: Backwards-compatible new features and enhancements (`feat:`).
+- `PATCH`: Backwards-compatible bugfixes and package updates (`fix:`).
 
 # Special Thanks
 
