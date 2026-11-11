@@ -1,8 +1,9 @@
 name: Release
 
 # release-please keeps a release PR up to date from Conventional Commits on
-# main. Merging it creates the tag and GitHub release; the publish jobs then
-# push the Docker images and the docs for that release.
+# main. Merging it creates the tag and a draft GitHub release; the publish
+# jobs then push the Docker images and the docs for that release, and the
+# draft is published only once both succeeded.
 on:
   push:
     branches: [main]
@@ -55,12 +56,19 @@ jobs:
     permissions:
       contents: read
       packages: write
+    outputs:
+      sha: ${{ steps.commit.outputs.sha }}
     steps:
       # The tag, not the branch: main may already carry the next commit.
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ needs.release-please.outputs.tag }}
+
+      # The docs are built from exactly this commit.
+      - name: Resolve commit
+        id: commit
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
       - name: Docker Meta
         id: meta
@@ -104,3 +112,20 @@ jobs:
       pages: write
       id-token: write
     uses: ./.github/workflows/docs.yml
+    with:
+      ref: ${{ needs.build-and-publish.outputs.sha }}
+
+  publish-release:
+    name: Publish release
+    needs: [release-please, publish-docs]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      # No-op for a release that is already published (manual rebuild).
+      - name: Publish draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ needs.release-please.outputs.tag }}
+        run: gh release edit "$TAG" --repo "$GITHUB_REPOSITORY" --draft=false

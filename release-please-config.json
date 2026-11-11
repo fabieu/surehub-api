@@ -5,7 +5,9 @@
       "release-type": "python",
       "package-name": "surehub-api",
       "include-component-in-tag": false,
-      "include-v-in-tag": false
+      "include-v-in-tag": false,
+      "draft": true,
+      "force-tag-creation": true
     }
   }
 }
