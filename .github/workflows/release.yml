@@ -123,9 +123,10 @@ jobs:
     permissions:
       contents: write
     steps:
+      # release-please has no release name template, so the title is set here.
       # No-op for a release that is already published (manual rebuild).
       - name: Publish draft release
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ needs.release-please.outputs.tag }}
-        run: gh release edit "$TAG" --repo "$GITHUB_REPOSITORY" --draft=false
+        run: gh release edit "$TAG" --repo "$GITHUB_REPOSITORY" --title "Release $TAG" --draft=false
