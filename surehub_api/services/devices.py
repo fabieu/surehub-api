@@ -3,7 +3,6 @@ from typing import List
 from surehub_api.config import settings
 from surehub_api.entities import official
 from surehub_api.services import api
-from surehub_api.utils import response_handler
 
 DEVICE_TYPES_SUPPORTING_INDOOR_ONLY_MODE = [
     official.DeviceType.DUALSCAN_PET_DOOR_CONNECT,
@@ -23,42 +22,42 @@ def get_devices(
         params["HouseholdId"] = household_ids
 
     response = api.get(uri, params=params)
-    return response_handler.parse(response, model=List[official.Device])
+    return api.parse(response, model=List[official.Device])
 
 
 def get_device_by_id(device_id: int) -> official.Device:
     uri = f"{settings.endpoint}/api/device/{device_id}"
 
     response = api.get(uri)
-    return response_handler.parse(response, model=official.Device)
+    return api.parse(response, model=official.Device)
 
 
 def get_device_state_by_id(device_id: int) -> official.DeviceControl:
     uri = f"{settings.endpoint}/api/device/{device_id}/control"
 
     response = api.get(uri)
-    return response_handler.parse(response, model=official.DeviceControl)
+    return api.parse(response, model=official.DeviceControl)
 
 
 def get_tags_of_device(device_id: int) -> List[official.DeviceTag]:
     uri = f"{settings.endpoint}/api/device/{device_id}/tag"
 
     response = api.get(uri)
-    return response_handler.parse(response, model=List[official.DeviceTag])
+    return api.parse(response, model=List[official.DeviceTag])
 
 
 def update_device_state(device_id: int, device_state: official.DeviceControl) -> official.DeviceControl:
     uri = f"{settings.endpoint}/api/device/{device_id}/control"
 
     response = api.put(uri, json=device_state.model_dump(mode='json'))
-    return response_handler.parse(response, model=official.DeviceControl)
+    return api.parse(response, model=official.DeviceControl)
 
 
 def get_tag_of_device(device_id: int, tag_id: int) -> official.DeviceTag:
     uri = f"{settings.endpoint}/api/device/{device_id}/tag/{tag_id}"
 
     response = api.get(uri)
-    return response_handler.parse(response, model=official.DeviceTag)
+    return api.parse(response, model=official.DeviceTag)
 
 
 def assign_tag_to_device(device_id: int, tag_id: int) -> official.DeviceTag:
@@ -69,11 +68,11 @@ def assign_tag_to_device(device_id: int, tag_id: int) -> official.DeviceTag:
     }
 
     response = api.put(uri, json=data)
-    return response_handler.parse(response, model=official.DeviceTag)
+    return api.parse(response, model=official.DeviceTag)
 
 
 def remove_tag_from_device(device_id: int, tag_id: int) -> official.DeviceTag:
     uri = f"{settings.endpoint}/api/device/{device_id}/tag/{tag_id}"
 
     response = api.delete(uri)
-    return response_handler.parse(response, model=official.DeviceTag)
+    return api.parse(response, model=official.DeviceTag)
